@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const checkin = async (req, res, next) =>{
+const Auth = async (req, res, next) =>{
     try{
         const {athentication} = req.headers;
         const decoded = jwt.verify(athentication, process.env.JWT_SECRET)
@@ -16,4 +16,4 @@ const checkin = async (req, res, next) =>{
     
 }
 
-module.exports = checkin;
+module.exports = Auth;
