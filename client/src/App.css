@@ -1,0 +1,12 @@
+/* ./src/index.css */
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+body {
+  font-family: 'Josefin Sans', cursive;
+}
+.App {
+  text-align: center;
+}
