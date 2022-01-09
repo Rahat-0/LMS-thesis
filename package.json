@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "client": "cd.. && cd frontend && yarn start",
+    "client": "cd client && yarn start",
     "dev": "concurrently \"yarn run client\" \"yarn run server\" "
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.4",
+    "mongoose-sequence": "^5.3.1",
     "nodemon": "^2.0.15"
   },
   "devDependencies": {

@@ -15,13 +15,13 @@ const login = async (req, res) => {
         );
         if (isvalid) {
           console.log(athentication);
-          res.json({ validation: true });
+          res.json({ validation: true , token : athentication});
         } else {
-          res.json({ error: "id or password is incorrect!" });
+          res.json({ error: "id or password has incorrect!" });
         }
       })
       .catch((err) => {
-        res.json({ error: "id or password is incorrect!" });
+        res.json({ error: "id or password has incorrectttttt!" });
       });
   } catch (err) {
     if (err) {

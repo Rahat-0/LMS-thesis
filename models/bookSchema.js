@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const bookschema = mongoose.Schema({
-  bookId : String,
   title: {type : String, required : true},
   author: String,
   year: Number,
   image : String,
-  student : [{ type : mongoose.Types.ObjectId, ref:'user' }],
-  issueDate: { Date, default: Date.now() },
+  about : String,
+  student : { type : mongoose.Types.ObjectId, ref:'user' },
+  issueDate: { type : Date, default: Date.now() },
   category: {
     type: String,
-    enum: ["Science", "Arts", "Commerce", "none"],
     default: "none",
   }
  
-});
+}); 
+bookschema.plugin(AutoIncrement, {inc_field: 'bookId', start_seq : 1000, inc_amount : 1});
+const book = new mongoose.model("book", bookschema);
 
-const bookSchema = new mongoose.model("book", bookschema);
-
-module.exports = bookSchema;
+module.exports = book;

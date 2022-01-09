@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
   try {
-    const { schoolId, name, password, email } = req.body;
+    const { schoolId, name, password, email } = req.valid;
 
     const pass = await bcrypt.hash(password, 10);
 
