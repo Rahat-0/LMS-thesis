@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
   try {
-    const { schoolId, name, password, email } = req.valid;
+    const { schoolId, name, password, email, userType } = req.valid;
 
     const pass = await bcrypt.hash(password, 10);
 
@@ -11,7 +11,8 @@ const signup = async (req, res) => {
       schoolId,
       name,
       password: pass,
-      email
+      email, 
+      userType
     });
     await schema.save();
     res.status(201).json({ message: schema });

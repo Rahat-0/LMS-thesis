@@ -1,8 +1,21 @@
+const userSchema = require('../models/userSchema')
 const admin = require("express").Router();
 
 admin.get("/", (req, res) => {
   const id = req.schoolId;
-  res.json({message : id})
+  try{
+    userSchema.find()
+   .then(data =>{
+     res.json(data)
+   })
+   .catch(err =>{
+     console.log(err)
+   })
+
+  }catch(err){
+    res.json({error : err})
+  }
+   
 });
 
 admin.post("/", (req, res) => {

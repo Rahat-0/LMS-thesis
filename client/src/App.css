@@ -5,8 +5,8 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 body {
-  font-family: 'Josefin Sans', cursive;
+  font-family: Arial, Helvetica, sans-serif , cursive;
 }
 .App {
-  text-align: center;
+  
 }
