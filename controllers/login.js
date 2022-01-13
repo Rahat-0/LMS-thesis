@@ -9,19 +9,18 @@ const login = async (req, res) => {
       .findOne({ schoolId })
       .then(async (data) => {
         const isvalid = await bcrypt.compare(password, data.password);
-        const athentication = jwt.sign(
+        const auth = jwt.sign(
           { _id: data._id, userType: data.userType, schoolId: data.schoolId },
           process.env.JWT_SECRET
         );
         if (isvalid) {
-          console.log(athentication);
-          res.json({ validation: true , token : athentication});
+          res.json({ validation: true , token : auth});
         } else {
-          res.json({ error: "id or password has incorrect!" });
+          res.json({ error: "incorrect school ID or password!" });
         }
       })
       .catch((err) => {
-        res.json({ error: "id or password has incorrectttttt!" });
+        res.json({ error: "incorrect school ID or password!" });
       });
   } catch (err) {
     if (err) {

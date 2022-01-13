@@ -18,9 +18,9 @@ const signup = async (req, res) => {
     res.status(201).json({ message: schema });
   } catch (err) {
     if (err.keyPattern.schoolId) {
-      res.status(409).json({ error: "schoolId already exist" });
+      res.status(200).json({ vError: "schoolId already exist" });
     } else if (err.keyPattern.email) {
-      res.status(409).json({ error: "email already exist" });
+      res.status(200).json({ vError: "email already exist" });
     } else if(err){
       res.json(err);
     }else{

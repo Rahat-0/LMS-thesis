@@ -1,7 +1,43 @@
+import React from 'react'
+import axios from 'axios'
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
 function Signup() {
+  const [id, setId] = React.useState('')
+  const [name, setname] = React.useState('')
+  const [email, setemail] = React.useState('')
+  const [password, setpassword] = React.useState('')
+  const [conpassword, setconpassword] = React.useState('')
+  const [error, setError] = React.useState('')
+
+  const submitHandler = (e) =>{
+    console.log(id)
+    e.preventDefault()
+   const formdata = {
+     schoolId : id,
+     name,
+     email,
+     password
+   }
+
+        axios.post("/api/signup", formdata )
+        .then((result)=>{
+          if(result.data.vError){
+            console.log(result.data.vError)
+            setError(result.data.vError)
+          }else if(result.status === 201){
+            setError('submition successfull')
+          }else{
+            console.log(result)
+          }
+        })
+        .catch((err)=>{
+          console.log( err)
+        })
+    
+
+  }
   return (
     <>
       <div className="bg-blue-100 min-h-screen">
@@ -11,49 +47,124 @@ function Signup() {
             Sign Up account
           </h2>
         </div>
-        <form action="/signup" method="post">
-          <Box
-            fore = "school-id"
-            id="school-id"
-            name="schoolId"
-            level="School ID"
-            placeholder="School ID"
-            type = "number"
-          />
-          <Box
-            fore="fullname"
-            id="fullname"
-            name="fullname"
-            autoComplete="fullname"
-            level="Full Name"
-            placeholder="Full Name"
-            type = "text"
-          />
-          <Box
-            fore="email" 
-            id="email"
-            name="email"
-            level="Email"
-            placeholder="Email"
-            type = "email"
-          />
-          <Box
-            fore="password" 
-            id="password"
-            name="password"
-            level="Password"
-            placeholder="password"
-            type = "password"
-          />
-          <Box
-            fore="conpassword" 
-            id="conpassword"
-            name="conpassword"
-            level="Comfirm Password"
-            placeholder="Confirm Password"
-            type = "password"
-          />
+        <form onSubmit={submitHandler} encType="multipart/form-data" method="post">
 
+          {/* school id field */}
+          <div className="flex justify-center mt-4  ">
+            <div className="flex justify-between bg-blue-100 rounded-md">
+              <label
+                htmlFor="school-id"
+                className=" w-60 lg:w-32 items-center flex "
+              >
+                School ID
+              </label>
+              <input
+                onChange={(e) => {setId(e.target.value) }}
+                value={id}
+                id="school-id"
+                name="schoolId"
+                autoComplete
+                type="number"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="School ID"
+              />
+            </div>
+          </div>
+
+          {/* name field */}
+          <div className="flex justify-center mt-4  ">
+            <div className="flex justify-between bg-blue-100 rounded-md">
+              <label
+                htmlFor="fullname"
+                className=" w-60 lg:w-32 items-center flex "
+              >
+                Full Name
+              </label>
+              <input
+                onChange={(e) => { setname(e.target.value) }}
+                value={name}
+                id="fullname"
+                name="fullname"
+                autoComplete
+                type="text"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Full Name"
+              />
+            </div>
+          </div>
+
+          {/* email field */}
+          <div className="flex justify-center mt-4  ">
+            <div className="flex justify-between bg-blue-100 rounded-md">
+              <label
+                htmlFor="email"
+                className=" w-60 lg:w-32 items-center flex "
+              >
+                Email
+              </label>
+              <input
+                onChange={(e) => {setemail(e.target.value)}}
+                value={email}
+                id="email"
+                name="email"
+                autoComplete
+                type="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="email"
+              />
+            </div>
+          </div>
+
+          {/* password field */}
+          <div className="flex justify-center mt-4  ">
+            <div className="flex justify-between bg-blue-100 rounded-md">
+              <label
+                htmlFor="password"
+                className=" w-60 lg:w-32 items-center flex "
+              >
+                Password
+              </label>
+              <input
+                onChange={(e) => {setpassword(e.target.value)}}
+                value={password}
+                id="password"
+                name="password"
+                autoComplete
+                type="password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+
+          {/* confirm password field */}
+          <div className="flex justify-center mt-4  ">
+            <div className="flex justify-between bg-blue-100 rounded-md">
+              <label
+                htmlFor="conpassword"
+                className=" w-60 lg:w-32 items-center flex "
+              >
+                Confirm Password
+              </label>
+              <input
+                onChange={(e) => {setconpassword(e.target.value)}}
+                value={conpassword}
+                id="conpassword"
+                name="conpassword"
+                autoComplete
+                type="password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Confirm Password"
+              />
+            </div>
+          </div>
+
+          {/* submit field */}
           <div className="flex justify-center">
             <button
               type="submit"
@@ -69,37 +180,13 @@ function Signup() {
             </button>
           </div>
         </form>
-        <p className="flex justify-center text-red-500"> your password format was wrong!</p>
+        <p className="flex justify-center text-red-500">
+          {" "}
+         {error}
+        </p>
       </div>
     </>
   );
 }
-
-const Box = (props) => {
-  const { id, name, autoComplete,fore, level, placeholder, type } = props;
-  return (
-    <div>
-      <div className="flex justify-center mt-4  ">
-        <div className="flex justify-between bg-blue-100 rounded-md">
-          <label
-            htmlFor={fore}
-            className=" w-60 lg:w-32 items-center flex "
-          >
-            {level}
-          </label>
-          <input
-            id={id}
-            name={name}
-            autoComplete={autoComplete}
-            type={type}
-            required
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder={placeholder}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default Signup;

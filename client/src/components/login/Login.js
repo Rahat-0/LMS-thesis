@@ -1,7 +1,42 @@
+import React, { useState } from 'react'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
 function Login() {
+  const navigate = useNavigate()
+  const [id, setId] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+
+  const loginHandler = (e) =>{
+    e.preventDefault()
+
+    const data = {
+      schoolId : id,
+      password
+    }
+
+    axios.post("/api/login", data )
+    .then(result =>{
+      if(result.data.error){
+        setError(result.data.error)
+      }else if(result.data.token){
+        Cookies.set("auth", result.data.token)
+        navigate("/home")
+      }else{
+        console.log(result)
+      }
+      
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+
+  }
+
   return (
     <>
       <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-blue-100">
@@ -12,7 +47,7 @@ function Login() {
               Sign in to your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6 " action="#" method="POST">
+          <form onSubmit={loginHandler} className="mt-8 space-y-6 "  method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px p-5 ">
               <div className="pb-4 ">
@@ -20,9 +55,11 @@ function Login() {
                   School ID
                 </label>
                 <input
+                  value={id}
+                  onChange={(e)=>{setId(e.target.value)}}
                   id="school-id"
                   name="schoolId"
-                  autoComplete="schoolId"
+                  type="number"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="School ID"
@@ -33,6 +70,8 @@ function Login() {
                   Password
                 </label>
                 <input
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
                   id="password"
                   name="password"
                   type="password"
@@ -84,6 +123,7 @@ function Login() {
                 Sign in
               </button>
             </div>
+          {error ? <p className='text-red-700 flex justify-center'>{error}</p> : ''}
           </form>
         </div>
       </div>

@@ -2,15 +2,16 @@ const jwt = require('jsonwebtoken')
 
 const Auth = async (req, res, next) =>{
     try{
-        const {athentication} = req.headers;
-        const decoded = jwt.verify(athentication, process.env.JWT_SECRET)
-        const {_id, schoolId, userType} = decoded;
+        const {auth} = req.headers;
+        const decoded = jwt.verify(auth, process.env.JWT_SECRET)
+        const {_id, schoolId, userType, name} = decoded;
+        req.name = name
         req._id = _id
         req.schoolId = schoolId
         req.userType = userType
         next()
     }catch(err){
-      return  res.send( err + 'unauthorized token')
+      return  res.json( err + 'unauthorized token')
     }
     
     

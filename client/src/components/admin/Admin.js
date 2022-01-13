@@ -1,6 +1,5 @@
 import React from "react";
 import "../../assets/css/common.module.css";
-import AdminNavber from "./AdminNavber";
 import Menus from "./Menus";
 import Table from "./Table";
 
@@ -10,7 +9,6 @@ function Admin() {
   
   return (
     <div>
-      <AdminNavber  />
       <Menus states ={[visible, setVisible]} />
       <Table states ={[visible]} />
     </div>

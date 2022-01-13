@@ -1,21 +1,27 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment} from "react";
-import { NavLink} from 'react-router-dom'
+import { Fragment } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import logo from '../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png'
-
-
-
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+// import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navber = () => {
+  const navigate = useNavigate()
+  const isAdmin = true;
+  const isLogin = true;
 
+  const logoutHandler =()=>{
+    Cookies.set("auth", "")
+    navigate("/login")
+  }
 
-const navigation = [
+  const navigation = [
     { name: "Home", href: "home", current: true },
     { name: "Catalog", href: "catalog", current: false },
     { name: "New Collections", href: "newcollections", current: false },
@@ -23,7 +29,7 @@ const navigation = [
   ];
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 fixed w-full z-20">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -52,26 +58,47 @@ const navigation = [
                     alt="nuist"
                   />
                 </div>
-                <span className="hidden lg:block h-8 pl-3 pt-2 uppercase text-gray-100">nuist library management system</span>
-                <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
+                <span className="hidden lg:block h-8 pl-3 pt-2 uppercase text-gray-100">
+                  nuist library management system
+                </span>
+
+                {isAdmin ? (
+                  <div>
+                    <form className="text-gray-800 ml-5 mt-1">
+                      <input
+                        type="search"
+                        className=" p-1 pl-2 rounded-l-full"
+                      ></input>
+                      <button
+                        type="submit"
+                        className="rounded-r-full p-2 text-sm text-gray-400 hover:bg-indigo-900"
                       >
-                        {item.name}
-                      </a>
-                    ))}
+                        {" "}
+                        search{" "}
+                      </button>
+                    </form>
                   </div>
-                </div>
+                ) : (
+                  <div className="hidden sm:block sm:ml-6">
+                    <div className="flex space-x-4">
+                      {navigation.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "px-3 py-2 rounded-md text-sm font-medium"
+                          )}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          {item.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* <button
@@ -84,78 +111,92 @@ const navigation = [
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
-
-                <div>
-                    <Menu.Button className="text-gray-300  ">
-                     <NavLink to="/login" className="p-2 hover:text-white ">login</NavLink>
-                     <span>/</span>
-                     <NavLink to="/register" className="p-2 hover:text-white ">register</NavLink>
+                  {isLogin ? (
+                    <div>
+                      <div className="flex space-x-2 text-gray-200">
+                      <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                      </Menu.Button>
+                      <Menu.Button>
+                        {'rahat'}
+                      </Menu.Button>
+                      </div>
                       
-                    </Menu.Button>
-                  </div>
-              
-                  
-                  {/* <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="##"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="##"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Your Profile
+                              </a>
                             )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="##"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="##"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Settings
+                              </a>
                             )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="##"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                onClick={logoutHandler}
+                                href=""
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Sign out
+                              </a>
                             )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition> */}
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </div>
+                  ) : (
+                    <div>
+                      <Menu.Button className="text-gray-300  ">
+                        <NavLink to="/login" className="p-2 hover:text-white ">
+                          login
+                        </NavLink>
+                        <span>/</span>
+                        <NavLink
+                          to="/register"
+                          className="p-2 hover:text-white "
+                        >
+                          register
+                        </NavLink>
+                      </Menu.Button>
+                    </div>
+                  )}
                 </Menu>
               </div>
             </div>
