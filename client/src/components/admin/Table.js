@@ -1,18 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  // More people...
-];
 
 export default function Example(props) {
   const [visible] = props.states;
@@ -20,16 +8,20 @@ export default function Example(props) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
-  const key = Cookies.get("athentication");
-  console.log(key);
+  const key = Cookies.get("auth");
+
   useEffect(() => {
     axios
-      .get("/api/admin", { headers: { athentication: key } })
+      .get("/api/admin", { headers: { auth: key } })
       .then((result) => {
-        console.log(data);
-        setData(result.data);
+        if (result.data.error) {
+
+        } else {
+          setData(result.data);
+        }
       })
       .catch((err) => {
+        console.log("custom error here" + err);
         setError(err);
       });
   }, []);

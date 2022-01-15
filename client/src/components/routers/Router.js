@@ -11,10 +11,10 @@ function Routers() {
         <Router>
             <Navber />
             <Routes>
+            <Route path="/" element= {<Home />} />
             <Route path="/login" element= {<Login />} />
             <Route path="/register" element= {<Signup />} />
             <Route path="/admin" element= {<Admin />} />
-            <Route path="/home" element= {<Home />} />
             </Routes>
            
         </Router>

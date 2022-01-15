@@ -1,43 +1,48 @@
-import React from 'react'
-import axios from 'axios'
+import React from "react";
+import axios from "axios";
+import {ToastContainer, toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
 function Signup() {
-  const [id, setId] = React.useState('')
-  const [name, setname] = React.useState('')
-  const [email, setemail] = React.useState('')
-  const [password, setpassword] = React.useState('')
-  const [conpassword, setconpassword] = React.useState('')
-  const [error, setError] = React.useState('')
+  const [id, setId] = React.useState("");
+  const [name, setname] = React.useState("");
+  const [email, setemail] = React.useState("");
+  const [password, setpassword] = React.useState("");
+  const [conpassword, setconpassword] = React.useState("");
 
-  const submitHandler = (e) =>{
-    console.log(id)
-    e.preventDefault()
-   const formdata = {
-     schoolId : id,
-     name,
-     email,
-     password
-   }
+  // useNavigate use for redirect to login page 
+  const Navigate = useNavigate()
 
-        axios.post("/api/signup", formdata )
-        .then((result)=>{
-          if(result.data.vError){
-            console.log(result.data.vError)
-            setError(result.data.vError)
-          }else if(result.status === 201){
-            setError('submition successfull')
-          }else{
-            console.log(result)
-          }
-        })
-        .catch((err)=>{
-          console.log( err)
-        })
-    
+  const submitHandler = (e) => {
+    console.log(id);
+    e.preventDefault();
+    const formdata = {
+      schoolId: id,
+      name,
+      email,
+      password,
+    };
 
-  }
+    axios
+      .post("/api/signup", formdata)
+      .then((result) => {
+        if (result.data.vError) {
+          toast.error(result.data.vError, {position  : "top-center"});
+        } else if (result.status === 201) {
+          toast.success("submition successfull, you'll redirect to login page", {transition : "top-center"});
+          setTimeout(() => {
+            Navigate("/login")
+          }, 5000);
+        } else {
+          console.log(result);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       <div className="bg-blue-100 min-h-screen">
@@ -47,8 +52,11 @@ function Signup() {
             Sign Up account
           </h2>
         </div>
-        <form onSubmit={submitHandler} encType="multipart/form-data" method="post">
-
+        <form
+          onSubmit={submitHandler}
+          encType="multipart/form-data"
+          method="post"
+        >
           {/* school id field */}
           <div className="flex justify-center mt-4  ">
             <div className="flex justify-between bg-blue-100 rounded-md">
@@ -59,7 +67,9 @@ function Signup() {
                 School ID
               </label>
               <input
-                onChange={(e) => {setId(e.target.value) }}
+                onChange={(e) => {
+                  setId(e.target.value);
+                }}
                 value={id}
                 id="school-id"
                 name="schoolId"
@@ -82,7 +92,9 @@ function Signup() {
                 Full Name
               </label>
               <input
-                onChange={(e) => { setname(e.target.value) }}
+                onChange={(e) => {
+                  setname(e.target.value);
+                }}
                 value={name}
                 id="fullname"
                 name="fullname"
@@ -105,7 +117,9 @@ function Signup() {
                 Email
               </label>
               <input
-                onChange={(e) => {setemail(e.target.value)}}
+                onChange={(e) => {
+                  setemail(e.target.value);
+                }}
                 value={email}
                 id="email"
                 name="email"
@@ -128,7 +142,9 @@ function Signup() {
                 Password
               </label>
               <input
-                onChange={(e) => {setpassword(e.target.value)}}
+                onChange={(e) => {
+                  setpassword(e.target.value);
+                }}
                 value={password}
                 id="password"
                 name="password"
@@ -151,7 +167,9 @@ function Signup() {
                 Confirm Password
               </label>
               <input
-                onChange={(e) => {setconpassword(e.target.value)}}
+                onChange={(e) => {
+                  setconpassword(e.target.value);
+                }}
                 value={conpassword}
                 id="conpassword"
                 name="conpassword"
@@ -176,14 +194,11 @@ function Signup() {
                   aria-hidden="true"
                 />
               </span>
-              Sign in
+              Sign Up
             </button>
           </div>
         </form>
-        <p className="flex justify-center text-red-500">
-          {" "}
-         {error}
-        </p>
+          <ToastContainer />
       </div>
     </>
   );

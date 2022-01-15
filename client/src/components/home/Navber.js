@@ -1,9 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import {isLogins} from '../../store/Store'
 // import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 
@@ -12,9 +13,16 @@ function classNames(...classes) {
 }
 
 const Navber = () => {
+
+  // context api calling for login validation
+  const [isValid]= useContext(isLogins)
+  const data = Cookies.get("auth")
+
+  console.log(data)
+
+  // calling for redirect route
   const navigate = useNavigate()
   const isAdmin = true;
-  const isLogin = true;
 
   const logoutHandler =()=>{
     Cookies.set("auth", "")
@@ -22,7 +30,7 @@ const Navber = () => {
   }
 
   const navigation = [
-    { name: "Home", href: "home", current: true },
+    { name: "Home", href: "/", current: true },
     { name: "Catalog", href: "catalog", current: false },
     { name: "New Collections", href: "newcollections", current: false },
     { name: "Calendar", href: "calender", current: false },
@@ -64,14 +72,14 @@ const Navber = () => {
 
                 {isAdmin ? (
                   <div>
-                    <form className="text-gray-800 ml-5 mt-1">
+                    <form onSubmit={(e)=>e.preventDefault()} className="text-gray-200 ml-5 mt-1">
                       <input
                         type="search"
-                        className=" p-1 pl-2 rounded-l-full"
+                        className=" p-1 pl-2 rounded-l-full bg-gray-600 outline-none"
                       ></input>
                       <button
                         type="submit"
-                        className="rounded-r-full p-2 text-sm text-gray-400 hover:bg-indigo-900"
+                        className="rounded-r-full p-2 text-sm text-gray-400 bg-gray-900 hover:bg-indigo-900"
                       >
                         {" "}
                         search{" "}
@@ -111,7 +119,7 @@ const Navber = () => {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
-                  {isLogin ? (
+                  {isValid ? (
                     <div>
                       <div className="flex space-x-2 text-gray-200">
                       <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
