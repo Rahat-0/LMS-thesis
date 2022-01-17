@@ -8,6 +8,8 @@ const validation = (req, res, next) => {
       return res.json({ vError: "password can't be empty" });
     } else if (!name) {
       return res.json({ vError: "name can't be empty" });
+    }else if(!schoolId){
+	return res.json({vError: "schoolId can't be empty"});
     }
 
     const mail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

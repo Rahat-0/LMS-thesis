@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../../assets/css/common.module.css";
 import Menu from "./Menu";
+import { Menubar } from "../../store/Store";
 import { MenuIcon } from "@heroicons/react/outline";
 
 function Menus(props) {
-  const [visible, setVisible] = props.states;
+  const [visible, setVisible] = useContext(Menubar);
   return (
     <div>
       <MenuIcon
@@ -20,15 +21,17 @@ function Menus(props) {
       >
         <div>
           <div className="mt-20"></div>
-          <h3 className="text-gray-200">Main Menu</h3>
+          <h3 className="text-gray-400">Main Menu</h3>
           <Menu
             name="Dashboard"
             sub1="Admin Dashboard"
             sub2="Librarian Dashboard"
             sub3="Student Dashboard"
-            link1="admin"
-            link2="librarian"
-            link3="student"
+            sub4="Book Dashboard"
+            link1="dashboard"
+            link2="librarian_dashboard"
+            link3="student_dashboard"
+            link4="book_dashboard"
           />
           <Menu
             name="Students"
@@ -36,21 +39,21 @@ function Menus(props) {
             sub2="Student View"
             sub3="Student Add"
             sub4="Student Edit"
-            link1="list"
-            link2="view"
-            link3="add"
-            link4="edit"
+            link1="studentlist"
+            link2="student_view"
+            link3="student_add"
+            link4="student_edit"
           />
           <Menu
-            name="Teachers"
-            sub1="Teacher List"
-            sub2="Teacher View"
-            sub3="Teacher Add"
-            sub4="Teacher Edit"
-            link1="list"
-            link2="view"
-            link3="add"
-            link4="edit"
+            name="Librarians"
+            sub1="Librairan List"
+            sub2="Librairan View"
+            sub3="Librairan Add"
+            sub4="Librairan Edit"
+            link1="librarianlist"
+            link2="librairan_view"
+            link3="librairan_add"
+            link4="librairan_edit"
           />
           <Menu
             name="Books"
@@ -58,12 +61,13 @@ function Menus(props) {
             sub2="Book View"
             sub3="Book Add"
             sub4="Book Edit"
-            link1="list"
-            link2="view"
-            link3="add"
-            link4="edit"
+            link1="booklist"
+            link2="book_view"
+            link3="book_add"
+            link4="book_edit"
           />
         </div>
+        
       </div>
     </div>
   );

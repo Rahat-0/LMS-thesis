@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer,toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
-import {isLogins} from '../../store/Store'
+// import {isLogins} from '../../store/Store'
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
@@ -14,7 +14,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   // context api calling
-  const [ , setIsValid ] = useContext(isLogins)
+  // const [ , setIsValid ] = useContext(isLogins)
 
 
   
@@ -35,16 +35,13 @@ function Login() {
             toast.error(result.data.error, {position : "top-center"})
         } else if (result.data.token) {
           Cookies.set("auth", result.data.token);
-          setIsValid(true)
           navigate("/");
         } else {
           console.log(result);
-          setIsValid(false)
         }
       })
       .catch((err) => {
-        console.log(err);
-        setIsValid(false)
+        toast.error("server error! please check your internet connection!", {position: "top-center"})
       });
   };
 

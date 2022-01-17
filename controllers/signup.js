@@ -1,7 +1,7 @@
 const userSchema = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
   try {
     const { schoolId, name, password, email, userType } = req.valid;
 
@@ -14,8 +14,9 @@ const signup = async (req, res) => {
       email, 
       userType
     });
-    await schema.save();
+    await schema.save()
     res.status(201).json({ message: schema });
+    
   } catch (err) {
     if (err.keyPattern.schoolId) {
       res.status(200).json({ vError: "schoolId already exist" });
@@ -23,8 +24,10 @@ const signup = async (req, res) => {
       res.status(200).json({ vError: "email already exist" });
     } else if(err){
       res.json(err);
+	next(err);
     }else{
       res.status(500).json({ error: "server side error" });
+	next(err)
     }
   }
 };

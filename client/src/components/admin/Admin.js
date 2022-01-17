@@ -1,27 +1,24 @@
 import React, { useEffect } from "react";
-import jwt from 'jwt-decode'
+import jwt from "jwt-decode";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import "../../assets/css/common.module.css";
 import Menus from "./Menus";
-import Table from "./Table";
+// import Table from "./Tables";
 
 function Admin() {
-  const [visible, setVisible] = React.useState(true)
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(() => {  
-  const key = Cookies.get('auth')
-  const data = jwt(key)
-    if(data.userType !== "admin")
-      navigate('/')
-  }, [])
+  useEffect(() => {
+    const key = Cookies.get("auth");
+    const data = jwt(key);
+    if (data.userType !== "admin") navigate("/");
+  }, []);
 
-  
   return (
     <div>
-      <Menus states ={[visible, setVisible]} />
-      <Table states ={[visible]} />
+      <Menus />
+      <Outlet />
     </div>
   );
 }

@@ -1,10 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useContext } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import jwt from "jwt-decode";
 import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import {isLogins} from '../../store/Store'
+// import {isLogins} from '../../store/Store'
 // import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 
@@ -13,27 +14,49 @@ function classNames(...classes) {
 }
 
 const Navber = () => {
+  const [valid, setvalid] = useState(false);
+  const [admin, setadmin] = useState(false);
 
   // context api calling for login validation
-  const [isValid]= useContext(isLogins)
-  const data = Cookies.get("auth")
-
-  console.log(data)
+  // const [isValid]= useContext(isLogins)
 
   // calling for redirect route
-  const navigate = useNavigate()
-  const isAdmin = true;
+  const navigate = useNavigate();
 
-  const logoutHandler =()=>{
-    Cookies.set("auth", "")
-    navigate("/login")
-  }
+  const key = Cookies.get("auth");
+
+  useEffect(() => {
+    if (key) {
+      const { name, userType } = jwt(key);
+      if (name) {
+        setvalid(name);
+      }
+      if (name && userType === "admin") {
+        setadmin(true);
+      }
+    } else {
+      setvalid(false);
+      setadmin(false);
+    }
+  }, [key]);
+
+  const logoutHandler = () => {
+    Cookies.set("auth", "");
+    navigate("/login");
+  };
 
   const navigation = [
     { name: "Home", href: "/", current: true },
     { name: "Catalog", href: "catalog", current: false },
     { name: "New Collections", href: "newcollections", current: false },
     { name: "Calendar", href: "calender", current: false },
+  ];
+
+  const adminNavigation = [
+    { name: "Dashboard", href: "admin/dashboard", current: true },
+    { name: "Students", href: "admin/studentlist", current: false },
+    { name: "Librarians", href: "admin/librarianlist", current: false },
+    { name: "Books", href: "admin/booklist", current: false },
   ];
 
   return (
@@ -70,21 +93,24 @@ const Navber = () => {
                   nuist library management system
                 </span>
 
-                {isAdmin ? (
-                  <div>
-                    <form onSubmit={(e)=>e.preventDefault()} className="text-gray-200 ml-5 mt-1">
-                      <input
-                        type="search"
-                        className=" p-1 pl-2 rounded-l-full bg-gray-600 outline-none"
-                      ></input>
-                      <button
-                        type="submit"
-                        className="rounded-r-full p-2 text-sm text-gray-400 bg-gray-900 hover:bg-indigo-900"
-                      >
-                        {" "}
-                        search{" "}
-                      </button>
-                    </form>
+                {admin ? (
+                  <div className="hidden sm:block sm:ml-6">
+                    <div className="flex space-x-4">
+                      {adminNavigation.map((item) => (
+                        <NavLink
+                          key={item.name}
+                          to={item.href}
+                          className={({ isActive }) =>
+                            isActive
+                              ? "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                              : "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white "
+                          }
+                          aria-current={"page"}
+                        >
+                          {item.name}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <div className="hidden sm:block sm:ml-6">
@@ -119,22 +145,19 @@ const Navber = () => {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
-                  {isValid ? (
+                  {valid ? (
                     <div>
                       <div className="flex space-x-2 text-gray-200">
-                      <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
-                      </Menu.Button>
-                      <Menu.Button>
-                        {'rahat'}
-                      </Menu.Button>
+                        <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                          <span className="sr-only">Open user menu</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            alt=""
+                          />
+                        </Menu.Button>
+                        <Menu.Button>{valid}</Menu.Button>
                       </div>
-                      
 
                       <Transition
                         as={Fragment}

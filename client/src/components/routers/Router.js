@@ -1,10 +1,13 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Admin from '../admin/Admin'
+import LibrarianList from '../admin/LibrarianList'
+import StudentList from '../admin/studentList'
 import Home from '../home/Home'
 import Navber from '../home/Navber'
 import Login from '../login/Login'
 import Signup from '../signup/Signup'
+// import AdminRoute from './AdminRoute'
 
 function Routers() {
     return (
@@ -12,9 +15,12 @@ function Routers() {
             <Navber />
             <Routes>
             <Route path="/" element= {<Home />} />
-            <Route path="/login" element= {<Login />} />
-            <Route path="/register" element= {<Signup />} />
-            <Route path="/admin" element= {<Admin />} />
+            <Route path="login" element= {<Login />} />
+            <Route path="register" element= {<Signup />} />
+            <Route path="/admin/*" element= {<Admin />} >
+               <Route path="studentlist" element={<StudentList />} /> 
+               <Route path="librarianlist" element={<LibrarianList />} /> 
+            </Route>
             </Routes>
            
         </Router>

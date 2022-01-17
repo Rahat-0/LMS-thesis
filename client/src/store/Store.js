@@ -1,14 +1,14 @@
 import {createContext, useState} from 'react'
 
-export const isLogins = createContext('')
+export const Menubar = createContext('')
 
 const Store = ({children}) =>{
-    const [isValid, setIsValid] = useState(false)
+    const [visible, setVisible] = useState(true)
 
     return(
-        <isLogins.Provider value={[isValid, setIsValid]}>
+        <Menubar.Provider value={[visible, setVisible]}>
             {children}
-        </isLogins.Provider>
+        </Menubar.Provider>
     )
 }
 

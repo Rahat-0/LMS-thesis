@@ -41,6 +41,7 @@ function Signup() {
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err);
       });
   };
   return (
@@ -73,7 +74,6 @@ function Signup() {
                 value={id}
                 id="school-id"
                 name="schoolId"
-                autoComplete
                 type="number"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -98,7 +98,6 @@ function Signup() {
                 value={name}
                 id="fullname"
                 name="fullname"
-                autoComplete
                 type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -123,7 +122,7 @@ function Signup() {
                 value={email}
                 id="email"
                 name="email"
-                autoComplete
+
                 type="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -148,7 +147,6 @@ function Signup() {
                 value={password}
                 id="password"
                 name="password"
-                autoComplete
                 type="password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -173,7 +171,6 @@ function Signup() {
                 value={conpassword}
                 id="conpassword"
                 name="conpassword"
-                autoComplete
                 type="password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"

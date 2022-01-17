@@ -1,5 +1,12 @@
-const userSchema = require('../models/userSchema')
+const userSchema = require('../../models/userSchema');
+const adBook = require('./adBook');
+const adStudent = require('./adStudent');
+const adLibrarian = require('./adLibrarian');
 const admin = require("express").Router();
+
+admin.use("/students", adStudent)
+admin.use("/librarians",adLibrarian )
+admin.use("/books", adBook)
 
 admin.get("/", (req, res) => {
   const id = req.schoolId;
@@ -27,5 +34,7 @@ admin.put("/", (req, res) => {
 admin.delete("/", (req, res) => {
   res.send("admin delete");
 });
+
+
 
 module.exports = admin;
