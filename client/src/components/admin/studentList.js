@@ -17,7 +17,7 @@ function StudentList() {
       .get("/api/admin/students", { headers: { auth: key } })
       .then((result) => {
         if (result.data.error) {
-
+            
         } else {
           setData(result.data);
           console.log("renderd")
