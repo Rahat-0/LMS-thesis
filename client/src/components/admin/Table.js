@@ -3,24 +3,38 @@ import React from "react";
 const Table = (props) => {
   const [data] = props.data;
   const [theader] = props.tableHeader;
-  const { visible, error } = props;
+  const { visible, error, routes } = props;
 
   const [search, setSearch] = React.useState("");
 
   const filterdData = data.filter((value) => {
-    if (search === "") {
-      return value;
-    } else if (
-      value.schoolId.toString().includes(search) ||
-      value.name.toLowerCase().includes(search.toLowerCase()) ||
-      value.email.toLowerCase().includes(search.toLocaleLowerCase())
-    ) {
-      return value;
+    if(value.schoolId){
+      if (search === "") {
+        return value;
+      } else if (
+        value.schoolId.toString().includes(search) ||
+        value.name.toLowerCase().includes(search.toLowerCase()) ||
+        value.email.toLowerCase().includes(search.toLocaleLowerCase())
+      ) {
+        return value;
+      }
+
+    }else{
+
+      if (search === "") {
+        return value;
+      } else if (
+        value.bookId.toString().includes(search) ||
+        value.title.toLowerCase().includes(search.toLowerCase()) ||
+        value.year.toString().includes(search)
+      ) {
+        return value;
+      }
+
     }
-    // return value;
+
   });
 
-  // console.log(filterdData)
 
   return (
     <div
@@ -30,8 +44,8 @@ const Table = (props) => {
     >
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
         <div>
-          <div className="p-2 text-3xl">students</div>
-          <div className="px-2 pb-2">Dashboard / students</div>
+          <div className="p-2 text-3xl">{routes}</div>
+          <div className="px-2 pb-2">Dashboard / {routes}</div>
         </div>
         <div className="p-2">
           <input
@@ -73,50 +87,59 @@ const Table = (props) => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {error ? (
                   <td className="px-6 py-4 whitespace-nowrap" colspan="5">
-                    <div className="text-sm h-96 flex items-center justify-center text-gray-500 ">
+                    <div className="text-sm h-80 flex items-center justify-center text-gray-500 ">
                       {error.message}
                     </div>
                   </td>
-                ) : (
+                ) :
+                filterdData.length < 1 ? 
+                <td className="px-6 py-4 whitespace-nowrap" colspan="5">
+                <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
+                  <p className="text-3xl">Data not found! </p>
+                 <p className="text-lg"> for advance search please click (search)</p>
+                </div>
+              </td> :
+                
+                (
                   ""
                 )}
-                {filterdData.map((person) => (
-                  <tr key={person.email}>
+                {filterdData.map((data) => (
+                  <tr key={data.email || data.bookId}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <img
                             className="h-10 w-10 rounded-full"
-                            src={person.image}
+                            src={data.image}
                             alt=""
                           />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
-                            {person.name}
+                            {data.name || data.bookId}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {person.email}
+                            {data.email}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {person.schoolId}
+                        {data.schoolId || data.title}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
+                        {data.author || "Active"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {person.userType}
+                      {data.userType || data.year}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a
-                        value={person.schoolId}
+                        value={data.schoolId}
                         href="##"
                         className="text-indigo-600 hover:text-indigo-900"
                       >

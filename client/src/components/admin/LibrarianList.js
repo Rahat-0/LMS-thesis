@@ -28,7 +28,8 @@ function LibrarianList() {
   }, []);
 
   const tableHeader = ["Name", "SchoolID" ,"Status","UserType"]
+  const routes = "Librarians"
 
-  return <Table data={[data]} tableHeader={[tableHeader]} error={error} visible={visible} />;
+  return <Table data={[data]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
 export default LibrarianList;

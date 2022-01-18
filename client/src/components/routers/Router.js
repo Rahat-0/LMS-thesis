@@ -1,6 +1,7 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Admin from '../admin/Admin'
+import BookList from '../admin/BookList'
 import LibrarianList from '../admin/LibrarianList'
 import StudentList from '../admin/studentList'
 import Home from '../home/Home'
@@ -18,8 +19,9 @@ function Routers() {
             <Route path="login" element= {<Login />} />
             <Route path="register" element= {<Signup />} />
             <Route path="/admin/*" element= {<Admin />} >
-               <Route path="studentlist" element={<StudentList />} /> 
-               <Route path="librarianlist" element={<LibrarianList />} /> 
+               <Route path="studentlist/*" element={<StudentList />} /> 
+               <Route path="librarianlist/*" element={<LibrarianList />} /> 
+               <Route path="booklist/*" element={<BookList />} /> 
             </Route>
             </Routes>
            
