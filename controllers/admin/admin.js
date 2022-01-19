@@ -2,11 +2,13 @@ const userSchema = require('../../models/userSchema');
 const adBook = require('./adBook');
 const adStudent = require('./adStudent');
 const adLibrarian = require('./adLibrarian');
+const adDashboard = require('./Dashboard');
 const admin = require("express").Router();
 
 admin.use("/students", adStudent)
 admin.use("/librarians",adLibrarian )
 admin.use("/books", adBook)
+admin.use("/dashboard", adDashboard)
 
 admin.get("/", (req, res) => {
   const id = req.schoolId;

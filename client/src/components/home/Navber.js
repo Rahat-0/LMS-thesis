@@ -53,7 +53,7 @@ const Navber = () => {
   ];
 
   const adminNavigation = [
-    { name: "Dashboard", href: "admin/dashboard", current: true },
+    { name: "Dashboard", href: "admin/admin_dashboard", current: true },
     { name: "Students", href: "admin/studentlist", current: false },
     { name: "Librarians", href: "admin/librarianlist", current: false },
     { name: "Books", href: "admin/booklist", current: false },

@@ -28,7 +28,7 @@ function Menus(props) {
             sub2="Librarian Dashboard"
             sub3="Student Dashboard"
             sub4="Book Dashboard"
-            link1="dashboard"
+            link1="admin_dashboard"
             link2="librarian_dashboard"
             link3="student_dashboard"
             link4="book_dashboard"

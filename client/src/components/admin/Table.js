@@ -92,7 +92,7 @@ const Table = (props) => {
                     </div>
                   </td>
                 ) :
-                filterdData.length < 1 ? 
+                 filterdData.length < 1 ? 
                 <td className="px-6 py-4 whitespace-nowrap" colspan="5">
                 <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
                   <p className="text-3xl">Data not found! </p>

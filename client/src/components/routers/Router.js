@@ -1,5 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import AdDashboard from '../admin/AdDashboard'
 import Admin from '../admin/Admin'
 import BookList from '../admin/BookList'
 import LibrarianList from '../admin/LibrarianList'
@@ -22,6 +23,7 @@ function Routers() {
                <Route path="studentlist/*" element={<StudentList />} /> 
                <Route path="librarianlist/*" element={<LibrarianList />} /> 
                <Route path="booklist/*" element={<BookList />} /> 
+               <Route path="admin_dashboard/*" element={<AdDashboard />} />
             </Route>
             </Routes>
            
