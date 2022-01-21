@@ -9,6 +9,7 @@ function StudentList() {
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   const key = Cookies.get("auth");
 
@@ -20,7 +21,7 @@ function StudentList() {
             
         } else {
           setData(result.data);
-          console.log("renderd")
+          setLoading(false)
         }
       })
       .catch((err) => {
@@ -32,6 +33,6 @@ function StudentList() {
   const tableHeader = ["Name", "SchoolID" ,"Status","UserType"]
   const routes = "Students"
 
-  return <Table data={[data]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Table data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
 export default StudentList;

@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useNavigate, Outlet } from "react-router-dom";
 import "../../assets/css/common.module.css";
 import Menus from "./Menus";
+import AdDashboard from "./AdDashboard";
 // import Table from "./Tables";
 
 function Admin() {

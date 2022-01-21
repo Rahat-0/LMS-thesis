@@ -1,7 +1,7 @@
 import React from "react";
 
 const Table = (props) => {
-  const [data] = props.data;
+  const [data, loading] = props.data;
   const [theader] = props.tableHeader;
   const { visible, error, routes } = props;
 
@@ -85,14 +85,26 @@ const Table = (props) => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
+     
                 {error ? (
                   <td className="px-6 py-4 whitespace-nowrap" colspan="5">
                     <div className="text-sm h-80 flex items-center justify-center text-gray-500 ">
                       {error.message}
                     </div>
                   </td>
-                ) :
-                 filterdData.length < 1 ? 
+                ) : loading ? <td className="px-6 py-4 whitespace-nowrap" colspan="5"> <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
+                <p className="text-3xl">Loading...</p>
+               <p className="text-lg">wait a moment!</p>
+              </div> </td> :
+                 
+                
+                
+                
+                
+                
+                
+                
+                filterdData.length < 1 ? 
                 <td className="px-6 py-4 whitespace-nowrap" colspan="5">
                 <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
                   <p className="text-3xl">Data not found! </p>

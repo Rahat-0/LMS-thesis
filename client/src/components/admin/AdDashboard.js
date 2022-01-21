@@ -9,6 +9,7 @@ function AdDashboard() {
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const key = Cookies.get("auth");
 
@@ -20,7 +21,7 @@ function AdDashboard() {
             
         } else {
           setData(result.data);
-          console.log("renderd")
+          setLoading(false)
         }
       })
       .catch((err) => {
@@ -31,6 +32,6 @@ function AdDashboard() {
 
   const routes = "Dashboard"
 
-  return <Dashboard data={[data]}  routes={routes} error={error} visible={visible} />;
+  return <Dashboard data={[data, loading]}  routes={routes} error={error} visible={visible} />;
 }
 export default AdDashboard;

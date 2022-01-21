@@ -9,6 +9,7 @@ function BookList() {
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   const key = Cookies.get("auth");
 
@@ -19,6 +20,7 @@ function BookList() {
         if (result.data.error) {
         } else {
           setData(result.data);
+          setLoading(false)
         }
       })
       .catch((err) => {
@@ -31,6 +33,6 @@ function BookList() {
   const tableHeader = ["id", "title" ,"author","year"]
   const routes  = "Books"
 
-  return <Table data={[data]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Table data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
 export default BookList;

@@ -23,7 +23,7 @@ function Routers() {
                <Route path="studentlist/*" element={<StudentList />} /> 
                <Route path="librarianlist/*" element={<LibrarianList />} /> 
                <Route path="booklist/*" element={<BookList />} /> 
-               <Route path="admin_dashboard/*" element={<AdDashboard />} />
+               <Route path="dashboard/*" element={<AdDashboard />} />
             </Route>
             </Routes>
            
