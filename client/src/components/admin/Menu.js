@@ -1,9 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { ArrowRightIcon, CollectionIcon } from "@heroicons/react/outline";
+import {useSpring, animated} from 'react-spring'
 import "../../assets/css/common.module.css";
 
 function Menu(props) {
+  
+  const styles = useSpring({
+    from : {x : -400},
+    to : {x : 0},
+    config : {duration : 500},
+    reset : true,
+    delay : 200
+  })
   const [visible, setVisible] = React.useState(false);
   const {
     name,
@@ -34,7 +43,8 @@ function Menu(props) {
         <ArrowRightIcon className="block h-4 w-4" aria-hidden />
       </div>
       <div className={`text-gray-500 ml-9 `}>
-        <ul className={`${visible ? "block" : "hidden"}`}>
+        <animated.div style={styles}>
+        <ul className={`${visible ? "block" : "hidden"} p-1 transition-all`}>
           <li>
           <NavLink
             to={link1}
@@ -45,7 +55,7 @@ function Menu(props) {
             }
           >
            
-            {sub1}
+            {sub1} 
           </NavLink>
           </li>
 
@@ -95,9 +105,10 @@ function Menu(props) {
 
           
         </ul>
+        </animated.div>
       </div>
     </div>
   );
 }
 
-export default Menu;
+export default React.memo(Menu);

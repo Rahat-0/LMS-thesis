@@ -1,5 +1,5 @@
 import React from "react";
-import { Spring, useSpring, animated } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
 import adminIcon from "../../assets/adminIcon.ico";
 import librarianIcon from "../../assets/librarianIcon.png";
@@ -89,7 +89,7 @@ const HeadCard = (props) => {
       <div>
         <p className="text-3xl font-bold text-gray-600">
           <animated.div className="inline">
-            {number.to((n) => n.toFixed())}
+            {number.to((number) => number.toFixed())}
           </animated.div>
           +
         </p>
@@ -99,4 +99,4 @@ const HeadCard = (props) => {
   );
 };
 
-export default Dashboard;
+export default React.memo(Dashboard);

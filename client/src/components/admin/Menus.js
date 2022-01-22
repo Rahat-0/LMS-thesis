@@ -40,9 +40,9 @@ function Menus(props) {
             sub3="Student Add"
             sub4="Student Edit"
             link1="studentlist"
-            link2="student_view"
-            link3="student_add"
-            link4="student_edit"
+            link2="studentview"
+            link3="studentadd"
+            link4="studentedit"
           />
           <Menu
             name="Librarians"
@@ -51,9 +51,9 @@ function Menus(props) {
             sub3="Librairan Add"
             sub4="Librairan Edit"
             link1="librarianlist"
-            link2="librairan_view"
-            link3="librairan_add"
-            link4="librairan_edit"
+            link2="librairanview"
+            link3="librairanadd"
+            link4="librairanedit"
           />
           <Menu
             name="Books"
@@ -62,9 +62,9 @@ function Menus(props) {
             sub3="Book Add"
             sub4="Book Edit"
             link1="booklist"
-            link2="book_view"
-            link3="book_add"
-            link4="book_edit"
+            link2="bookview"
+            link3="bookadd"
+            link4="bookedit"
           />
         </div>
         

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Table = (props) => {
   const [data, loading] = props.data;
@@ -8,7 +9,7 @@ const Table = (props) => {
   const [search, setSearch] = React.useState("");
 
   const filterdData = data.filter((value) => {
-    if(value.schoolId){
+    if (value.schoolId) {
       if (search === "") {
         return value;
       } else if (
@@ -18,9 +19,7 @@ const Table = (props) => {
       ) {
         return value;
       }
-
-    }else{
-
+    } else {
       if (search === "") {
         return value;
       } else if (
@@ -30,11 +29,8 @@ const Table = (props) => {
       ) {
         return value;
       }
-
     }
-
   });
-
 
   return (
     <div
@@ -85,34 +81,31 @@ const Table = (props) => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-     
                 {error ? (
                   <td className="px-6 py-4 whitespace-nowrap" colspan="5">
                     <div className="text-sm h-80 flex items-center justify-center text-gray-500 ">
                       {error.message}
                     </div>
                   </td>
-                ) : loading ? <td className="px-6 py-4 whitespace-nowrap" colspan="5"> <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
-                <p className="text-3xl">Loading...</p>
-               <p className="text-lg">wait a moment!</p>
-              </div> </td> :
-                 
-                
-                
-                
-                
-                
-                
-                
-                filterdData.length < 1 ? 
-                <td className="px-6 py-4 whitespace-nowrap" colspan="5">
-                <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
-                  <p className="text-3xl">Data not found! </p>
-                 <p className="text-lg"> for advance search please click (search)</p>
-                </div>
-              </td> :
-                
-                (
+                ) : loading ? (
+                  <td className="px-6 py-4 whitespace-nowrap" colspan="5">
+                    {" "}
+                    <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
+                      <p className="text-3xl">Loading...</p>
+                      <p className="text-lg">wait a moment!</p>
+                    </div>{" "}
+                  </td>
+                ) : filterdData.length < 1 ? (
+                  <td className="px-6 py-4 whitespace-nowrap" colspan="5">
+                    <div className="text-sm h-80 flex items-center flex-col justify-center text-center text-gray-500 ">
+                      <p className="text-3xl">Data not found! </p>
+                      <p className="text-lg">
+                        {" "}
+                        for advance search please click (search)
+                      </p>
+                    </div>
+                  </td>
+                ) : (
                   ""
                 )}
                 {filterdData.map((data) => (
@@ -150,13 +143,13 @@ const Table = (props) => {
                       {data.userType || data.year}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a
+                      <Link
                         value={data.schoolId}
-                        href="##"
+                        to="/admin/studentedit"
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 ))}
