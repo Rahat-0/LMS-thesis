@@ -9,6 +9,7 @@ function Signup() {
   const [id, setId] = React.useState("");
   const [name, setname] = React.useState("");
   const [email, setemail] = React.useState("");
+  const [gender , setgender] = React.useState("select")
   const [password, setpassword] = React.useState("");
   const [conpassword, setconpassword] = React.useState("");
 
@@ -22,8 +23,11 @@ function Signup() {
       schoolId: id,
       name,
       email,
-      password,
+      gender,
+      password
     };
+
+  
 
     axios
       .post("/api/signup", formdata)
@@ -125,9 +129,42 @@ function Signup() {
 
                 type="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full  px-3 py-2 border bg-gray-100 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="email"
               />
+            </div>
+          </div>
+
+
+          {/* gender field */}
+          <div className="flex justify-center mt-4  ">
+            <div className=" flex bg-blue-100 rounded-md">
+              <label
+                htmlFor="gender"
+                className=" w-44 lg:w-24 items-center flex "
+              >
+               gender
+              </label>
+             
+              <select
+                onChange={(e) => {
+                  setgender(e.target.value);
+                }}
+                value={gender}
+                id="gender"
+                name="gender"
+                required
+                className="appearance-none w-72 rounded-none relative block lg:w-60 px-3 py-2 border bg-gray-100 border-gray-300 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                
+              >
+                <option value="select" selected>select</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                
+                
+                 </select>
+              
+              
             </div>
           </div>
 

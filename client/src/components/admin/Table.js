@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
+import { Update } from "../../store/Store";
 
 const Table = (props) => {
   const [data, loading] = props.data;
   const [theader] = props.tableHeader;
   const { visible, error, routes } = props;
-
   const [search, setSearch] = React.useState("");
+
+  const [ ,setupdate] = useContext(Update)
+
 
   const filterdData = data.filter((value) => {
     if (value.schoolId) {
@@ -144,7 +147,7 @@ const Table = (props) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
-                        value={data.schoolId}
+                        onClick={()=> setupdate(data.schoolId)}
                         to="/admin/studentedit"
                         className="text-indigo-600 hover:text-indigo-900"
                       >

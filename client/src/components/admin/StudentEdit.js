@@ -1,10 +1,12 @@
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar } from "../../store/Store";
-import { useEffect, useState, useContext } from "react";
+import { Menubar, Update } from "../../store/Store";
 
 function StudentEdit() {
   const [visible] = useContext(Menubar);
+  const [update] = useContext(Update)
+
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -12,9 +14,20 @@ function StudentEdit() {
 
   const key = Cookies.get("auth");
 
+
+  useEffect(()=>{
+    console.log(update)
+    axios.post("/api/admin/students", {update}, { headers: { auth: key}} )
+    .then((result)=>{
+      console.log(result)
+    })
+    .catch(err => console.log(err))
+
+  }, [])
+
   useEffect(() => {
     axios
-      .get("/api/admin/dashboard", { headers: { auth: key } })
+      .put("/api/admin/students", { headers: { auth: key}  })
       .then((result) => {
         if (result.data.error) {
         } else {

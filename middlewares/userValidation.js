@@ -1,6 +1,6 @@
 const validation = (req, res, next) => {
   try {
-    const { schoolId, email, password, userType, name, book } = req.body;
+    const { schoolId, email, password, userType, name, book, gender } = req.body;
 
     if (!email) {
       return res.json({ vError: "email can't be empty" });
@@ -23,13 +23,11 @@ const validation = (req, res, next) => {
     return res.json({vError : "schoolId should be number only"});
     }
 
-    // if (
-    //   userType !== "admin" &&
-    //   userType !== "student" &&
-    //   userType !== "librarian"
-    // ) {
-    //   return res.json("usertype should be valid");
-    // }
+    if (
+      gender !== "male" && gender !== "female"
+    ) {
+      return res.json({vError : "invalid gender"});
+    }
 
     if (password.length < 7) {
       return res.json({vError : "password must be 8"});
@@ -38,7 +36,7 @@ const validation = (req, res, next) => {
       password.match(/[0-9]/g) &&
       password.match(/[a-z]/g)
     ) {
-      req.valid = { schoolId, email, password, userType, name, book };
+      req.valid = { schoolId, email, password, userType, name, book, gender };
       next();
     } else {
       return res.json(
