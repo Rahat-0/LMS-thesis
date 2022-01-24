@@ -1,45 +1,66 @@
 import { useEffect, useState, useContext } from "react";
+import {Link} from 'react-router-dom'
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar, Update } from "../../store/Store";
 
 function StudentEdit() {
   const [visible] = useContext(Menubar);
-  const [update] = useContext(Update)
+  const [update] = useContext(Update);
 
-
-  const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [schoolId, setSchoolId] = useState("");
+  const [gender, setGender] = useState("");
+  const [userType, setUserType] = useState("");
+
   const key = Cookies.get("auth");
-
-
-  useEffect(()=>{
-    console.log(update)
-    axios.post("/api/admin/students", {update}, { headers: { auth: key}} )
-    .then((result)=>{
-      console.log(result)
-    })
-    .catch(err => console.log(err))
-
-  }, [])
 
   useEffect(() => {
     axios
-      .put("/api/admin/students", { headers: { auth: key}  })
+      .post("/api/admin/students", { update }, { headers: { auth: key } })
+      .then((result) => {
+        setName(result.data.name);
+        setEmail(result.data.email);
+        setSchoolId(result.data.schoolId);
+        setGender(result.data.gender);
+        setUserType(result.data.userType);
+
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await axios
+      .put(
+        "/api/admin/students",
+        { name, email, schoolId, gender },
+        { headers: { auth: key } }
+      )
       .then((result) => {
         if (result.data.error) {
+          toast.error(result.data.error, { position: "bottom-left" });
+        } else if (result.data.warn) {
+          toast.warning(result.data.warn, { position: "bottom-left" });
+        } else if (result.data.message) {
+          toast.success(result.data.message, { position: "bottom-left" });
         } else {
-          setData(result.data);
-          setLoading(false);
+          toast.error("someting is wrong!", { position: "bottom-left" });
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.log("custom error here" + err);
         setError(err);
       });
-  }, []);
+  };
+
 
   const routes = "Student Edit";
 
@@ -72,21 +93,23 @@ function StudentEdit() {
             <div className="flex flex-col text-center w-full mb-1"></div>
 
             <div className="mt-10 md:mt-0 md:col-span-2">
-              <form action="#" method="POST">
+              <form onSubmit={handleUpdate}>
                 <div className="shadow overflow-hidden sm:rounded-md">
                   <div className="px-2 py-8 bg-white sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="first-name"
+                          htmlFor="first-name"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Full Name
                         </label>
                         <input
+                          onChange={(e) => setName(e.target.value)}
                           type="text"
                           name="first-name"
                           placeholder="Enter your name"
+                          value={name}
                           id="first-name"
                           required
                           autocomplete="given-name"
@@ -96,14 +119,16 @@ function StudentEdit() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="email"
+                          htmlFor="email"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Email
                         </label>
                         <input
+                          onChange={(e) => setEmail(e.target.value)}
                           type="text"
                           name="email"
+                          value={email}
                           placeholder="Enter your email"
                           id="email"
                           required
@@ -113,17 +138,18 @@ function StudentEdit() {
                       </div>
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="school-id"
+                          htmlFor="school-id"
                           className="block text-sm font-medium text-gray-700"
                         >
                           School ID
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           name="school-id"
+                          value={schoolId}
                           placeholder="Enter school ID"
                           id="school-id"
-                          required
+                          disabled
                           autocomplete="family-name"
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -131,7 +157,7 @@ function StudentEdit() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="student"
+                          htmlFor="student"
                           className="block text-sm font-medium text-gray-700"
                         >
                           User Type
@@ -139,6 +165,7 @@ function StudentEdit() {
                         <input
                           type="text"
                           name="student"
+                          value={userType}
                           placeholder="Student"
                           id="student"
                           disabled
@@ -148,7 +175,7 @@ function StudentEdit() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="school-id"
+                          htmlFor="school-id"
                           className="block text-sm font-medium text-gray-700"
                         >
                           profile image
@@ -163,14 +190,16 @@ function StudentEdit() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          for="countr"
+                          htmlFor="countr"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Gender
                         </label>
                         <input
+                          onChange={(e) => setGender(e.target.value)}
                           type="text"
                           name="school-id"
+                          value={gender}
                           placeholder="Enter gender"
                           id="school-id"
                           required
@@ -178,18 +207,15 @@ function StudentEdit() {
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
-
-
-                     
                     </div>
 
                     <div className="px-4 py-3 bg-white text-right sm:px-6">
-                      <button
-                        type="submit"
+                      <Link
+                        to="/admin/dashboard"
                         className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring-gray-500   text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500"
                       >
                         Cancel
-                      </button>
+                      </Link>
                       <button
                         type="submit"
                         className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-indigo-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
@@ -207,6 +233,7 @@ function StudentEdit() {
                 <div className=""></div>
               </div>
             </div>
+            <ToastContainer />
           </div>
         </div>
       </div>

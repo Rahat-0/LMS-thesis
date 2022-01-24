@@ -23,12 +23,21 @@ adStudent.get("/", async (req, res)=>{
  
 
 adStudent.put("/", async (req, res)=>{
-    const email = undefined
+    const {name, email, schoolId, gender} = req.body;
 
     try{
-        await schema.updateOne({schoolId : 200},{ $set : {name : "someting", email}})
+        await schema.updateOne({schoolId},{ $set : {name, email , gender}})
         .then((result)=>{
-            res.json(result)
+            if(result.modifiedCount === 1)
+            {
+                res.json({message : "update success!"})
+            }else if(result.matchedCount === 1 && result.modifiedCount === 0){
+                res.json({warn : "nothing changeses yet"})
+            } else{
+                res.json({error : "update fail!"})
+            }
+           
+           
         })
         .catch(err => res.json(err + " error here"))
 

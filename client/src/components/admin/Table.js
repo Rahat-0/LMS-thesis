@@ -10,7 +10,6 @@ const Table = (props) => {
 
   const [ ,setupdate] = useContext(Update)
 
-
   const filterdData = data.filter((value) => {
     if (value.schoolId) {
       if (search === "") {
@@ -30,7 +29,7 @@ const Table = (props) => {
         value.title.toLowerCase().includes(search.toLowerCase()) ||
         value.year.toString().includes(search)
       ) {
-        return value;
+       return value;
       }
     }
   });
