@@ -4,6 +4,7 @@ import AdDashboard from "../admin/AdDashboard";
 import Admin from "../admin/Admin";
 import BookList from "../admin/BookList";
 import LibrarianList from "../admin/LibrarianList";
+import StudentAdd from "../admin/StudentAdd";
 import StudentEdit from "../admin/StudentEdit";
 import StudentList from "../admin/studentList";
 import Home from "../home/Home";
@@ -20,19 +21,23 @@ function Routers() {
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Signup />} />
-        <Route path="/admin/*" element={<Admin />}>
-          <Route path="dashboard/*" element={<AdDashboard />} />
+        <Route path="admin/*" element={<Admin />}>
+          <Route path="dashboard" element={<AdDashboard />} />
 
           {/* admin component student's route */}
-          <Route path="studentlist/*" element={<StudentList />} />
-          <Route path="studentedit/*" element={<StudentEdit />} />
+          <Route path="studentlist/" element={<StudentList />} />
+          <Route path="studentedit/" element={<StudentEdit />} />
+          <Route path="studentadd/"  element={<StudentAdd />} />
 
           {/* admin component librarian's route */}
-          <Route path="librarianlist/*" element={<LibrarianList />} />
+          <Route path="librarianlist/" element={<LibrarianList />} />
 
           {/* admin component book's route */}
-          <Route path="booklist/*" element={<BookList />} />
+          <Route path="booklist/" element={<BookList />} />
         </Route>
+
+        {/* this route will be use for productions */}
+        {/* <Route path="*" element={<Home />} /> */}
       </Routes>
     </Router>
   );

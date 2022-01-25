@@ -12,8 +12,20 @@ function Admin() {
 
   useEffect(() => {
     const key = Cookies.get("auth");
-    const data = jwt(key);
-    if (data.userType !== "admin") navigate("/");
+
+
+    if(key.length > 10){
+      const data = jwt(key);
+      if (data.userType !== "admin") {
+        navigate("/")
+      }
+    }else{
+      navigate('/login')
+    }
+
+   
+    
+    
   }, []);
 
   return (

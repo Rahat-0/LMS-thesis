@@ -1,4 +1,5 @@
 const schema = require('../../models/userSchema')
+const userValidation = require('../../middlewares/userValidation')
 const adStudent = require('express').Router()
 
 adStudent.get("/", async (req, res)=>{
@@ -74,7 +75,6 @@ adStudent.post("/", async (req, res)=>{
          console.log(err)
      }
 })
-
 
 adStudent.delete("/", (req, res)=>{
     res.send("admin with student list router delete")
