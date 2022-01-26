@@ -56,11 +56,11 @@ adStudent.put("/", async (req, res)=>{
 })
 
 adStudent.post("/", async (req, res)=>{
-    const {update} = req.body;
-    console.log(update)
+    const {schoolId} = req.body;
+    console.log(schoolId)
     
     try{
-        await schema.find({ schoolId : update || undefined })
+        await schema.find({schoolId})
          .then((result)=>{
              const {name, email, schoolId, gender, userType} = result[0];
             res.json({name, email, schoolId, gender, userType})

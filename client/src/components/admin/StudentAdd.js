@@ -91,7 +91,7 @@ function StudentAdd() {
                     <div className="grid grid-cols-6 gap-6">
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="first-name"
+                          htmlFor="name"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Full Name
@@ -99,12 +99,11 @@ function StudentAdd() {
                         <input
                           onChange={(e) => setName(e.target.value)}
                           type="text"
-                          name="first-name"
+                      
                           placeholder="Enter your name"
                           value={name}
-                          id="first-name"
+                          id="name"
                           required
-                          autocomplete="given-name"
                           className="mt-1 outline-none p-1  border-b  block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -119,12 +118,10 @@ function StudentAdd() {
                         <input
                           onChange={(e) => setEmail(e.target.value)}
                           type="text"
-                          name="email"
                           value={email}
                           placeholder="Enter your email"
                           id="email"
                           required
-                          autocomplete="email"
                           className="mt-1 border-b focus:ring-indigo-500  outline-none p-1  focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -138,7 +135,6 @@ function StudentAdd() {
                         <input
                           onChange={(e) => setSchoolId(e.target.value)}
                           type="number"
-                          name="school-id"
                           value={schoolId}
                           placeholder="Enter school ID"
                           id="school-id"
@@ -156,7 +152,6 @@ function StudentAdd() {
                         </label>
                         <input
                           type="text"
-                          name="student"
                           value="student"
                           placeholder="Student"
                           id="student"
@@ -167,22 +162,22 @@ function StudentAdd() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="school-id"
+                          htmlFor="image"
                           className="block text-sm font-medium text-gray-700"
                         >
                           profile image
                         </label>
                         <input
                           type="file"
-                          name="school-id"
-                          id="school-id"
+                          
+                          id="image"
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="countr"
+                          htmlFor="gender"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Gender
@@ -190,10 +185,10 @@ function StudentAdd() {
                         <input
                           onChange={(e) => setGender(e.target.value)}
                           type="text"
-                          name="school-id"
+                          
                           value={gender}
                           placeholder="Enter gender (male or female)"
-                          id="school-id"
+                          id="gender"
                           required
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -214,7 +209,6 @@ function StudentAdd() {
                           placeholder="Enter Password"
                           id="password"
                           required
-                          autocomplete="family-name"
                           className={`${
                             error ? "bg-red-200 " : ""
                           } mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
@@ -238,7 +232,6 @@ function StudentAdd() {
                           placeholder="Enter Confirm Password"
                           id="conPassword"
                           required
-                          autocomplete="family-name"
                           className={`${
                             error ? "bg-red-200 " : ""
                           } mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}

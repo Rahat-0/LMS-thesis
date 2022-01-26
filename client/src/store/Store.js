@@ -1,18 +1,18 @@
 import {createContext, useState} from 'react'
 
 export const Menubar = createContext('')
-export const Update = createContext('')
+export const Stuidentity = createContext('')
 
 const Store = ({children}) =>{
     const [visible, setVisible] = useState(true)
 
-    const [update, setupdate] = useState('')
+    const [StuID, setStuID] = useState('')
 
     return(
         <Menubar.Provider value={[visible, setVisible]}>
-            <Update.Provider value={[update, setupdate]} >
+            <Stuidentity.Provider value={[StuID, setStuID]} >
             {children}
-            </Update.Provider>
+            </Stuidentity.Provider>
         </Menubar.Provider>
     )
 }

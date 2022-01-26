@@ -7,6 +7,7 @@ import LibrarianList from "../admin/LibrarianList";
 import StudentAdd from "../admin/StudentAdd";
 import StudentEdit from "../admin/StudentEdit";
 import StudentList from "../admin/studentList";
+import StudentView from "../admin/StudentView";
 import Home from "../home/Home";
 import Navber from "../home/Navber";
 import Login from "../login/Login";
@@ -28,6 +29,7 @@ function Routers() {
           <Route path="studentlist/" element={<StudentList />} />
           <Route path="studentedit/" element={<StudentEdit />} />
           <Route path="studentadd/"  element={<StudentAdd />} />
+          <Route path="studentview/" element={<StudentView />} />
 
           {/* admin component librarian's route */}
           <Route path="librarianlist/" element={<LibrarianList />} />

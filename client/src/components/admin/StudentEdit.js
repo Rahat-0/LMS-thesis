@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar, Update } from "../../store/Store";
+import { Menubar, Stuidentity } from "../../store/Store";
 
 function StudentEdit() {
   const [visible] = useContext(Menubar);
-  const [update] = useContext(Update);
+  const [StuID] = useContext(Stuidentity);
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -22,14 +22,14 @@ function StudentEdit() {
 
   useEffect(() => {
     axios
-      .post("/api/admin/students", { update }, { headers: { auth: key } })
+      .post("/api/admin/students", { schoolId : StuID }, { headers: { auth: key } })
       .then((result) => {
         setName(result.data.name);
         setEmail(result.data.email);
         setSchoolId(result.data.schoolId);
         setGender(result.data.gender);
         setUserType(result.data.userType);
-
+       
         setLoading(false);
       })
       .catch((err) => console.log(err));
@@ -99,7 +99,7 @@ function StudentEdit() {
                     <div className="grid grid-cols-6 gap-6">
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="first-name"
+                          htmlFor="name"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Full Name
@@ -110,9 +110,9 @@ function StudentEdit() {
                           name="first-name"
                           placeholder="Enter your name"
                           value={name}
-                          id="first-name"
+                          id="name"
                           required
-                          autocomplete="given-name"
+                          
                           className="mt-1 outline-none p-1  border-b  block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -132,7 +132,7 @@ function StudentEdit() {
                           placeholder="Enter your email"
                           id="email"
                           required
-                          autocomplete="email"
+                          
                           className="mt-1 border-b focus:ring-indigo-500  outline-none p-1  focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -150,7 +150,7 @@ function StudentEdit() {
                           placeholder="Enter school ID"
                           id="school-id"
                           disabled
-                          autocomplete="family-name"
+                          
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -175,22 +175,21 @@ function StudentEdit() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="school-id"
+                          htmlFor="image"
                           className="block text-sm font-medium text-gray-700"
                         >
                           profile image
                         </label>
                         <input
                           type="file"
-                          name="school-id"
-                          id="school-id"
+                          id="image"
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="countr"
+                          htmlFor="gender"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Gender
@@ -198,12 +197,11 @@ function StudentEdit() {
                         <input
                           onChange={(e) => setGender(e.target.value)}
                           type="text"
-                          name="school-id"
                           value={gender}
                           placeholder="Enter gender"
-                          id="school-id"
+                          id="gender"
                           required
-                          autocomplete="family-name"
+                          
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div> 
