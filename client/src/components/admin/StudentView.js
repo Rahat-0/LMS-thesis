@@ -1,66 +1,32 @@
 import { useEffect, useState, useContext } from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar, Stuidentity } from "../../store/Store";
+import { Menubar, SchoolID } from "../../store/Store";
 
 function StudentView() {
   const [visible] = useContext(Menubar);
-  const [StuID] = useContext(Stuidentity);
+  const [sclId] = useContext(SchoolID);
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [schoolId, setSchoolId] = useState("");
-  const [gender, setGender] = useState("");
-  const [userType, setUserType] = useState("");
-
+  const [data, setData] = useState([]);
   const key = Cookies.get("auth");
 
   useEffect(() => {
     axios
-      .post("/api/admin/students", { StuID }, { headers: { auth: key } })
+      .post(
+        "/api/admin/students/view",
+        { schoolId: sclId },
+        { headers: { auth: key } }
+      )
       .then((result) => {
-        setName(result.data.name);
-        setEmail(result.data.email);
-        setSchoolId(result.data.schoolId);
-        setGender(result.data.gender);
-        setUserType(result.data.userType);
-
+        setData(result.data);
         setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    await axios
-      .put(
-        "/api/admin/students",
-        { name, email, schoolId, gender },
-        { headers: { auth: key } }
-      )
-      .then((result) => {
-        if (result.data.error) {
-          toast.error(result.data.error, { position: "bottom-left" });
-        } else if (result.data.warn) {
-          toast.warning(result.data.warn, { position: "bottom-left" });
-        } else if (result.data.message) {
-          toast.success(result.data.message, { position: "bottom-left" });
-        } else {
-          toast.error("someting is wrong!", { position: "bottom-left" });
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log("custom error here" + err);
-        setError(err);
-      });
-  };
-
 
   const routes = "Student View";
 
@@ -83,10 +49,63 @@ function StudentView() {
       </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            Student View
-          
-            <ToastContainer />
-         
+          <div>
+            <span className="text-2xl block py-2">About Me</span>
+            <div className="flex space-x-4">
+              <div>
+                <img className="bg-red-400 w-52 h-52" src="" alt="profile" />
+              </div>
+              <table className="text-left text-lg">
+                <tr className="">
+                  <th>Full Name :</th> <td className="m px-3">{data.name}</td>
+                </tr>
+                <tr className="">
+                  <th>School ID :</th>{" "}
+                  <td className="m px-3">{data.schoolId}</td>
+                </tr>
+                <tr className="">
+                  <th>Mobile :</th> <td className="m px-3">012313421231</td>
+                </tr>
+                <tr className="">
+                  <th>Email :</th> <td className="m px-3">{data.email}</td>
+                </tr>
+                <tr className="">
+                  <th>Gender :</th> <td className="m px-3">{data.gender}</td>
+                </tr>
+              </table>
+            </div>
+            <p className="py-4">
+              Hello I am Daisy Parks. Lorem Ipsum is simply dummy text of the
+              printing and typesetting industry, simply dummy text of the
+              printing and typesetting industry.
+            </p>
+
+            <div>
+              <p className="text-center font-bold text-xl uppercase pb-3">
+                Book Resurved
+              </p>
+              <table className="w-full">
+                <tr className="border">
+                  <th> ID </th>
+                  <th>Title </th>
+                  <th> Author </th>
+                </tr>
+                {data.book ? (
+                  data.book.map((result) => (
+                    <tr>
+                      <td className="text-center border">{result.bookId}</td>
+                      <td className="text-center border">{result.title}</td>
+                      <td className="text-center border">{result.author}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <p className="text-center">nothing book yet</p>
+                )}
+              </table>
+            </div>
+          </div>
+
+          <ToastContainer />
         </div>
       </div>
     </div>

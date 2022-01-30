@@ -39,7 +39,7 @@ function StudentAdd() {
         if (result.data.vError) {
           toast.error(result.data.vError, {position  : "bottom-left"});
         } else if (result.status === 201) {
-          toast.success("submition successfull!", {position : "bottom-left"});
+          toast.success("student create success!", {position : "bottom-left"});
           
         } else {
           console.log(result);

@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar, Stuidentity } from "../../store/Store";
+import { Menubar, SchoolID } from "../../store/Store";
 
 function StudentEdit() {
   const [visible] = useContext(Menubar);
-  const [StuID] = useContext(Stuidentity);
+  const [sclId] = useContext(SchoolID);
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ function StudentEdit() {
 
   useEffect(() => {
     axios
-      .post("/api/admin/students", { schoolId : StuID }, { headers: { auth: key } })
+      .post("/api/admin/students", { schoolId : sclId }, { headers: { auth: key } })
       .then((result) => {
         setName(result.data.name);
         setEmail(result.data.email);

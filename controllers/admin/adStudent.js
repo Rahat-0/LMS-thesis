@@ -21,7 +21,27 @@ adStudent.get("/", async (req, res)=>{
     }
 
 })
+
+adStudent.post("/view", async (req, res)=>{
+    const {schoolId} = req.body;
+    try{
+        await schema.findOne({schoolId})
+         .populate('book', ('title author bookId'))
+         .exec((err, result)=>{
+            if(result){
+                const {schoolId, name, email, book, gender} = result;
+                res.json({schoolId, name, email, book, gender})
+            }else{
+                res.send(err)
+            }
+         })
  
+     }catch(err){
+         res.send(err)
+         console.log(err)
+     }
+     
+})
 
 adStudent.put("/", async (req, res)=>{
     const {name, email, schoolId, gender} = req.body;

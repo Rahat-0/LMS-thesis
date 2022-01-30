@@ -1,6 +1,6 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Stuidentity } from "../../store/Store";
+import { SchoolID } from "../../store/Store";
 
 const Table = (props) => {
   const [data, loading] = props.data;
@@ -8,10 +8,9 @@ const Table = (props) => {
   const { visible, error, routes } = props;
   const [search, setSearch] = React.useState("");
 
-  const [ ,setStuID] = useContext(Stuidentity)
+  const [, setSclId] = useContext(SchoolID);
 
   const filterdData = data.filter((value) => {
-    
     if (value.name) {
       if (search === "") {
         return value;
@@ -30,7 +29,7 @@ const Table = (props) => {
         value.title.toLowerCase().includes(search.toLowerCase()) ||
         value.year.toString().includes(search)
       ) {
-       return value;
+        return value;
       }
     }
   });
@@ -112,25 +111,30 @@ const Table = (props) => {
                   ""
                 )}
                 {filterdData.map((data) => (
-                  <tr key={data.email || data.bookId}>
+                  <tr className="hover:bg-green-100" key={data.email || data.bookId}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded-full"
-                            src={data.image}
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {data.name || data.bookId}
+                      <Link
+                        to="/admin/studentview"
+                        onClick={() => setSclId(data.schoolId)}
+                      >
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10">
+                            <img
+                              className="h-10 w-10 rounded-full"
+                              src={data.image}
+                              alt=""
+                            />
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {data.email}
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">
+                              {data.name || data.bookId}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {data.email}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
@@ -147,7 +151,7 @@ const Table = (props) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
-                        onClick={()=> setStuID(data.schoolId)}
+                        onClick={() => setSclId(data.schoolId)}
                         to="/admin/studentedit"
                         className="text-indigo-600 hover:text-indigo-900"
                       >
