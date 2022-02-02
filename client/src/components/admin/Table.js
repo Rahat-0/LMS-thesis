@@ -10,7 +10,7 @@ const Table = (props) => {
 
   const [, setSclId] = useContext(SchoolID);
 
-  const filterdData = data.filter((value) => {
+  const filterdData = data.filter((value)=>{
     if (value.name) {
       if (search === "") {
         return value;
@@ -121,7 +121,7 @@ const Table = (props) => {
                           <div className="flex-shrink-0 h-10 w-10">
                             <img
                               className="h-10 w-10 rounded-full"
-                              src={data.image}
+                              src={`../image/${data.profileImage || data.image}`}
                               alt=""
                             />
                           </div>

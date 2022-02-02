@@ -17,7 +17,8 @@ function StudentEdit() {
   const [schoolId, setSchoolId] = useState("");
   const [gender, setGender] = useState("");
   const [userType, setUserType] = useState("");
-
+  const [preimg, setPreimg] = useState("");
+  const [proImage, setProImage] = useState();
   const key = Cookies.get("auth");
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function StudentEdit() {
         setSchoolId(result.data.schoolId);
         setGender(result.data.gender);
         setUserType(result.data.userType);
-       
+        setPreimg(result.data.profileImage)
         setLoading(false);
       })
       .catch((err) => console.log(err));
@@ -37,13 +38,21 @@ function StudentEdit() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+      formData.append('name',name)
+      formData.append('email',email)
+      formData.append('schoolId',schoolId)
+      formData.append('gender',gender)
+      formData.append('pre', preimg)
+      formData.append('profileImage',proImage)
     await axios
       .put(
         "/api/admin/students",
-        { name, email, schoolId, gender },
-        { headers: { auth: key } }
+        formData,
+        { headers: { auth: key , enctype: "multipart/form-data"} }
       )
       .then((result) => {
+        console.log(result.data)
         if (result.data.error) {
           toast.error(result.data.error, { position: "bottom-left" });
         } else if (result.data.warn) {
@@ -181,6 +190,8 @@ function StudentEdit() {
                           profile image
                         </label>
                         <input
+                          onChange={(e)=> setProImage(e.target.files[0])}
+                          name = 'profileImage'
                           type="file"
                           id="image"
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"

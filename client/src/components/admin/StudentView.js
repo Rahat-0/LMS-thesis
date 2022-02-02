@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar, SchoolID } from "../../store/Store";
@@ -9,23 +8,27 @@ function StudentView() {
   const [visible] = useContext(Menubar);
   const [sclId] = useContext(SchoolID);
 
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState('');
+  const [paths, setPath] = useState('');
   const key = Cookies.get("auth");
 
+  
   useEffect(() => {
     axios
       .post(
         "/api/admin/students/view",
         { schoolId: sclId },
-        { headers: { auth: key } }
+        { headers: { auth: key} }
       )
       .then((result) => {
+        console.log(result)
         setData(result.data);
         setLoading(false);
+       
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log('student view error here' + err));
   }, []);
 
   const routes = "Student View";
@@ -53,11 +56,13 @@ function StudentView() {
             <span className="text-2xl block py-2">About Me</span>
             <div className="flex space-x-4">
               <div>
-                <img className="bg-red-400 w-52 h-52" src="" alt="profile" />
+                <div className= 'relative w-52 h-52'>
+                  <img className="bg-red-400 absolute w-auto h-52" src={`../image/${data.profileImage}`} alt="profile" />
+                </div>
               </div>
               <table className="text-left text-lg">
                 <tr className="">
-                  <th>Full Name :</th> <td className="m px-3">{data.name}</td>
+                  <th>Full Name :</th> <td className="m px-3">{data.name} </td>
                 </tr>
                 <tr className="">
                   <th>School ID :</th>{" "}

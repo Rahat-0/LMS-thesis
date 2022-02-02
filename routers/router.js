@@ -13,7 +13,7 @@ const book = require("../controllers/book");
 const router = express.Router();
 
 //test route
-router.get("/test", test);
+router.use("/test", test);
 
 // public api
 router.post("/signup", userValidation, signup);

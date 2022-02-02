@@ -16,6 +16,7 @@ function classNames(...classes) {
 const Navber = () => {
   const [valid, setvalid] = useState(false);
   const [admin, setadmin] = useState(false);
+  const [profile, setprofile] = useState('');
 
   // context api calling for login validation
   // const [isValid]= useContext(isLogins)
@@ -27,9 +28,11 @@ const Navber = () => {
 
   useEffect(() => {
     if (key) {
-      const { name, userType } = jwt(key);
-      if (name) {
+      const { name, userType, profile } = jwt(key);
+      
+      if (name || profile) {
         setvalid(name);
+        setprofile(profile)
       }
       if (name && userType === "admin") {
         setadmin(true);
@@ -90,7 +93,7 @@ const Navber = () => {
                   />
                 </div>
                 <span className="hidden lg:block h-8 pl-3 pt-2 uppercase text-gray-100">
-                  nuist library management system
+                  library management system
                 </span>
 
                 {admin ? (
@@ -152,7 +155,7 @@ const Navber = () => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src={`image/${profile}`}
                             alt=""
                           />
                         </Menu.Button>

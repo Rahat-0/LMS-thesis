@@ -11,7 +11,7 @@ const Auth = async (req, res, next) =>{
         req.userType = userType
         next()
     }catch(err){
-      return  res.json( err + 'unauthorized token')
+      return  res.json('unauthorized person, Access Denied')
     }
     
     

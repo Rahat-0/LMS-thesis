@@ -10,7 +10,7 @@ const login = async (req, res) => {
       .then(async (data) => {
         const isvalid = await bcrypt.compare(password, data.password);
         const auth = jwt.sign(
-          { _id: data._id, userType: data.userType, schoolId: data.schoolId, name : data.name },
+          { _id: data._id, userType: data.userType, schoolId: data.schoolId, name : data.name, profile : data.profileImage },
           process.env.JWT_SECRET
         );
         if (isvalid) {

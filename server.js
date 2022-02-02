@@ -9,8 +9,10 @@ const env = require("dotenv");
 env.config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-const port = process.env.PORT || 2000;
 app.use(cors());
+app.use(express.static("public"));
+
+const port = process.env.PORT || 2000;
 
 //router define here
 app.use("/api", router);

@@ -5,7 +5,7 @@ const bookschema = mongoose.Schema({
   title: {type : String, required : true},
   author: String,
   year: Number,
-  image : String,
+  image : {type : String, default : 'defaultBook.png'},
   about : String,
   student : { type : mongoose.Types.ObjectId, ref:'user' },
   issueDate: { type : Date, default: Date.now() },
