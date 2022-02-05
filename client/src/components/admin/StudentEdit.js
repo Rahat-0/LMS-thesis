@@ -9,7 +9,7 @@ function StudentEdit() {
   const [visible] = useContext(Menubar);
   const [sclId] = useContext(SchoolID);
 
-  const [error, setError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [name, setName] = useState("");
@@ -35,6 +35,17 @@ function StudentEdit() {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const preImage = () =>{
+    console.log("preImage calling")
+    axios
+      .post("/api/admin/students", { schoolId : sclId }, { headers: { auth: key } })
+      .then((result) => {
+        setPreimg(result.data.profileImage)
+      })
+      .catch((err) => console.log(err));
+  }
+  
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -66,8 +77,12 @@ function StudentEdit() {
       })
       .catch((err) => {
         console.log("custom error here" + err);
-        setError(err);
       });
+      setSubmitting(true)
+      setTimeout(() => {
+        setSubmitting(false)
+      }, 1500);
+      preImage()
   };
 
 
@@ -102,7 +117,7 @@ function StudentEdit() {
             <div className="flex flex-col text-center w-full mb-1"></div>
 
             <div className="mt-10 md:mt-0 md:col-span-2">
-              <form onSubmit={handleUpdate}>
+              <form onSubmit={handleUpdate} method="get">
                 <div className="shadow overflow-hidden sm:rounded-md">
                   <div className="px-2 py-8 bg-white sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
@@ -116,7 +131,7 @@ function StudentEdit() {
                         <input
                           onChange={(e) => setName(e.target.value)}
                           type="text"
-                          name="first-name"
+                          name="name"
                           placeholder="Enter your name"
                           value={name}
                           id="name"
@@ -225,12 +240,26 @@ function StudentEdit() {
                       >
                         Cancel
                       </Link>
+                      {submitting ? 
                       <button
-                        type="submit"
-                        className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-indigo-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
-                      >
-                        Update
-                      </button>
+                      type="submit"
+                      className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-indigo-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
+                      disabled
+                    >
+                      Updating...
+                    </button>
+                    :
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-indigo-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
+                          
+                        >
+                          Update
+                        </button>
+                    
+                    }
+                        
+                        
                     </div>
                   </div>
                 </div>

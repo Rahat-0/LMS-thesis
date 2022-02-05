@@ -54,10 +54,10 @@ function StudentView() {
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div>
             <span className="text-2xl block py-2">About Me</span>
-            <div className="flex space-x-4">
+            <div className="  space-x-4 flex flex-col md:flex-row md:justify-start justify-center space-y-3 ">
               <div>
-                <div className= 'relative w-52 h-52'>
-                  <img className="bg-red-400 absolute w-auto h-52" src={`../image/${data.profileImage}`} alt="profile" />
+                <div className= ' w-full text-center h-full md:w-52 md:h-52'>
+                  <img className="bg-red-400  w-auto h-auto md:h-52 " src={`../image/${data.profileImage}`} alt="profile" />
                 </div>
               </div>
               <table className="text-left text-lg">
@@ -85,7 +85,7 @@ function StudentView() {
               printing and typesetting industry.
             </p>
 
-            <div>
+            <div className="bg-gray-100">
               <p className="text-center font-bold text-xl uppercase pb-3">
                 Book Resurved
               </p>
@@ -97,7 +97,7 @@ function StudentView() {
                 </tr>
                 {data.book ? (
                   data.book.map((result) => (
-                    <tr>
+                    <tr className="text-gray-600">
                       <td className="text-center border">{result.bookId}</td>
                       <td className="text-center border">{result.title}</td>
                       <td className="text-center border">{result.author}</td>
@@ -107,6 +107,10 @@ function StudentView() {
                   <p className="text-center">nothing book yet</p>
                 )}
               </table>
+            </div>
+            <div className="flex justify-end my-5 space-x-8">
+              <input type='button' value="delete" className="bg-red-300 p-2 rounded-md w-32 focus:border-red-400 border-4 cursor-pointer" />
+              <input type='button' value="deactivate" className="bg-yellow-300 p-2 rounded-md w-32 focus:border-yellow-400 border-4 cursor-pointer" />
             </div>
           </div>
 

@@ -8,6 +8,8 @@ const userschema = mongoose.Schema({
   password: { type: String, required: true },
   profileImage: { type: String, default : "default.png" },
   book: [{ type: mongoose.Types.ObjectId, ref: "book" }],
+  status : {type : String, enum : ['active', 'deactive'], default : 'active'},
+  about :{ type : String},
   userType: {
     type: String,
     enum: ["student", "librarian", "admin"],
