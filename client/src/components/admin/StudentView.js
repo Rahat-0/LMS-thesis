@@ -10,25 +10,23 @@ function StudentView() {
 
   // const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState('');
-  const [paths, setPath] = useState('');
+  const [data, setData] = useState("");
+  const [paths, setPath] = useState("");
   const key = Cookies.get("auth");
 
-  
   useEffect(() => {
     axios
       .post(
         "/api/admin/students/view",
         { schoolId: sclId },
-        { headers: { auth: key} }
+        { headers: { auth: key } }
       )
       .then((result) => {
-        console.log(result)
+        console.log(result);
         setData(result.data);
         setLoading(false);
-       
       })
-      .catch((err) => console.log('student view error here' + err));
+      .catch((err) => console.log("student view error here" + err));
   }, []);
 
   const routes = "Student View";
@@ -43,6 +41,31 @@ function StudentView() {
         {" "}
         loading...{" "}
       </div>
+      <div
+        className={` text-center flex justify-center items-center opacity-90 `}
+      >
+        <div className="  fixed bg-gray-700 text-white top-1/3 rounded-2xl">
+          <div className="  w-96 h-56 flex justify-center items-center">
+            <div className="">
+              <p className="mt-20 px-2">
+                do you want to delete this account permanently!
+              </p>
+              <div className="flex justify-between mt-12">
+                <input
+                  className="text-black p-2 px-9 rounded-xl bg-gray-400 border focus:ring-2 focus:ring-gray-500 cursor-pointer"
+                  type="button"
+                  value="cancel"
+                />
+                <input
+                  className="p-2 px-9 rounded-xl bg-red-400 border focus:ring-2 focus:ring-red-500 cursor-pointer"
+                  type="button"
+                  value="delete"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
         <div>
@@ -56,8 +79,12 @@ function StudentView() {
             <span className="text-2xl block py-2">About Me</span>
             <div className="  space-x-4 flex flex-col md:flex-row md:justify-start justify-center space-y-3 ">
               <div>
-                <div className= ' w-full text-center h-full md:w-52 md:h-52'>
-                  <img className="bg-red-400  w-auto h-auto md:h-52 " src={`../image/${data.profileImage}`} alt="profile" />
+                <div className=" w-full text-center h-full md:w-52 md:h-52">
+                  <img
+                    className="bg-red-400  w-auto h-auto md:h-52 "
+                    src={`../image/${data.profileImage}`}
+                    alt="profile"
+                  />
                 </div>
               </div>
               <table className="text-left text-lg">
@@ -109,8 +136,16 @@ function StudentView() {
               </table>
             </div>
             <div className="flex justify-end my-5 space-x-8">
-              <input type='button' value="delete" className="bg-red-300 p-2 rounded-md w-32 focus:border-red-400 border-4 cursor-pointer" />
-              <input type='button' value="deactivate" className="bg-yellow-300 p-2 rounded-md w-32 focus:border-yellow-400 border-4 cursor-pointer" />
+              <input
+                type="button"
+                value="delete"
+                className="bg-red-300 p-2 rounded-md w-32 focus:border-red-400 border-4 cursor-pointer"
+              />
+              <input
+                type="button"
+                value="deactivate"
+                className="bg-yellow-300 p-2 rounded-md w-32 focus:border-yellow-400 border-4 cursor-pointer"
+              />
             </div>
           </div>
 

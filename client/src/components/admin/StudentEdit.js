@@ -49,6 +49,7 @@ function StudentEdit() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setSubmitting(true)
     const formData = new FormData();
       formData.append('name',name)
       formData.append('email',email)
@@ -74,14 +75,13 @@ function StudentEdit() {
           toast.error("someting is wrong!", { position: "bottom-left" });
         }
         setLoading(false);
+        setTimeout(() => {
+        setSubmitting(false);
+        }, 500);
       })
       .catch((err) => {
         console.log("custom error here" + err);
       });
-      setSubmitting(true)
-      setTimeout(() => {
-        setSubmitting(false)
-      }, 1500);
       preImage()
   };
 
@@ -100,6 +100,7 @@ function StudentEdit() {
       </div>
 
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
+      
         <div>
           <div className="p-2 text-3xl">{routes}</div>
           <div className="px-2 pb-2">Dashboard / {routes}</div>
@@ -243,7 +244,7 @@ function StudentEdit() {
                       {submitting ? 
                       <button
                       type="submit"
-                      className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-indigo-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
+                      className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm text-white font-medium rounded-md  ring-indigo-500  bg-gray-600 hover:bg-indigo-700 text-whitefocus:outline-none focus:ring-2  focus:ring-indigo-500"
                       disabled
                     >
                       Updating...
