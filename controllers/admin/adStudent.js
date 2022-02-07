@@ -23,6 +23,26 @@ adStudent.get("/", async (req, res)=>{
 
 })
 
+adStudent.post("/", async (req, res)=>{
+    const {schoolId} = req.body;
+    
+    try{
+        await schema.find({schoolId})
+         .then((result)=>{
+             const {name, email, schoolId, gender, userType, profileImage} = result[0];
+            res.json({name, email, schoolId, gender, userType, profileImage})
+         })
+         .catch(err =>{
+             console.log(err)
+             res.send(err)
+         })
+ 
+     }catch(err){
+         res.send(err)
+         console.log(err)
+     }
+})
+
 adStudent.post("/view", async (req, res)=>{
     const {schoolId} = req.body;
     try{
@@ -30,8 +50,8 @@ adStudent.post("/view", async (req, res)=>{
          .populate('book', ('title author bookId'))
          .exec((err, result)=>{
             if(result){
-                const {schoolId, name, email, book, gender, profileImage} = result;
-                res.json({schoolId, name, email, book, gender, profileImage })
+                const {schoolId, name, email, book, gender, profileImage, userStatus} = result;
+                res.json({schoolId, name, email, book, gender, profileImage, userStatus })
             }else{
                 res.send(err)
             }
@@ -79,28 +99,39 @@ adStudent.put("/",upload.single("profileImage"), async (req, res)=>{
     }
 })
 
-adStudent.post("/", async (req, res)=>{
-    const {schoolId} = req.body;
-    
+adStudent.put("/status", async (req, res)=>{
     try{
-        await schema.find({schoolId})
-         .then((result)=>{
-             const {name, email, schoolId, gender, userType, profileImage} = result[0];
-            res.json({name, email, schoolId, gender, userType, profileImage})
-         })
-         .catch(err =>{
-             console.log(err)
-             res.send(err)
-         })
- 
-     }catch(err){
-         res.send(err)
-         console.log(err)
-     }
+        const {schoolId, userStatus} = req.body;
+        const result =  await schema.updateOne({schoolId}, {$set : {userStatus}})
+        if(result.modifiedCount === 1){
+            res.json({message : 'status updated'})
+        }else{
+            res.json({error : 'status update fail'})
+        }
+        
+
+    }catch(err){
+        console.log(err)
+        res.json({error : "status update fail"})
+    }
 })
 
-adStudent.delete("/", (req, res)=>{
-    res.send("admin with student list router delete")
+adStudent.delete("/", async (req, res)=>{
+    
+    try{
+        const {schoolId} = req.body;
+        const data = await schema.deleteOne({schoolId})
+        if(data.deletedCount === 1){
+            res.json({message : 'delete success'})
+        }else{
+            res.json({message : 'delete fail!'})
+        }
+        
+
+    }catch(err){
+        console.log(err.message)
+        res.json(err.message)
+    }
 })
 
 

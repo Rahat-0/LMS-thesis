@@ -236,7 +236,7 @@ function StudentEdit() {
 
                     <div className="px-4 py-3 bg-white text-right sm:px-6">
                       <Link
-                        to="/admin/dashboard"
+                        to="/admin/studentview"
                         className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring-gray-500   text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500"
                       >
                         Cancel
