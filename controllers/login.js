@@ -11,10 +11,14 @@ const login = async (req, res) => {
         const isvalid = await bcrypt.compare(password, data.password);
         const auth = jwt.sign(
           { _id: data._id, userType: data.userType, schoolId: data.schoolId, name : data.name, profile : data.profileImage },
-          process.env.JWT_SECRET
-        );
-        if (isvalid) {
-          res.json({ validation: true , token : auth});
+          process.env.JWT_SECRET, {expiresIn : '7d'}
+        )
+        
+        if (isvalid && data.userStatus === 'active') {
+          res.json({ validation: true , token : 'bearer '+ auth });
+        }
+        else if(isvalid && data.userStatus !== 'active'){
+          res.json({ error: "your account has been deactivated!" });
         } else {
           res.json({ error: "incorrect school ID or password!" });
         }

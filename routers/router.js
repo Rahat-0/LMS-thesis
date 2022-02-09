@@ -7,9 +7,9 @@ const adminAuth = require("../middlewares/adminAuth");
 const librarianAuth = require("../middlewares/librarianAuth");
 const userValidation = require("../middlewares/userValidation");
 const admin = require("../controllers/admin/admin");
-const librarian = require("../controllers/librarian");
-const student = require("../controllers/student");
-const book = require("../controllers/book");
+const librarian = require("../controllers/librarian/librarian");
+const student = require("../controllers/student/student");
+const book = require("../controllers/book/book");
 const router = express.Router();
 
 //test route
@@ -32,7 +32,6 @@ router.use("/admin", Auth, adminAuth, admin);
 router.use("/librarian", Auth, librarianAuth, librarian);
 
 
-
 //route protected using checkinAuth middleware
 router.get("/mainhome", Auth, (req, res) => {
   const type = req.userType;
@@ -40,10 +39,10 @@ router.get("/mainhome", Auth, (req, res) => {
 });
 
 //error handler
-router.use((err, req, res, next)=>{
-  if(err){
-    console.log('custom' + err)
-    res.json('custom server site error here' + err )
+router.use((error, req, res, next)=>{
+  if(error){
+    console.log(error)
+    res.json('custom server site error here' + {error} )
   }
  next()
 })

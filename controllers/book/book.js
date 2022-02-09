@@ -1,6 +1,6 @@
 const book = require("express").Router();
-const bookValidation = require("../middlewares/bookValidation");
-const bookSchema = require("../models/bookSchema");
+const bookValidation = require("../../middlewares/bookValidation");
+const bookSchema = require("../../models/bookSchema");
 
 book.post("/", bookValidation, async (req, res) => {
   try {

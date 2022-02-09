@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 const Auth = async (req, res, next) =>{
     try{
         const {auth} = req.headers;
-        const decoded = jwt.verify(auth, process.env.JWT_SECRET)
+        const auths = auth.split(' ')[1]
+        const decoded = jwt.verify(auths, process.env.JWT_SECRET)
         const {_id, schoolId, userType, name} = decoded;
         req.name = name
         req._id = _id

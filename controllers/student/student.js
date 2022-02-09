@@ -1,6 +1,6 @@
 const student = require("express").Router();
-const schema = require("../models/userSchema");
-const bookschema = require("../models/bookSchema");
+const schema = require("../../models/userSchema");
+const bookschema = require("../../models/bookSchema");
 const bcrypt = require("bcrypt");
 
 student.post("/search", async (req, res) => {
