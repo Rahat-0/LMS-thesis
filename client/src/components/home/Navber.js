@@ -28,7 +28,8 @@ const Navber = () => {
 
   useEffect(() => {
     if (key) {
-      const { name, userType, profile } = jwt(key);
+      const auth = key.split(' ')[1]
+      const { name, userType, profile } = jwt(auth);
       
       if (name || profile) {
         setvalid(name);
