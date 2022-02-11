@@ -21,12 +21,17 @@ function Home() {
   ];
 
   return (
-    <div className="bg-blue-100">
+    <div className=" bg-gradient-to-tr bg-red-100">
       <div className="bg-red-400 h-16">sr only</div>
-      <Slider images={imgs} />
-      <section>
-        <Card />
-      </section>
+      <div className="md:mx-8 md:px-2">
+        <Slider images={imgs} />
+        
+          <Card />
+          <Card />
+          <Card />
+
+        
+      </div>
       <Footer />
     </div>
   );
