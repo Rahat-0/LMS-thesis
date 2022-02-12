@@ -8,6 +8,7 @@ import StudentAdd from "../admin/StudentAdd";
 import StudentEdit from "../admin/StudentEdit";
 import StudentList from "../admin/studentList";
 import StudentView from "../admin/StudentView";
+import ErrorPage from "../ErrorPage";
 import Home from "../home/Home";
 import Navber from "../home/Navber";
 import Login from "../login/Login";
@@ -41,7 +42,7 @@ function Routers() {
         
 
         {/* this route will be use for productions */}
-        {/* <Route path="*" element={<Home />} /> */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
   );

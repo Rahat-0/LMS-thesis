@@ -71,7 +71,7 @@ adStudent.put("/",upload.single("profileImage"), async (req, res)=>{
         await schema.updateOne({schoolId},{ $set : {name, email , gender, profileImage : file ? file.filename : pre}})
         .then((result)=>{
             if(file){
-                const remove = `./public/image/${pre}`
+                const remove = `./public/image/${pre === 'default.png' ? null: pre }`
                 fs.unlink(remove, (err)=>{
                     if(err){
                         console.log(err)

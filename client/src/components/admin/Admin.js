@@ -15,13 +15,13 @@ function Admin() {
       if (key.length > 10) {
         const data = jwt(key);
         if (data.userType !== "admin") {
-          navigate("/");
+          navigate("/notfound");
         }
       } else {
         navigate("/login");
       }
     } else {
-      navigate("/");
+      navigate("/notfound");
     }
   }, []);
 
