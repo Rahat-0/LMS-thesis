@@ -3,6 +3,7 @@ import image from "../../assets/img/1.jpg";
 import a from "../../assets/img/2.jpeg";
 import b from "../../assets/img/3.jpg";
 import c from "../../assets/img/4.jpg";
+import UserSetting from "../User.js/UserSetting";
 import Card from "./Card";
 import Footer from "./Footer";
 import Slider from "./Slider";
@@ -24,15 +25,16 @@ function Home() {
     <div className=" bg-gradient-to-tr bg-red-100">
       <div className="bg-red-400 h-16">sr only</div>
       <div className="md:mx-8 md:px-2">
-        <Slider images={imgs} />
+        {/* <Slider images={imgs} /> */}
         
+          {/* <Card />
           <Card />
-          <Card />
-          <Card />
+          <Card /> */}
 
         
       </div>
-      <Footer />
+      <UserSetting />
+      {/* <Footer /> */}
     </div>
   );
 }
