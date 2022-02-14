@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar, SchoolID } from "../../store/Store";
+import ComPopUpConfirm from "../common/ComPopUpConfirm";
 
 function StudentView() {
   const navigate = useNavigate()
@@ -66,43 +67,7 @@ function StudentView() {
         {" "}
         loading...{" "}
       </div>
-      <div
-        className={`${deletes || deactivate ? "block" : "hidden"} text-center flex justify-center items-center opacity-90 `}
-      >
-        <div className="  fixed bg-gray-200 shadow-2xl top-1/3 rounded-2xl">
-          <div className="  w-96 h-56 flex justify-center items-center">
-            <div className="font-bold">
-              <p className="mt-20 px-2">
-               {deletes ?  'do you want to delete this account ?' : `do you want to ${data.userStatus === 'active' ? "deactive" : "active"} this account?`}
-              </p>
-              <div className="flex justify-between mt-12">
-                <input
-                  className="text-black p-2 px-9 rounded-xl bg-gray-400 border focus:ring-2 focus:ring-gray-500 cursor-pointer"
-                  onClick={()=> setDelete(false) || setDeactivate(false)}
-                  type="button"
-                  value="cancel"
-                /> 
-                {deletes ? 
-                <input
-                className={` p-2 px-9 rounded-xl bg-red-400 border focus:ring-2 focus:ring-red-500 cursor-pointer`}
-                onClick={deleteHandler}
-                type="button"
-                value="delete"
-              /> 
-              :
-              
-                <input
-                  className={` p-2 px-9 rounded-xl bg-yellow-400 border focus:ring-2 focus:yellow-red-500 cursor-pointer`}
-                  onClick={activeHandler}
-                  type="button"
-                  value={`${data.userStatus === 'active' ? "deactive" : "active"}`}
-                />
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
         <div>
@@ -113,12 +78,12 @@ function StudentView() {
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div>
-            <span className="text-2xl block py-2">About Me</span>
+            <span className="text-2xl block py-2">About {data.name} </span>
             <div className="  space-x-4 flex flex-col md:flex-row md:justify-start justify-center space-y-3 ">
               <div>
                 <div className=" w-full text-center h-full md:w-52 md:h-52">
                   <img
-                    className="bg-red-400  w-auto h-auto md:h-52 "
+                    className="bg-red-400  w-auto h-auto md:h-52 object-contain bg-cover "
                     src={`../image/${data.profileImage}`}
                     alt="profile"
                   />
@@ -196,6 +161,7 @@ function StudentView() {
             </div>
           </div>
 
+          <ComPopUpConfirm deleted={deleteHandler} deactived={activeHandler} states={[deletes, setDelete, deactivate, setDeactivate, data]} />
           <ToastContainer />
         </div>
       </div>

@@ -13,6 +13,7 @@ import Home from "../home/Home";
 import Navber from "../home/Navber";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
+import UserSetting from "../User.js/UserSetting";
 // import AdminRoute from './AdminRoute'
 
 function Routers() {
@@ -23,6 +24,7 @@ function Routers() {
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Signup />} />
+        <Route path="setting/" element={<UserSetting />} />
         <Route path="admin/*" element={<Admin />}>
           <Route path="dashboard" element={<AdDashboard />} />
 

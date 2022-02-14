@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import jwt from "jwt-decode";
 import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -82,20 +82,22 @@ const Navber = () => {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="block lg:hidden h-10 w-auto"
-                    src={logo}
-                    alt="nuist"
-                  />
-                  <img
-                    className="hidden lg:block h-9 w-auto"
-                    src={logo}
-                    alt="nuist"
-                  />
+                  <Link to='/'>
+                    <img
+                      className="block lg:hidden h-10 w-auto"
+                      src={logo}
+                      alt="nuist"
+                    />
+                    <img
+                      className="hidden lg:block h-9 w-auto"
+                      src={logo}
+                      alt="nuist"
+                    />
+                  </Link>
                 </div>
-                <span className="hidden lg:block h-8 pl-3 pt-2 uppercase text-gray-100">
-                  library management system
-                </span>
+                <Link to='/' className="hidden lg:block h-8 pl-3 pt-2 uppercase text-gray-100">
+                  lms
+                </Link>
 
                 {admin ? (
                   <div className="hidden sm:block sm:ml-6">
@@ -174,28 +176,28 @@ const Navber = () => {
                         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="##"
+                              <Link
+                                to="/setting"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Your Profile
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="##"
+                              <Link
+                                to="/setting"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Settings
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                           <Menu.Item>
