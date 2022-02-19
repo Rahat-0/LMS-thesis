@@ -3,6 +3,13 @@ const schema = require("../../models/userSchema");
 const bookschema = require("../../models/bookSchema");
 const bcrypt = require("bcrypt");
 
+
+student.get('/:id', (req, res)=>{
+  const id = req.params['id']
+  console.log(id)
+  res.json(id)
+})
+
 student.post("/search", async (req, res) => {
   const { bookId, title, category } = req.body;
   if (bookId) {
@@ -22,11 +29,6 @@ student.post("/search", async (req, res) => {
     console.log(data);
     res.json(data);
   }
-});
-
-
-student.post("/", (req, res) => {
-  res.send("student post");
 });
 
 

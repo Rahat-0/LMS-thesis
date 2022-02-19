@@ -18,10 +18,8 @@ const port = process.env.PORT || 2000;
 app.use("/api", router);
 
 app.get("/", (req, res) => {
-  const datas = req.body;
-  console.log(datas);
   res.json({
-    message: datas,
+    message: 'welcome to node server',
   });
 });
 

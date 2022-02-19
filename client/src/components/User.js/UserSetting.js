@@ -65,21 +65,17 @@ function UserSetting() {
                 <div className='flex flex-col md:m-2 md:flex-row md:w-9/12 md:space-x-5 justify-center items-center '>
 
                     <div className='md:w-6/12'>
-                        <label className='font-bold'>First name</label>
+                        <label className='font-bold'>full name</label>
                         <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='text' />
                     </div>
                     <div className='md:w-6/12'>
-                        <label className='font-bold'>last name</label>
-                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='text' />
+                        <label className='font-bold'>schoolID</label>
+                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='number' />
                     </div>
                 </div>
                 <div className='md:w-full md:m-2'>
                         <label className='block font-bold'>email</label>
                         <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='text' />
-                </div>
-                <div className='md:w-full md:m-2'>
-                        <label className='block font-bold'>schoold ID</label>
-                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none'  type='number' />
                 </div>
 
                 <div className='md:w-full md:m-2'>

@@ -11,6 +11,7 @@ import StudentView from "../admin/StudentView";
 import ErrorPage from "../ErrorPage";
 import Home from "../home/Home";
 import Navber from "../home/Navber";
+import {Test, Case1, Case2} from "../home/Test";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
 import UserSetting from "../User.js/UserSetting";
@@ -21,18 +22,25 @@ function Routers() {
     <Router>
       <Navber />
       <Routes>
+        {/* testing route for test purpose */}
+        <Route path='test' element={<Test />} />
+        
+
+        {/* public routes */}
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Signup />} />
         <Route path="setting/" element={<UserSetting />} />
-        <Route path="admin/*" element={<Admin />}>
+
+        {/* admin route */}
+        <Route path="admin/" element={<Admin />}>
           <Route path="dashboard" element={<AdDashboard />} />
 
           {/* admin component student's route */}
           <Route path="studentlist/" element={<StudentList />} />
-          <Route path="studentedit/" element={<StudentEdit />} />
+          <Route path="studentedit/:id" element={<StudentEdit />} />
           <Route path="studentadd/"  element={<StudentAdd />} />
-          <Route path="studentview/" element={<StudentView />} />
+          <Route path="studentview/:schoolId" element={<StudentView />} />
 
           {/* admin component librarian's route */}
           <Route path="librarianlist/" element={<LibrarianList />} />
@@ -41,9 +49,7 @@ function Routers() {
           <Route path="booklist/" element={<BookList />} />
         </Route>
 
-        
-
-        {/* this route will be use for productions */}
+        {/* invalid route */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>

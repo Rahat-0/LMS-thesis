@@ -27,8 +27,6 @@ function Home() {
         <Slider images={imgs} />
         
           <Card />
-          <Card />
-          <Card />
 
         
       </div>

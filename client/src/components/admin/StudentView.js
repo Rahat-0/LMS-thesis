@@ -1,15 +1,15 @@
 import { useEffect, useState, useContext } from "react";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar, SchoolID } from "../../store/Store";
+import { Menubar } from "../../store/Store";
 import ComPopUpConfirm from "../common/ComPopUpConfirm";
 
 function StudentView() {
   const navigate = useNavigate()
+  const {schoolId} = useParams()
   const [visible] = useContext(Menubar);
-  const [sclId] = useContext(SchoolID);
 
   // const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function StudentView() {
     axios
       .post(
         "/api/admin/students/view",
-        { schoolId: sclId },
+        {schoolId },
         { headers: { auth: key } }
       )
       .then((result) => {
@@ -84,7 +84,7 @@ function StudentView() {
                 <div className=" w-full text-center h-full md:w-52 md:h-52">
                   <img
                     className="bg-red-400  w-auto h-auto md:h-52 object-contain bg-cover "
-                    src={`../image/${data.profileImage}`}
+                    src={`../../image/${data.profileImage}`}
                     alt="profile"
                   />
                 </div>
@@ -146,7 +146,7 @@ function StudentView() {
               />
 
               <input
-                onClick={()=> navigate('/admin/studentedit')}
+                onClick={()=> navigate('/admin/studentedit/'+schoolId)}
                 type="button"
                 value="edit"
                 className="bg-green-300 p-2 rounded-md w-32 focus:border-green-400 border-4 cursor-pointer"

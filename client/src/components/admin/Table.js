@@ -1,14 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { SchoolID } from "../../store/Store";
+
 
 const Table = (props) => {
   const [data, loading] = props.data;
   const [theader] = props.tableHeader;
   const { visible, error, routes } = props;
   const [search, setSearch] = React.useState("");
-
-  const [, setSclId] = useContext(SchoolID);
 
   const filterdData = data.filter((value)=>{
     
@@ -115,8 +113,7 @@ const Table = (props) => {
                   <tr className="hover:bg-green-100" key={data.email || data.bookId}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                        to="/admin/studentview"
-                        onClick={() => setSclId(data.schoolId)}
+                      to={`/admin/studentview/${data.schoolId}`}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -152,8 +149,7 @@ const Table = (props) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
-                        onClick={() => setSclId(data.schoolId)}
-                        to="/admin/studentedit"
+                        to={`/admin/studentedit/${data.schoolId}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Edit

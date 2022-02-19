@@ -1,13 +1,14 @@
 import { useEffect, useState, useContext } from "react";
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar, SchoolID } from "../../store/Store";
+import { Menubar } from "../../store/Store";
 
 function StudentEdit() {
+  const {id} = useParams()
   const [visible] = useContext(Menubar);
-  const [sclId] = useContext(SchoolID);
+  
 
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ function StudentEdit() {
 
   useEffect(() => {
     axios
-      .post("/api/admin/students", { schoolId : sclId }, { headers: { auth: key } })
+      .post("/api/admin/students", { schoolId : id }, { headers: { auth: key } })
       .then((result) => {
         setName(result.data.name);
         setEmail(result.data.email);
@@ -39,7 +40,7 @@ function StudentEdit() {
   const preImage = () =>{
     console.log("preImage calling")
     axios
-      .post("/api/admin/students", { schoolId : sclId }, { headers: { auth: key } })
+      .post("/api/admin/students", { schoolId : id }, { headers: { auth: key } })
       .then((result) => {
         setPreimg(result.data.profileImage)
       })
@@ -236,7 +237,7 @@ function StudentEdit() {
 
                     <div className="px-4 py-3 bg-white text-right sm:px-6">
                       <Link
-                        to="/admin/studentview"
+                        to={`/admin/studentview/${id}`}
                         className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring-gray-500   text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500"
                       >
                         Cancel
