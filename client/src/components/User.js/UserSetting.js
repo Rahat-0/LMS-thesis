@@ -1,12 +1,48 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
+import cookies from 'js-cookie'
+import jwt from 'jwt-decode'
+import {useNavigate} from 'react-router-dom'
+import {ToastContainer, toast} from 'react-toastify'
 import ComPopUpConfirm from '../common/ComPopUpConfirm'
 
 function UserSetting() {
+    const [data, setData] = useState('')
     const [isSetting, setIsSetting] = useState(false)
     const [deletes, setDelete] = useState(false);
     const [deactivate, setDeactivate] = useState(false);
+
+    const navigate = useNavigate()
+    const key =  cookies.get('auth')
+    const auth = key.split(' ')[1]
+    const { schoolId } = jwt(auth);
+    useEffect(() => {
+      if(key){
+        axios.get(`api/student/${schoolId}`, {headers : {auth : key }})
+        .then((result)=>{
+            console.log(result.data)
+            setData(result.data)
+        })
+        .catch(err => console.log(err))
+      }
+      
+    }, [])
+    
+
+
+
     const deactiveHandler =()=>{
-        alert('deactivated')
+        axios.put('api/student/status', {schoolId}, {headers : {auth : key}})
+        .then((result)=>{
+            if(result.data.message === 'success'){
+                navigate('/')
+                cookies.set('auth', '')
+            }else{
+                console.log(result.data)
+                toast.error('deactivation failed!')
+            }
+        })
+        .catch(err => console.log(err))
     }
     const deleteHandler =()=>{
         alert('deleted')
@@ -54,7 +90,7 @@ function UserSetting() {
             <h3 className='text-center md:text-left text-3xl p-2 bg-gray-200 md:bg-white'>Public profile</h3>
             <div className='flex flex-col md:flex-row md:w-9/12  justify-center items-center'>
                 <div className='flex justify-center w-56 h-56 m-2'>
-                    <img className=' shadow-2xl bg-cover md:w-60 object-contain text-center border-8 rounded-full' src='https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' alt='profile pictures' />
+                    <img className=' shadow-2xl bg-cover md:w-60 object-contain text-center border-8 rounded-full' src={`../image/${data.profileImage}`} alt='profile pictures' />
                 </div>
                 <div className='text-white'>
                     <button className=' md:w-52 block md:ml-10 md:my-6 bg-green-500 w-80 my-2 rounded-lg py-2 hover:bg-green-800'>Change picture</button>
@@ -66,40 +102,41 @@ function UserSetting() {
 
                     <div className='md:w-6/12'>
                         <label className='font-bold'>full name</label>
-                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='text' />
+                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value={data.name} type='text' />
                     </div>
                     <div className='md:w-6/12'>
                         <label className='font-bold'>schoolID</label>
-                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='number' />
+                        <input className='block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none' value={data.schoolId} type='number' />
                     </div>
                 </div>
                 <div className='md:w-full md:m-2'>
                         <label className='block font-bold'>email</label>
-                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='text' />
+                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value={data.email} type='text' />
                 </div>
 
                 <div className='md:w-full md:m-2'>
                         <label className='block font-bold'>user type</label>
-                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none '  type='text'   />
+                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none ' value={data.userType}  type='text'   />
                 </div>
 
                 <div className='md:w-full md:m-2'>
                         <label className='block font-bold'>mobile</label>
-                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value='rahat' type='number' />
+                        <input className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value='098094832' type='number' />
                 </div>
 
                 <div className='md:w-full md:m-2'>
                         <label className='block font-bold'>Bio</label>
-                        <textarea className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' type='textarea' />
+                        <textarea className='w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none' value={data.bio} type='textarea' />
                 </div>
             </div>
-
+            
         </div> 
     
     }
         
         
     </div>
+    <ToastContainer />
       </div>
 
   )

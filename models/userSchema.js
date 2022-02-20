@@ -9,7 +9,7 @@ const userschema = mongoose.Schema({
   profileImage: { type: String, default : "default.png" },
   book: [{ type: mongoose.Types.ObjectId, ref: "book" }],
   userStatus : {type : String, enum : ['active', 'deactive'], default : 'active'},
-  about :{ type : String},
+  bio :{ type : String},
   userType: {
     type: String,
     enum: ["student", "librarian", "admin"],

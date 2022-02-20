@@ -1,31 +1,55 @@
 const student = require("express").Router();
-const schema = require("../../models/userSchema");
-const bookschema = require("../../models/bookSchema");
+const userSchema = require("../../models/userSchema");
+const bookSchema = require("../../models/bookSchema");
 const bcrypt = require("bcrypt");
 
 
-student.get('/:id', (req, res)=>{
-  const id = req.params['id']
-  console.log(id)
-  res.json(id)
+student.get('/:id', async (req, res)=>{
+  try{
+    const id = req.params['id']
+    const {schoolId, name, email, gender, profileImage, userType, bio} = await userSchema.findOne({schoolId : id})
+    res.json({schoolId, name, email, gender, profileImage, userType, bio})
+
+  }catch(err){
+    res.json('server side error '+ err )
+  }
+  
+})
+
+student.put("/status", async (req, res)=>{
+  try{
+      const {schoolId} = req.body;
+      const result =  await userSchema.updateOne({schoolId}, {$set : {userStatus : 'deactive'}})
+      console.log(result)
+      if(result.modifiedCount === 1){
+          res.json({message : 'success'})
+      }else{
+          res.json({error : 'status update fail'})
+      }
+      
+
+  }catch(err){
+      console.log(err)
+      res.json({error : "status update fail"})
+  }
 })
 
 student.post("/search", async (req, res) => {
   const { bookId, title, category } = req.body;
   if (bookId) {
-    const data = await bookschema.find({ bookId });
+    const data = await bookSchema.find({ bookId });
     console.log(data);
     res.json(data);
   } else if (title) {
-    const data = await bookschema.find({ title });
+    const data = await bookSchema.find({ title });
     console.log(data);
     res.json(data);
   } else if (category) {
-    const data = await bookschema.find({ category });
+    const data = await bookSchema.find({ category });
     console.log(data);
     res.json(data);
   } else {
-    const data = await bookschema.find();
+    const data = await bookSchema.find();
     console.log(data);
     res.json(data);
   }
@@ -37,7 +61,7 @@ student.put("/update", async (req, res) => {
     const id = req._id;
     const { name, email, oldpassword, newpassword } = req.body;
 
-    const find = await schema.findOne({ _id: id });
+    const find = await userSchema.findOne({ _id: id });
     const check = await bcrypt.compare(oldpassword, find.password);
 
     if (
@@ -49,7 +73,7 @@ student.put("/update", async (req, res) => {
       const password = await bcrypt.hash(newpassword, 10);
 
       if (check) {
-        schema
+        userSchema
           .updateOne({ _id: id }, { $set: { name, email, password } })
           .then((result) => {
             console.log(result);
