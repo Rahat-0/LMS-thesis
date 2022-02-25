@@ -10,16 +10,16 @@ function StudentView() {
   const navigate = useNavigate()
   const {schoolId} = useParams()
   const [visible] = useContext(Menubar);
-
-  // const [error, setError] = useState(false);
+  //state control
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState("");
-  // const [paths, setPath] = useState("");
+  const [rerender, setRerender] = useState(false);
   const [deletes, setDelete] = useState(false);
   const [deactivate, setDeactivate] = useState(false);
+  // auth control
   const key = Cookies.get("auth");
 
-
+  // user deletion controller
   const deleteHandler = ()=>{
     axios.delete(`/api/admin/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
    .then((result)=>{
@@ -27,12 +27,13 @@ function StudentView() {
    })
    .catch(err => console.log(err))
   }
-  
+  // user status controller
   const activeHandler = ()=>{
     setDeactivate(false)
      axios.put(`/api/admin/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
     .then((result)=>{
       if(result.data.message){
+        setRerender(!rerender)
         toast.success(result.data.message, {position : 'bottom-left'} )
       }else{
         toast.error(result.data.error, {position : 'bottom-left'} )
@@ -40,12 +41,11 @@ function StudentView() {
    })
    .catch(err => console.log(err))
   }
-
+  // data fetching once
   useEffect(() => {
     axios
-      .post(
-        "/api/admin/students/view",
-        {schoolId },
+      .get(
+        `/api/admin/students/${schoolId}`,
         { headers: { auth: key } }
       )
       .then((result) => {
@@ -53,8 +53,8 @@ function StudentView() {
         setLoading(false);
       })
       .catch((err) => console.log("student view error here" + err));
-  }, [activeHandler]);
-  
+  }, [rerender]);
+  // route determine
   const routes = "Student View";
 
   return (
@@ -67,8 +67,7 @@ function StudentView() {
         {" "}
         loading...{" "}
       </div>
-
-
+      
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
         <div>
           <div className="p-2 text-3xl">{routes}</div>
@@ -104,14 +103,15 @@ function StudentView() {
                   <th>Email :</th> <td className="m px-3">{data.email}</td>
                 </tr>
                 <tr className="">
+                  <th>Phone :</th> <td className="m px-3">{data.mobile}</td>
+                </tr>
+                <tr className="">
                   <th>Gender :</th> <td className="m px-3">{data.gender}</td>
                 </tr>
               </table>
             </div>
             <p className="py-4">
-              Hello I am Daisy Parks. Lorem Ipsum is simply dummy text of the
-              printing and typesetting industry, simply dummy text of the
-              printing and typesetting industry.
+              {data.bio}
             </p>
 
             <div className="bg-gray-100">

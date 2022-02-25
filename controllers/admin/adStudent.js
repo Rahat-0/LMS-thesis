@@ -43,15 +43,16 @@ adStudent.post("/", async (req, res)=>{
      }
 })
 
-adStudent.post("/view", async (req, res)=>{
-    const {schoolId} = req.body;
+adStudent.get("/:id", async (req, res)=>{
+    const schoolId = req.params['id'];
+    console.log(schoolId)
     try{
         await schema.findOne({schoolId})
          .populate('book', ('title author bookId'))
          .exec((err, result)=>{
             if(result){
-                const {schoolId, name, email, book, gender, profileImage, userStatus} = result;
-                res.json({schoolId, name, email, book, gender, profileImage, userStatus })
+                const {schoolId, name, email, book, gender, profileImage, userStatus, mobile, bio} = result;
+                res.json({schoolId, name, email, book, gender, profileImage, userStatus, mobile, bio})
             }else{
                 res.send(err)
             }

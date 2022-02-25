@@ -8,6 +8,7 @@ import ComPopUpConfirm from "../common/ComPopUpConfirm";
 
 function UserSetting() {
   const [data, setData] = useState([]);
+  const [update, setUpdate] = useState(false)
 
   const [isSetting, setIsSetting] = useState(false);
   const [deletes, setDelete] = useState(false);
@@ -17,6 +18,10 @@ function UserSetting() {
   const key = cookies.get("auth");
   const auth = key.split(" ")[1];
   const { schoolId } = jwt(auth);
+
+  const cancelHandler =()=>{
+    setUpdate(false)
+  }
 
   useEffect(() => {
     if (key) {
@@ -28,9 +33,9 @@ function UserSetting() {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [update]);
 
-  const deactiveHandler = () => {
+  function deactiveHandler() {
     axios
       .put("api/student/status", { schoolId }, { headers: { auth: key } })
       .then((result) => {
@@ -43,15 +48,22 @@ function UserSetting() {
         }
       })
       .catch((err) => console.log(err));
-  };
+  }
   const deleteHandler = () => {
     alert("deleted");
   };
 
   const editHandler = (e) => {
     e.preventDefault();
-    console.log(data);
+    setUpdate(true)
+    axios.put('/api/student/update' ,{name : data.name, email : data.email, mobile : data.mobile, gender : data.gender, bio : data.bio} , {headers : {auth : key}})
+    .then((result)=>{
+      console.log(result)
+    })
+    .catch(err => console.log(err))
+
   };
+  
   return (
     <div>
       <div className="bg-red-400 h-16">sr only</div>
@@ -127,7 +139,7 @@ function UserSetting() {
             </div>
           </div>
         ) : (
-          <form onSubmit={editHandler} className="md:w-8/12">
+          <form onSubmit={(e)=>e.preventDefault()} className="md:w-8/12">
             <h3 className="text-center md:text-left text-3xl p-2 bg-gray-200 md:bg-white">
               Public profile
             </h3>
@@ -143,85 +155,119 @@ function UserSetting() {
                 <button className=" md:w-52 block md:ml-10 md:my-6 bg-green-500 w-80 my-2 rounded-lg py-2 hover:bg-green-800">
                   Change picture
                 </button>
-                <button
-                  type="submit"
+
+                {update ? 
+                <>
+                  <button
+                    onClick={cancelHandler}
+                    className=" md:w-52 block md:ml-10 md:my-6 bg-red-500 w-80 my-2 rounded-lg py-2 hover:bg-red-800"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={editHandler}
+                    type='submit'
+                    className=" md:w-52 block md:ml-10 md:my-6 bg-red-500 w-80 my-2 rounded-lg py-2 hover:bg-red-800"
+                  >
+                    Save
+                  </button>
+                </>
+                :
+                  <button
+                    onClick={()=> setUpdate(true)}
                   className=" md:w-52 block md:ml-10 md:my-6 bg-red-500 w-80 my-2 rounded-lg py-2 hover:bg-red-800"
-                >
-                  Edit profile
-                </button>
+                  >
+                   Edit profile
+                  </button>
+                }
+                
+
+                
               </div>
             </div>
             <div className="flex flex-col  justify-center md:items-start items-center">
-              <div className="flex flex-col md:m-2 md:flex-row md:w-9/12 md:space-x-5 justify-center items-center ">
-                <div className="md:w-6/12">
-                  <label className="font-bold">full name</label>
-                  <input
-                    className="block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none"
-                    onChange={(e) => setData({ ...data, name: e.target.value })}
-                    value={data.name}
-                    type="text"
-                  />
-                </div>
-                <div className="md:w-6/12">
-                  <label className="font-bold">schoolID</label>
-                  <input
-                    className="block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none"
-                    disabled
-                    value={data.schoolId}
-                    type="number"
-                  />
-                </div>
-              </div>
-              <div className="md:w-full md:m-2">
-                <label className="block font-bold">email</label>
-                <input
-                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
-                  onChange={(e) => setData({ ...data, email: e.target.value })}
-                  value={data.email}
-                  type="text"
-                />
-              </div>
+              {update ? 
+// update avtivated section
+                <>
+                  <div className="flex flex-col md:m-2 md:flex-row md:w-9/12 md:space-x-5 justify-center items-center ">
+      {/* full Name component */}
+                    <ActiveInputComponent name={data.name} data={data} setData={setData} type='text' title="Full Name" field='name' />
+      {/* schoolID component */}
+                    <DisableInputComponent name={data.schoolId} data={data} setData={setData} type='number' title="SchoolID" field='schoolId' />
+                  </div>
+      {/* email component */}          
+                  <ActiveInputComponentTwo name={data.email} data={data} setData={setData} type='email' title="Email" field='email' />
+      {/* User Type component */}
+                  <DisableInputComponentTwo name={data.userType} data={data} setData={setData} type='text' title="User Type" field='userType' />
+      {/* mobileNumber component */}
+                  <ActiveInputComponentTwo name={data.mobile} data={data} setData={setData} type='number' title="Mobile" field='mobile' />
+                  
+      {/* gender component */}
+                  <div className="md:w-full md:m-2">
+                    <label className="block font-bold">gender</label>
+                    <select
+                      className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
+                      onChange={(e) => setData({ ...data, gender: e.target.value })}
+                      value={data.gender}
+                    >
+                      <option>male</option>
+                      <option>female</option>
+                    </select>
+                  </div>
+      {/* bio component */}
+                  <div className="md:w-full md:m-2">
+                    <label className="block font-bold">Bio</label>
+                    <textarea
+                      className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
+                      onChange={(e) => setData({ ...data, bio: e.target.value })}
+                      value={data.bio}
+                      type="textarea"
+                    />
+                  </div>
+                </>
+              
+              :
+// updata deactivate section 
+              <>
+                  <div className="flex flex-col md:m-2 md:flex-row md:w-9/12 md:space-x-5 justify-center items-center ">
+                    <DisableInputComponent name={data.name} data={data} setData={setData} type='text' title="Full Name" field='name' />
+                    <DisableInputComponent name={data.schoolId} data={data} setData={setData} type='number' title="SchoolID" field='schoolId' />
+                  </div>
+                  
+                  <DisableInputComponentTwo  name={data.email} data={data} setData={setData} type='email' title="Email" field='email' />
 
-              <div className="md:w-full md:m-2">
-                <label className="block font-bold">user type</label>
-                <input
-                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none "
-                  disabled
-                  value={data.userType}
-                  type="text"
-                />
-              </div>
+                  <DisableInputComponentTwo name={data.userType} data={data} setData={setData} type='text' title="User Type" field='userType' />
 
-              <div className="md:w-full md:m-2">
-                <label className="block font-bold">mobile</label>
-                <input
-                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
-                  value="098094832"
-                  type="number"
-                />
-              </div>
+                  <DisableInputComponentTwo  name={data.mobile} data={data} setData={setData} type='number' title="Mobile" field='mobile' />
+                  
 
-              <div className="md:w-full md:m-2">
-                <label className="block font-bold">gender</label>
-                <select
-                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
-                  onChange={(e) => setData({ ...data, gender: e.target.value })}
-                  value={data.gender}
-                >
-                  <option>male</option>
-                  <option>female</option>
-                </select>
-              </div>
+                  <div className="md:w-full md:m-2">
+                    <label className="block font-bold">gender</label>
+                    <select
+                      className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-pink-100 outline-none"
+                      onChange={(e) => setData({ ...data, gender: e.target.value })}
+                      value={data.gender}
+                      disabled
+                    >
+                      <option>male</option>
+                      <option>female</option>
+                    </select>
+                  </div>
 
-              <div className="md:w-full md:m-2">
-                <label className="block font-bold">Bio</label>
-                <textarea
-                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
-                  onChange={(e) => setData({ ...data, bio: e.target.value })}
-                  value={data.bio}
-                  type="textarea"
-                />
-              </div>
+                  <div className="md:w-full md:m-2">
+                    <label className="block font-bold">Bio</label>
+                    <textarea
+                      className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-pink-100 outline-none"
+                      onChange={(e) => setData({ ...data, bio: e.target.value })}
+                      value={data.bio}
+                      type="textarea"
+                      disabled
+                    />
+                  </div>
+                
+              </>
+              }
             </div>
           </form>
         )}
@@ -229,6 +275,70 @@ function UserSetting() {
       <ToastContainer />
     </div>
   );
+}
+
+// active input prototype component
+const ActiveInputComponent =({name, data, setData, type, title, field})=>{
+  return(
+    <div className="md:w-6/12">
+      <label className="font-bold">{title}</label>
+        <input
+          className="block w-80 md:w-full rounded-lg px-2 py-2 bg-green-100 outline-none"
+          onChange={(e) => setData({ ...data, [field] : e.target.value })}
+          value={name}
+          type={type}
+        />
+      
+    </div>
+  )
+}
+
+// deactive input prototype component
+const DisableInputComponent =({name, data, setData, type, title, field})=>{
+  return(
+    <div className="md:w-6/12">
+      <label className="font-bold">{title}</label>
+        <input
+          className="block w-80 md:w-full rounded-lg px-2 py-2 bg-pink-100 outline-none"
+          onChange={(e) => setData({ ...data, [field] : e.target.value })}
+          value={name}
+          type={type}
+          disabled
+        />
+      
+    </div>
+  )
+}
+
+// active input prototype componentTwo
+const ActiveInputComponentTwo =({name, data, setData, type, title, field})=>{
+  return(
+    <div className="md:w-full md:m-2">
+                <label className="block font-bold">{title}</label>
+                <input
+                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-green-100 outline-none"
+                  onChange={(e) => setData({ ...data, [field]: e.target.value })}
+                  value={name}
+                  type={type}
+                />
+              </div>
+  )
+}
+
+// deactive input prototype componentTwo
+const DisableInputComponentTwo =({name, data, setData, type, title, field})=>{
+  return(
+    <div className="md:w-full md:m-2">
+                <label className="block font-bold">{title}</label>
+                <input
+                  className="w-80 md:w-9/12 rounded-lg px-2 py-2 bg-pink-100 outline-none"
+                  onChange={(e) => setData({ ...data, [field]: e.target.value })}
+                  value={name}
+                  type={type}
+                  disabled
+                />
+              </div>
+  )
 }
 
 export default UserSetting;
