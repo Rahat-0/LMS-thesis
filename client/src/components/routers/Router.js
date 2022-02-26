@@ -8,6 +8,7 @@ import StudentAdd from "../admin/StudentAdd";
 import StudentEdit from "../admin/StudentEdit";
 import StudentList from "../admin/studentList";
 import StudentView from "../admin/StudentView";
+import BookShow from "../book/BookShow";
 import ErrorPage from "../ErrorPage";
 import Home from "../home/Home";
 import Navber from "../home/Navber";
@@ -31,6 +32,8 @@ function Routers() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Signup />} />
         <Route path="setting/" element={<UserSetting />} />
+
+        <Route path="/book" element={<BookShow />} />
 
         {/* admin route */}
         <Route path="admin/" element={<Admin />}>

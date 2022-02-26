@@ -3,9 +3,9 @@ import image from "../../assets/img/1.jpg";
 import a from "../../assets/img/2.jpeg";
 import b from "../../assets/img/3.jpg";
 import c from "../../assets/img/4.jpg";
-import Card from "./Card";
 import Footer from "./Footer";
 import Slider from "./Slider";
+import ComSlider from '../common/ComSlider'
 
 function Home() {
 
@@ -25,10 +25,7 @@ function Home() {
       <div className="bg-red-400 h-16">sr only</div>
       <div className="md:mx-8 md:px-2">
         <Slider images={imgs} />
-        
-          <Card />
-
-        
+          <ComSlider />
       </div>
    
       <Footer />

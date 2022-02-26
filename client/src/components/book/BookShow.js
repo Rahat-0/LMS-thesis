@@ -1,16 +1,14 @@
 import React from 'react'
 
-
-export function Test() {
-  
+function BookShow() {
   return (
-   <>
-   <div className="bg-red-400 h-16">sr only</div>
+      <>
+    <div className="bg-red-400 h-16">sr only</div>
    
-   <div className="px-6 md:flex">
+   <div className="px-6 md:flex p-2">
         {/* <!-- summary component start from here --> */}
         <div className="lg:flex-row lg:space-x-8 lg:px-10 lg:text-left lg:w-10/12 md:w-7/12 text-center flex flex-col justify-center item-center">
-          <img className=" w-82  h-96 object-contain py-6" src='https://www.syndetics.com/index.aspx?isbn=9781250765826&issn=/LC.JPG&client=sepup&type=xw12' alt='book' />
+          <img className="lg:p-1 w-82  h-96 object-contain py-6" src='https://www.syndetics.com/index.aspx?isbn=9781250765826&issn=/LC.JPG&client=sepup&type=xw12' alt='book' />
           <div className="">
             <h3 className="lg:text-4xl font-bold text-2xl capitalize">cool for the summer</h3>
             <p className="text-pink-700 font-bold">author name</p>
@@ -46,7 +44,8 @@ export function Test() {
         </div>
         {/* booking component ends here  */}
      </div>
-   </>
+     </>
   )
 }
 
+export default BookShow
