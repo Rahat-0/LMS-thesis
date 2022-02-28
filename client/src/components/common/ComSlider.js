@@ -1,4 +1,6 @@
-import React, {useRef} from "react";
+import React, {useRef, useEffect, useState} from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -41,7 +43,17 @@ import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outl
       ]
     }
 
-    const test = [1,2,3, 4,5,6,7,8,9,10,11, 12,13,14,15]
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+      axios.get('/api/book/all')
+      .then((result)=>{
+        setData(result.data)
+      })
+      .catch(err => console.log(err))
+    }, [])
+    
+
     return (
       <div>
         <div className="bg-green-200">
@@ -54,12 +66,13 @@ import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outl
             </div>
             <div>
             <Slider ref={sliderRef} {...settings}>
-              {test.map((data)=>{
+              {data.map((data)=>{
                       return(
                       <div key={data} className=' w-4/12 md:w-3/12 lg:w-2/12 text-center pr-2 rounded shadow-2xl opacity-90 hover:opacity-100'>
-                          
-                          <img className='rounded'  src='https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-3-CRC.png' alt='book' />
-                          <p>{data}</p>
+                          <Link to={`book/${data.bookId}`}>
+                            <img className='rounded'  src={`/image/${data.image}`} alt='book' />
+                            <p>{data.title}</p>
+                          </Link>
                       </div>
                       )
                   })}

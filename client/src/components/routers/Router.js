@@ -33,7 +33,7 @@ function Routers() {
         <Route path="register" element={<Signup />} />
         <Route path="setting/" element={<UserSetting />} />
 
-        <Route path="/book" element={<BookShow />} />
+        <Route path="book/:bookId" element={<BookShow />} />
 
         {/* admin route */}
         <Route path="admin/" element={<Admin />}>

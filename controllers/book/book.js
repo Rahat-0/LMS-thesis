@@ -3,47 +3,89 @@ const bookValidation = require("../../middlewares/bookValidation");
 const bookSchema = require("../../models/bookSchema");
 
 book.post("/", bookValidation, async (req, res) => {
-  try {
+    try{
     // const id = req._id;
     // console.log(id);
-    const { title, author, year, image, about, category } = req.valid;
-    const bookschema = await new bookSchema({
+    
+    const { title, author, year, image, about, category, issue } = req.valid;
+    
+    const schema = await new bookSchema({
       title,
       author,
       year,
       category,
-      student,
+      issue,
       about,
       image,
     });
-    await bookschema.save((err, result) => {
+    await schema.save((err, result) => {
       if (err) {
         console.log(err);
+        res.json(err)
       } else {
         console.log("success");
         res.json(result);
       }
     });
-  } catch (err) {
-    res.json(err);
+  }catch(err){
+    console.log(err)
+    res.json(err)
   }
+ 
 });
 
-book.get("/", (req, res) => {
+book.get("/all", (req, res) => {
   bookSchema
     .find()
-    .populate("student", "schoolId name email")
-    .then((data) => {
-      console.log(data);
-      res.send(data);
+    .limit()
+    .populate('issue.issueUser', "name email gender ")
+    .exec(( err , data) => {
+      if(err){
+        console.log(err);
+        res.send(err);
+      }else{
+        console.log(data);
+        res.send(data);
+      }
     })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
+    
 });
 
-book.put("/", (req, res) => {});
+book.get("/:id", async (req, res)=>{
+  try{
+    const id = req.params['id']
+    const result = await bookSchema.findOne({bookId : id}).populate('issue.issueUser', 'name email schoolId')
+      const available = result.copy - result.issue.length;
+      const availability = result.issue.length < result.copy;
+      console.log(availability)
+      const hold = 0 ;
+      const {title, name, bookId, about,  image, copy} = result;
+      res.json({available, title, name, bookId, about, availability, image, copy, hold})
+
+  }catch(err){
+    console.log(err)
+    res.send('bad request')
+  }
+
+})
+
+book.put("/issue", async (req, res) => {
+  const bookId = 1026;
+  
+    bookSchema.updateOne({bookId}, {$push : {issue : {"issueUser" : "61d2f5b8e9368e8d96440c96", "issueDate" : Date.now()}}}, (err, rslt)=>{
+      if(err){
+        console.log(err)
+        res.json(err)
+      }else{
+          console.log(rslt)
+        res.json(rslt)
+      }
+      })
+
+  }
+ 
+);
+
 book.delete("/", (req, res) => {
   res.send("book delete");
 });

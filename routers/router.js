@@ -20,7 +20,7 @@ router.post("/signup", userValidation, signup);
 router.post("/login", login);
 
 // book api (protected)
-router.use("/book", Auth, book)
+router.use("/book", book)
 
 // student api (protected)
 router.use("/student", Auth, student);

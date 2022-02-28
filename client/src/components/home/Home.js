@@ -26,6 +26,7 @@ function Home() {
       <div className="md:mx-8 md:px-2">
         <Slider images={imgs} />
           <ComSlider />
+          <ComSlider />
       </div>
    
       <Footer />
