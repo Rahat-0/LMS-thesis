@@ -20,12 +20,12 @@ function Menu(props) {
     sub2,
     sub3,
     sub4,
-    sub5,
+
     link1,
     link2,
     link3,
     link4,
-    link5,
+   
   } = props;
 
   return (
@@ -45,9 +45,9 @@ function Menu(props) {
       <div className={`text-gray-500 ml-9 `}>
         <animated.div style={styles}>
         <ul className={`${visible ? "block" : "hidden"} p-1 transition-all`}>
-          <li>
+          <li className={link1 ? '' : 'hidden'}>
           <NavLink
-            to={link1}
+            to={link1 || ''}
             className={({ isActive }) =>
               isActive
                 ? "text-gray-50 bg-gray-700 py-2 block"
@@ -60,9 +60,9 @@ function Menu(props) {
           </li>
 
 
-          <li>
+          <li className={link2 ? '' : 'hidden'}>
           <NavLink
-            to={link2}
+            to={link2 || ''}
             className={({ isActive }) =>
               isActive
                 ? "text-gray-50 bg-gray-700 py-2 block"
@@ -74,7 +74,7 @@ function Menu(props) {
           </NavLink>
           </li>
 
-          <li>
+          <li className={link3 ? '' : 'hidden'}>
           <NavLink
             to={link3 || ''}
             className={({ isActive }) =>
@@ -88,7 +88,7 @@ function Menu(props) {
           </NavLink>
           </li>
 
-            <li>
+            <li className={link4 ? '' : 'hidden'}>
           <NavLink
             to={link4 || ''}
             className={({ isActive }) =>
@@ -98,7 +98,7 @@ function Menu(props) {
             }
           >
             {" "}
-            {sub4 || null}
+            {sub4}
           </NavLink>
           </li>
 

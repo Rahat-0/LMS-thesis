@@ -32,7 +32,7 @@ function BookShow() {
             {data.availability ? 
               <p className="lg:w-32 lg:text-center bg-green-200 p-3 border-gray-500 border-2 rounded my-2 text-sky-800 text-xl">available</p>
             :
-              <p className="lg:w-32 lg:text-center bg-red-200 p-3 border-gray-500 border-2 rounded my-2 text-sky-800 text-xl">sold out</p>
+              <p className="lg:w-32 lg:text-center bg-red-200 p-3 border-gray-500 border-2 rounded my-2 text-sky-800 text-xl">unavailable</p>
             }
             <p className="text-left">{data.about} </p>
   
@@ -51,9 +51,15 @@ function BookShow() {
               </div>
           </div>
           <div className="py-3 ">
-              <div className="bg-green-700 m-2 rounded-lg hover:bg-green-900">
-                <button className=" block w-full text-white p-2 text-lg  ">Place hold</button>
-              </div>
+                {data.available <= 0 ?
+                <div className="bg-red-700 m-2 rounded-lg hover:bg-red-900">
+                  <button disabled className=" block w-full text-white p-2 text-lg  ">sold out</button>
+                </div>
+                :
+                <div className="bg-green-700 m-2 rounded-lg hover:bg-green-900">
+                  <button className=" block w-full text-white p-2 text-lg  ">Place hold</button>
+                </div>
+                }
               <div className="bg-green-700 m-2 rounded-lg hover:bg-green-900 border-2">
                 <select className="block w-full p-2 text-lg ">
                   <option>for later</option>

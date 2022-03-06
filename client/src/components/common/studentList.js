@@ -2,9 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar } from "../../store/Store";
 import { useEffect, useState, useContext } from "react";
-import Table from "../common/Table";
+import Table from "./Table";
+import { useLocation } from "react-router-dom";
 
-function LibrarianList() {
+function StudentList() {
+  const location = useLocation()
+  const vpath = location.pathname.split('/')[1]
   const [visible] = useContext(Menubar);
 
   const [data, setData] = useState([]);
@@ -15,9 +18,10 @@ function LibrarianList() {
 
   useEffect(() => {
     axios
-      .get("/api/admin/librarians", { headers: { auth: key } })
+      .get(`/api/${vpath}/students`, { headers: { auth: key } })
       .then((result) => {
         if (result.data.error) {
+            
         } else {
           setData(result.data);
           setLoading(false)
@@ -30,8 +34,9 @@ function LibrarianList() {
   }, []);
 
   const tableHeader = ["Name", "SchoolID" ,"Status","UserType"]
-  const routes = "Librarians"
+  const routes = "Students"
+  
 
-  return <Table endPoint='admin' data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Table endPoint={vpath} data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
-export default LibrarianList;
+export default StudentList;

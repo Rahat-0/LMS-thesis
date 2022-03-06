@@ -8,7 +8,7 @@ const userschema = mongoose.Schema({
   password: { type: String, required: true },
   profileImage: { type: String, default : "default.png" },
   book: [{ type: mongoose.Types.ObjectId, ref: "book" }],
-  mobile : {type : Number},
+  mobile : {type : String, default : '0000'},
   userStatus : {type : String, enum : ['active', 'deactive'], default : 'active'},
   bio :{ type : String},
   userType: {

@@ -1,8 +1,12 @@
 const librarian = require("express").Router();
+const userSchema = require('../../models/userSchema');
+const libStudent = require("./libStudent");
+const libBooks = require("./libBooks");
+const libDashboard = require("./libDashboard");
 
-librarian.get("/", (req, res) => {
-  res.json({message : "librarian route here"})
-});
+librarian.use("/students", libStudent)
+librarian.use("/books", libBooks)
+librarian.use("/dashboard", libDashboard)
 
 librarian.post("/", (req, res) => {
   res.send("librarian post");

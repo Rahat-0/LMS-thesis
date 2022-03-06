@@ -7,7 +7,7 @@ import studentIcon from "../../assets/studentIcon.png";
 import bookIcon from "../../assets/bookIcon.png";
 const Dashboard = (props) => {
   const [data, loading] = props.data;
-  const { visible, routes } = props;
+  const { visible, routes, title, links } = props;
 
   const styles = useSpring({
     to: { opacity: 1 },
@@ -39,27 +39,27 @@ const Dashboard = (props) => {
           >
             <HeadCard
               imgs={adminIcon}
-              count={data.admins}
-              title="Total Admin"
-              href="/admin"
+              count={data.admins || data.student}
+              title={title.first}
+              paths={links.first}
             />
             <HeadCard
               imgs={librarianIcon}
-              count={data.librarians}
-              title="Total Librarians"
-              href="/admin/librarianlist"
+              count={data.librarians || data.deactiveuser}
+              title={title.second}
+              paths={links.second}
             />
             <HeadCard
               imgs={studentIcon}
-              count={data.students}
-              title="Total Students"
-              href="/admin/studentlist"
+              count={data.students || data.issuerequest}
+              title={title.third}
+              paths={links.third}
             />
             <HeadCard
               imgs={bookIcon}
               count={data.books}
-              title="Total Books"
-              href="/admin/booklist"
+              title={title.fourth}
+              paths={links.fourth}
             />
           </animated.div>
         </div>
@@ -69,9 +69,8 @@ const Dashboard = (props) => {
 };
 
 const HeadCard = (props) => {
-  const { imgs, count, title, href } = props;
+  const { imgs, count, title, paths } = props;
   const { number } = useSpring({
-    reset: true,
     from: { number: 0 },
     number: count,
     delay: 200,
@@ -80,7 +79,7 @@ const HeadCard = (props) => {
 
   return (
     <Link
-      to={href}
+      to={paths}
       className="flex justify-center items-center space-x-2 w-3/12 h-32 m-3 rounded-tl-3xl transition rounded-br-3xl border-2 hover:shadow-2xl hover:bg-green-100"
     >
       <div className="w-12 h-auto m-2">

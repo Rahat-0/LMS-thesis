@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 const Table = (props) => {
   const [data, loading] = props.data;
   const [theader] = props.tableHeader;
-  const { visible, error, routes } = props;
+  const { visible, error, routes, endPoint } = props;
   const [search, setSearch] = React.useState("");
 
   const filterdData = data.filter((value)=>{
-    
     if (value.name) {
       if (search === "") {
         return value;
@@ -26,7 +25,7 @@ const Table = (props) => {
       } else if (
         value.bookId.toString().includes(search) ||
         value.title.toLowerCase().includes(search.toLowerCase()) ||
-        value.year.toString().includes(search)
+        value.author.toLowerCase().includes(search.toLowerCase())
       ) {
         return value;
       }
@@ -113,7 +112,7 @@ const Table = (props) => {
                   <tr className="hover:bg-green-100" key={data.email || data.bookId}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                      to={`/admin/studentview/${data.schoolId}`}
+                      to={`/${endPoint}/studentview/${data.schoolId}`}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -149,7 +148,7 @@ const Table = (props) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
-                        to={`/admin/studentedit/${data.schoolId}`}
+                        to={`/${endPoint}/studentedit/${data.schoolId}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Edit

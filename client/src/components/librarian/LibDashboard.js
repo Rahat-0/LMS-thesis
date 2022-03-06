@@ -2,20 +2,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar } from "../../store/Store";
 import { useEffect, useState, useContext } from "react";
-import Table from "./Table";
+import Dashboard from "../common/Dashboard";
 
-function StudentList() {
+function LibDashboard() {
   const [visible] = useContext(Menubar);
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const key = Cookies.get("auth");
 
   useEffect(() => {
     axios
-      .get("/api/admin/students", { headers: { auth: key } })
+      .get("/api/librarian/dashboard", { headers: { auth: key } })
       .then((result) => {
         if (result.data.error) {
             
@@ -30,9 +30,10 @@ function StudentList() {
       });
   }, []);
 
-  const tableHeader = ["Name", "SchoolID" ,"Status","UserType"]
-  const routes = "Students"
+  const routes = "Dashboard"
+  const title = {first : 'Total Student', second : 'Deactive User', third : 'Issue Request', fourth : 'Total Books'}
+  const links = {first : '/librarian/studentlist', second : '/librarian/deactiveuser', third : '/librarian/issuerequest', fourth : '/librarian/booklist'}
 
-  return <Table data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Dashboard data={[data, loading]} links={links}  routes={routes} title={title} error={error} visible={visible} />;
 }
-export default StudentList;
+export default LibDashboard;

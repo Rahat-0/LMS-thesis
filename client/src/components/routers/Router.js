@@ -2,21 +2,23 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AdDashboard from "../admin/AdDashboard";
 import Admin from "../admin/Admin";
-import BookList from "../admin/BookList";
+import BookList from "../common/BookList";
 import LibrarianList from "../admin/LibrarianList";
-import StudentAdd from "../admin/StudentAdd";
-import StudentEdit from "../admin/StudentEdit";
-import StudentList from "../admin/studentList";
-import StudentView from "../admin/StudentView";
+import StudentAdd from "../common/StudentAdd";
+import StudentEdit from "../common/StudentEdit";
+import StudentList from "../common/studentList";
+import StudentView from "../common/StudentView";
 import BookShow from "../book/BookShow";
 import ErrorPage from "../ErrorPage";
 import Home from "../home/Home";
 import Navber from "../home/Navber";
-import {Test, Case1, Case2} from "../home/Test";
+import {Test} from "../home/Test";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
 import UserSetting from "../User.js/UserSetting";
-// import AdminRoute from './AdminRoute'
+import Librarian from '../librarian/Librarian';
+import LibDashboard from "../librarian/LibDashboard";
+import LibDeactiveUser from "../librarian/LibDeactiveUser";
 
 function Routers() {
   return (
@@ -35,7 +37,7 @@ function Routers() {
 
         <Route path="book/:bookId" element={<BookShow />} />
 
-        {/* admin route */}
+        {/* admin route start from here */}
         <Route path="admin/" element={<Admin />}>
           <Route path="dashboard" element={<AdDashboard />} />
 
@@ -50,6 +52,20 @@ function Routers() {
 
           {/* admin component book's route */}
           <Route path="booklist/" element={<BookList />} />
+        </Route>
+        {/* admin route ends here */}
+
+        {/* librarian route start from here */}
+        <Route path='librarian/' element={<Librarian />} >
+          <Route path="dashboard" element={<LibDashboard />} />
+          <Route path="deactiveuser" element={<LibDeactiveUser />} />
+          
+          <Route path="booklist" element={<BookList />} />
+          <Route path="studentlist/" element={<StudentList />} />
+          <Route path="studentadd/"  element={<StudentAdd />} />
+          <Route path="studentview/:schoolId" element={<StudentView />} />
+          <Route path="studentedit/:id" element={<StudentEdit />} />
+
         </Route>
 
         {/* invalid route */}

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import {useNavigate, useParams} from 'react-router-dom'
+import {useNavigate, useParams, useLocation} from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -8,6 +8,9 @@ import ComPopUpConfirm from "../common/ComPopUpConfirm";
 
 function StudentView() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const vpath = location.pathname.split('/')[1]
+
   const {schoolId} = useParams()
   const [visible] = useContext(Menubar);
   //state control
@@ -21,16 +24,16 @@ function StudentView() {
 
   // user deletion controller
   const deleteHandler = ()=>{
-    axios.delete(`/api/admin/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
+    axios.delete(`/api/${vpath}/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
    .then((result)=>{
-     navigate('/admin/dashboard')
+     navigate(`/${vpath}/dashboard`)
    })
    .catch(err => console.log(err))
   }
   // user status controller
   const activeHandler = ()=>{
     setDeactivate(false)
-     axios.put(`/api/admin/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
+     axios.put(`/api/${vpath}/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
     .then((result)=>{
       if(result.data.message){
         setRerender(!rerender)
@@ -45,10 +48,11 @@ function StudentView() {
   useEffect(() => {
     axios
       .get(
-        `/api/admin/students/${schoolId}`,
+        `/api/${vpath}/students/${schoolId}`,
         { headers: { auth: key } }
       )
       .then((result) => {
+        console.log(result.data)
         setData(result.data);
         setLoading(false);
       })
@@ -146,7 +150,7 @@ function StudentView() {
               />
 
               <input
-                onClick={()=> navigate('/admin/studentedit/'+schoolId)}
+                onClick={()=> navigate(`/${vpath}/studentedit/${schoolId}`)}
                 type="button"
                 value="edit"
                 className="bg-green-300 p-2 rounded-md w-32 focus:border-green-400 border-4 cursor-pointer"

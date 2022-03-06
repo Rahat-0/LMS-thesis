@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar } from "../../store/Store";
 import { useEffect, useState, useContext } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../common/Dashboard";
 
 function AdDashboard() {
   const [visible] = useContext(Menubar);
@@ -31,7 +31,9 @@ function AdDashboard() {
   }, []);
 
   const routes = "Dashboard"
+  const title = {first : 'Total Admins', second : 'Total Librarians', third : 'Total Students', fourth : 'Total Books'}
+  const links = {first : 'admin', second : '/admin/librarianlist', third : '/admin/studentlist', fourth : '/admin/booklist'}
 
-  return <Dashboard data={[data, loading]}  routes={routes} error={error} visible={visible} />;
+  return <Dashboard data={[data, loading]}  routes={routes} title={title} links={links} error={error} visible={visible} />;
 }
 export default AdDashboard;

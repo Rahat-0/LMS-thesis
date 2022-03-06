@@ -1,10 +1,13 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { Menubar } from "../../store/Store";
 
 function StudentAdd() {
+  const location = useLocation()
+  const vpath = location.pathname.split('/')[1]
+  
   const [visible] = useContext(Menubar);
 
   const [error, setError] = useState(false);
@@ -241,7 +244,7 @@ function StudentAdd() {
 
                     <div className="px-4 py-3 bg-white text-right sm:px-6">
                       <Link
-                        to="/admin/dashboard"
+                        to={`/${vpath}/dashboard`}
                         className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring-gray-500   text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500"
                       >
                         Cancel

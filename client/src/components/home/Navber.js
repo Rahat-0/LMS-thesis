@@ -16,6 +16,7 @@ function classNames(...classes) {
 const Navber = () => {
   const [valid, setvalid] = useState(false);
   const [admin, setadmin] = useState(false);
+  const [librarian, setLibrarian] = useState(false);
   const [profile, setprofile] = useState('');
 
   // context api calling for login validation
@@ -38,9 +39,13 @@ const Navber = () => {
       if (name && userType === "admin") {
         setadmin(true);
       }
+      if (name && userType === "librarian") {
+        setLibrarian(true);
+      }
     } else {
       setvalid(false);
       setadmin(false);
+      setLibrarian(false)
     }
   }, [key]);
 
@@ -61,6 +66,14 @@ const Navber = () => {
     { name: "Students", href: "admin/studentlist", current: false },
     { name: "Librarians", href: "admin/librarianlist", current: false },
     { name: "Books", href: "admin/booklist", current: false },
+  ];
+
+  const issueItem = 3;
+  const librarianNavigation = [
+    { name: "Dashboard", href: "librarian/dashboard", current: true },
+    { name: "Students", href: "librarian/studentlist", current: false },
+    { name: "Books", href: "librarian/booklist", current: false },
+    { name: `issue request (${issueItem})`, href: "librarian/librarianlist", current: false },
   ];
 
   return (
@@ -118,7 +131,30 @@ const Navber = () => {
                       ))}
                     </div>
                   </div>
-                ) : (
+                ) : librarian ? 
+
+                (
+                  <div className="hidden sm:block sm:ml-6">
+                    <div className="flex space-x-4">
+                      {librarianNavigation.map((item) => (
+                        <NavLink
+                          key={item.name}
+                          to={item.href}
+                          className={({ isActive }) =>
+                            isActive
+                              ? "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                              : "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white "
+                          }
+                          aria-current={"page"}
+                        >
+                          {item.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+                )
+                
+                :(
                   <div className="hidden sm:block sm:ml-6">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
@@ -239,6 +275,50 @@ const Navber = () => {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
+            {admin ? 
+
+            <div className="px-2 pt-2 pb-3 space-y-1">
+            {adminNavigation.map((item) => (
+              <Disclosure.Button
+                key={item.name}
+                as="a"
+                href={item.href}
+                className={classNames(
+                  item.current
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "block px-3 py-2 rounded-md text-base font-medium"
+                )}
+                aria-current={item.current ? "page" : undefined}
+              >
+                {item.name}
+              </Disclosure.Button>
+            ))}
+            </div>
+            
+          : librarian ? 
+
+          <div className="px-2 pt-2 pb-3 space-y-1">
+          {librarianNavigation.map((item) => (
+            <Disclosure.Button
+              key={item.name}
+              as="a"
+              href={item.href}
+              className={classNames(
+                item.current
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                "block px-3 py-2 rounded-md text-base font-medium"
+              )}
+              aria-current={item.current ? "page" : undefined}
+            >
+              {item.name}
+            </Disclosure.Button>
+          ))}
+        </div>
+        
+          :
+          
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
@@ -257,6 +337,7 @@ const Navber = () => {
                 </Disclosure.Button>
               ))}
             </div>
+          }
           </Disclosure.Panel>
         </>
       )}
