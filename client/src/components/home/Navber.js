@@ -73,7 +73,7 @@ const Navber = () => {
     { name: "Dashboard", href: "librarian/dashboard", current: true },
     { name: "Students", href: "librarian/studentlist", current: false },
     { name: "Books", href: "librarian/booklist", current: false },
-    { name: `issue request (${issueItem})`, href: "librarian/librarianlist", current: false },
+    { name: `issue request (${issueItem})`, href: "librarian/issuerequest", current: false },
   ];
 
   return (

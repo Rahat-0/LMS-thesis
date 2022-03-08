@@ -26,8 +26,8 @@ const Dashboard = (props) => {
 
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
         <div>
-          <div className="p-2 text-3xl">{routes}</div>
-          <div className="px-2 pb-2">Admin / {routes}</div>
+          <div className="p-2 text-3xl">Dashboard</div>
+          <div className="px-2 pb-2">{routes} / Dashboard</div>
         </div>
         <div></div>
       </div>

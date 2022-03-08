@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 
 const Table = (props) => {
-  const [data, loading] = props.data;
+  const [data, loading, isseAcceptHandler, issueDeleteHandler] = props.data;
   const [theader] = props.tableHeader;
   const { visible, error, routes, endPoint } = props;
   const [search, setSearch] = React.useState("");
@@ -19,7 +19,7 @@ const Table = (props) => {
       ) {
         return value;
       }
-    } else {
+    } else if(value.bookId) {
       if (search === "") {
         return value;
       } else if (
@@ -29,8 +29,21 @@ const Table = (props) => {
       ) {
         return value;
       }
+    } else if(value.issueBook){
+
+      if(search === ''){
+        return value;
+      }else if(
+        value.issueBook.bookId.toString().includes(search) ||
+        value.issueUser.schoolId.toString().includes(search)
+      ){
+        return value
+      }
     }
+    return null;
   });
+
+  
 
   return (
     <div
@@ -111,49 +124,95 @@ const Table = (props) => {
                 {filterdData.map((data) => (
                   <tr className="hover:bg-green-100" key={data.email || data.bookId}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <Link
+                     
+                    {data.issueBook ?
+                      <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10">
+                            <img
+                              className="h-10 w-10 rounded-full object-contain ring-2 shadow-xl"
+                              src={`../image/${data.profileImage || data.image || data.issueBook.image}`}
+                              alt=""
+                            />
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">
+                              {data.name || data.bookId || data.issueBook.bookId}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              { data.issueBook ? data.issueBook.title : data.email }
+                            </div>
+                          </div>
+                        </div>
+                      :
+
+                      <Link 
                       to={`/${endPoint}/studentview/${data.schoolId}`}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
                             <img
                               className="h-10 w-10 rounded-full object-contain ring-2 shadow-xl"
-                              src={`../image/${data.profileImage || data.image}`}
+                              src={`../image/${data.profileImage || data.image || data.issueBook.image}`}
                               alt=""
                             />
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {data.name || data.bookId}
+                              {data.name || data.bookId || data.issueBook.bookId}
                             </div>
                             <div className="text-sm text-gray-500">
-                              {data.email}
+                              { data.issueBook ? data.issueBook.title : data.email }
                             </div>
                           </div>
                         </div>
                       </Link>
+                    
+                    }
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {data.schoolId || data.title}
+                        {data.schoolId || data.title || data.issueUser.schoolId}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={` ${data.userStatus === 'active' ? "text-green-800 bg-green-100" : "text-red-800 bg-red-100"} px-2 inline-flex text-xs leading-5 font-semibold rounded-full  `}>
-                        {data.author || data.userStatus}
+                        {data.author || data.userStatus || data.issueUser.name }
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {data.userType || data.year}
+                      {data.userType || data.year || data.issueDate}
                     </td>
+                    {data.issueBook ? 
+                    <>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <Link
-                        to={`/${endPoint}/studentedit/${data.schoolId}`}
-                        className="text-indigo-600 hover:text-indigo-900"
+                      <button
+                        onClick={issueDeleteHandler}
+                        className="text-red-600 rounded p-1 bg-red-100 hover:text-red-900"
                       >
-                        Edit
-                      </Link>
+                        delete
+                      </button>
                     </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        onClick={isseAcceptHandler}
+                        className="text-green-600 bg-green-100 rounded p-1 hover:text-green-900"
+                      >
+                        accept
+                      </button>
+                    </td>   
+                    </>
+                    : 
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <Link
+                          to={`/${endPoint}/studentedit/${data.schoolId}`}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          Edit
+                        </Link>
+                      </td>
+                    }
+
                   </tr>
                 ))}
               </tbody>

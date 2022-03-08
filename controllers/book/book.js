@@ -1,6 +1,8 @@
 const book = require("express").Router();
+const Auth = require("../../middlewares/Auth");
 const bookValidation = require("../../middlewares/bookValidation");
 const bookSchema = require("../../models/bookSchema");
+const issue = require("./issue");
 
 book.post("/", bookValidation, async (req, res) => {
     try{
@@ -59,8 +61,8 @@ book.get("/:id", async (req, res)=>{
       const availability = result.issue.length < result.copy;
       console.log(availability)
       const hold = 0 ;
-      const {title, name, bookId, about,  image, copy} = result;
-      res.json({available, title, name, bookId, about, availability, image, copy, hold})
+      const {title, name, bookId, about,  image, copy, _id} = result;
+      res.json({available, title, name, bookId, about, availability, image, copy, hold, _id})
 
   }catch(err){
     console.log(err)
@@ -69,25 +71,10 @@ book.get("/:id", async (req, res)=>{
 
 })
 
-book.put("/issue", async (req, res) => {
-  const bookId = 1026;
-  
-    bookSchema.updateOne({bookId}, {$push : {issue : {"issueUser" : "61d2f5b8e9368e8d96440c96", "issueDate" : Date.now()}}}, (err, rslt)=>{
-      if(err){
-        console.log(err)
-        res.json(err)
-      }else{
-          console.log(rslt)
-        res.json(rslt)
-      }
-      })
-
-  }
- 
-);
-
 book.delete("/", (req, res) => {
   res.send("book delete");
 });
+
+book.use('/issue',Auth, issue)
 
 module.exports = book;

@@ -30,10 +30,10 @@ function AdDashboard() {
       });
   }, []);
 
-  const routes = "Dashboard"
+  const routes = "Admin"
   const title = {first : 'Total Admins', second : 'Total Librarians', third : 'Total Students', fourth : 'Total Books'}
   const links = {first : 'admin', second : '/admin/librarianlist', third : '/admin/studentlist', fourth : '/admin/booklist'}
 
-  return <Dashboard data={[data, loading]}  routes={routes} title={title} links={links} error={error} visible={visible} />;
+  return <Dashboard data={[data, loading]}  routes={routes}  title={title} links={links} error={error} visible={visible} />;
 }
 export default AdDashboard;

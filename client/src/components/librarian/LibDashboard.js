@@ -30,7 +30,7 @@ function LibDashboard() {
       });
   }, []);
 
-  const routes = "Dashboard"
+  const routes = "Librarian"
   const title = {first : 'Total Student', second : 'Deactive User', third : 'Issue Request', fourth : 'Total Books'}
   const links = {first : '/librarian/studentlist', second : '/librarian/deactiveuser', third : '/librarian/issuerequest', fourth : '/librarian/booklist'}
 

@@ -74,6 +74,10 @@ function StudentEdit() {
       });
   };
 
+  const imageUploadHandler =(e)=>{
+    const objectURL = URL.createObjectURL(e.target.files[0])
+    setData({ ...data, proImage: e.target.files[0], preview : objectURL })         
+  }
   const routes = "Student Edit";
   return (
     <div
@@ -105,19 +109,17 @@ function StudentEdit() {
               className=""
             >
               <img
-                className="md:rounded-full md:w-96 md:h-96 object-cover ring-4 shadow-lg"
-                src={`../../image/${data.profileImage}`}
-                alt=""
+                className="md:rounded-full md:w-96 md:h-96 object-cover ring-4 shadow-lg hover:opacity-80 cursor-pointer"
+                src={data.preview ? data.preview : `../../image/${data.profileImage}`}
+                alt="profileImage"
               />
             </label>
             <input
-              onChange={(e) =>
-                setData({ ...data, proImage: e.target.files[0] })
-              }
+              onChange={imageUploadHandler}
               name="profileImage"
               type="file"
               id="image"
-              className="mt-1 hidden border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              className="hidden"
             />
           </div>
           <div className="container mx-auto">

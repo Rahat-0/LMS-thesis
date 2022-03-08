@@ -15,6 +15,7 @@ const bookschema = mongoose.Schema({
     { 
       issueUser: { type: mongoose.Types.ObjectId, ref: "user",  unique : true },
       issueDate: { type: Date, default: Date.now() },
+      issueValidation : {type : Boolean, default : false}
     },
   ],
   date: { type: Date, default: Date.now() },

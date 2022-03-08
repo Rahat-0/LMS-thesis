@@ -29,8 +29,8 @@ adStudent.post("/", async (req, res)=>{
     try{
         await schema.find({schoolId})
          .then((result)=>{
-             const {name, email, schoolId, gender, userType, profileImage} = result[0];
-            res.json({name, email, schoolId, gender, userType, profileImage})
+             const {name, email, schoolId, gender, userType, profileImage, mobile} = result[0];
+            res.json({name, email, schoolId, gender, userType, profileImage, mobile})
          })
          .catch(err =>{
              console.log(err)
@@ -66,10 +66,10 @@ adStudent.get("/:id", async (req, res)=>{
 })
 
 adStudent.put("/",upload.single("profileImage"), async (req, res)=>{
-    const {name, email, schoolId, gender, pre} = req.body;
+    const {name, email, schoolId, gender, mobile, pre} = req.body;
     const file = req.file;
     try{
-        await schema.updateOne({schoolId},{ $set : {name, email , gender, profileImage : file ? file.filename : pre}})
+        await schema.updateOne({schoolId},{ $set : {name, email, mobile , gender, profileImage : file ? file.filename : pre}})
         .then((result)=>{
             if(file){
                 const remove = `./public/image/${pre === 'default.png' ? null: pre }`

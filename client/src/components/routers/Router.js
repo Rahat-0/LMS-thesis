@@ -19,6 +19,7 @@ import UserSetting from "../User.js/UserSetting";
 import Librarian from '../librarian/Librarian';
 import LibDashboard from "../librarian/LibDashboard";
 import LibDeactiveUser from "../librarian/LibDeactiveUser";
+import LibIssueList from "../librarian/LibIssueList";
 
 function Routers() {
   return (
@@ -65,6 +66,7 @@ function Routers() {
           <Route path="studentadd/"  element={<StudentAdd />} />
           <Route path="studentview/:schoolId" element={<StudentView />} />
           <Route path="studentedit/:id" element={<StudentEdit />} />
+          <Route path="issuerequest" element={<LibIssueList />} />
 
         </Route>
 

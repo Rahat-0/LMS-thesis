@@ -1,9 +1,11 @@
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 
 
 function BookShow() {
+  const key = Cookies.get("auth");
   const {bookId} = useParams();
   const [data, setData] = useState('')
   useEffect(() => {
@@ -16,6 +18,14 @@ function BookShow() {
     .catch(err => console.log(err))
   
   }, [])
+
+  const issueHandler =()=>{
+    axios.post('/api/book/issue/issuerequest', {issueBook : data._id}, {headers : {auth : key}})
+    .then((result)=>{
+      console.log(result.data)
+    })
+    .catch(err=> console.log('error here'))
+  }
   
   return (
       <>
@@ -57,7 +67,7 @@ function BookShow() {
                 </div>
                 :
                 <div className="bg-green-700 m-2 rounded-lg hover:bg-green-900">
-                  <button className=" block w-full text-white p-2 text-lg  ">Place hold</button>
+                  <button onClick={issueHandler} className=" block w-full text-white p-2 text-lg  ">Place hold</button>
                 </div>
                 }
               <div className="bg-green-700 m-2 rounded-lg hover:bg-green-900 border-2">

@@ -146,7 +146,7 @@ function UserSetting() {
             <div className="flex flex-col md:flex-row md:w-9/12  justify-center items-center">
               <div className="flex justify-center w-56 h-56 m-2">
                 <img
-                  className=" shadow-2xl bg-cover md:w-60 object-contain text-center border-8 rounded-full"
+                  className=" shadow-2xl bg-cover md:w-60 object-cover text-center border-8 rounded-full"
                   src={`../image/${data.profileImage}`}
                   alt="profile pictures"
                 />
