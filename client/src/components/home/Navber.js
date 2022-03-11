@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import jwt from "jwt-decode";
 import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -18,6 +19,7 @@ const Navber = () => {
   const [admin, setadmin] = useState(false);
   const [librarian, setLibrarian] = useState(false);
   const [profile, setprofile] = useState('');
+  const [issuereq, setIssuereq] = useState(0)
 
   // context api calling for login validation
   // const [isValid]= useContext(isLogins)
@@ -26,6 +28,22 @@ const Navber = () => {
   const navigate = useNavigate();
 
   const key = Cookies.get("auth");
+
+
+  useEffect(() => {
+    axios
+      .get("/api/librarian/dashboard", { headers: { auth: key } })
+      .then((result) => {
+        if (result.data.authError) {
+            console.log(result.data.authError)
+        } else {
+         setIssuereq(result.data.issuerequest)
+        }
+      })
+      .catch((err) => {
+        console.log("custom error here" + err);
+      });
+  }, []);
 
   useEffect(() => {
     if (key) {
@@ -68,12 +86,12 @@ const Navber = () => {
     { name: "Books", href: "admin/booklist", current: false },
   ];
 
-  const issueItem = 3;
+  
   const librarianNavigation = [
     { name: "Dashboard", href: "librarian/dashboard", current: true },
     { name: "Students", href: "librarian/studentlist", current: false },
     { name: "Books", href: "librarian/booklist", current: false },
-    { name: `issue request (${issueItem})`, href: "librarian/issuerequest", current: false },
+    { name: `issue request (${issuereq})`, href: "librarian/issuerequest", current: false },
   ];
 
   return (

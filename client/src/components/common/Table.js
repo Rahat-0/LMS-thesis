@@ -1,12 +1,16 @@
-import React from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import {ToastContainer, toast } from 'react-toastify'
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 
 const Table = (props) => {
-  const [data, loading, isseAcceptHandler, issueDeleteHandler] = props.data;
+  const [data, loading] = props.data;
   const [theader] = props.tableHeader;
   const { visible, error, routes, endPoint } = props;
   const [search, setSearch] = React.useState("");
+  const [issueData, setIssueData] = useState({})
 
   const filterdData = data.filter((value)=>{
     if (value.name) {
@@ -43,7 +47,42 @@ const Table = (props) => {
     return null;
   });
 
+  const key = Cookies.get("auth");
+  const issueAcceptHandler =()=>{
+    axios.post('/api/librarian/issue/recive', {issueUser : issueData.issueUser, issueBook : issueData.issueBook}, {headers : {auth : key}})
+    .then((result)=>{
+      console.log(result.issueData)
+    })
+    .catch(err => console.log(err))
+  }
+
+  console.log(issueData.issueBook)
   
+
+  useEffect(() => {
+    if(issueData.delete){
+     axios.post('/api/librarian/issue/reject', {issueUser : issueData.issueUser, issueBook : issueData.issueBook}, {headers : {auth : key}})
+    .then((result)=>{
+      
+      if(result.data.error){
+        toast.warn(result.data.error)
+      }
+     else if(result.data.message){
+        toast.success(result.data.message)
+        setIssueData(true) 
+      }
+    }) 
+    .catch(err => console.log(err))
+    }
+    if(issueData.accept){
+      issueAcceptHandler()
+    }
+    
+ 
+  }, [issueData ])
+  
+
+ 
 
   return (
     <div
@@ -184,9 +223,10 @@ const Table = (props) => {
                     </td>
                     {data.issueBook ? 
                     <>
+                   
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
-                        onClick={issueDeleteHandler}
+                        onClick= {()=> setIssueData({issueBook : data.issueBook._id, issueUser : data.issueUser._id, delete : true})}
                         className="text-red-600 rounded p-1 bg-red-100 hover:text-red-900"
                       >
                         delete
@@ -195,7 +235,7 @@ const Table = (props) => {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
-                        onClick={isseAcceptHandler}
+                        onClick= {()=> setIssueData({issueBook : data.issueBook._id, issueUser : data.issueUser._id, accept : true})}
                         className="text-green-600 bg-green-100 rounded p-1 hover:text-green-900"
                       >
                         accept
@@ -220,6 +260,7 @@ const Table = (props) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

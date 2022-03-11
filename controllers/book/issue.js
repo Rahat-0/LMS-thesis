@@ -30,16 +30,21 @@ issue.post("/issuerequest", async (req, res) => {
     try{
         const issueUser = req._id;
         const {issueBook} = req.body;
-        
-          const  issueschema = new issueSchema({
-            issueUser,
-            issueBook,
-            issueValidation : true,
-            issueDate : Date.now()
-          })   
-       issueschema.save()
-       res.json(issueschema)
-      console.log(issueschema)
+
+        const check = await issueSchema.count({issueBook, issueUser})
+        if(check >= 1){
+          return res.json({error : 'already has been send'})
+        }else{
+            const  issueschema = await new issueSchema({
+              issueUser,
+              issueBook,
+              issueValidation : true,
+              issueDate : Date.now()
+            })   
+         issueschema.save()
+         res.json({message : 'request send success!'})
+        console.log(issueschema)
+        }
 
     }catch(err){
         if(err){

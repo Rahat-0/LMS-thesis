@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 
@@ -22,7 +23,17 @@ function BookShow() {
   const issueHandler =()=>{
     axios.post('/api/book/issue/issuerequest', {issueBook : data._id}, {headers : {auth : key}})
     .then((result)=>{
-      console.log(result.data)
+      if(result.data.authError){
+        toast.error('you are not loged in!', {position : 'top-center'})
+      }
+      else if(result.data.error){
+        toast.error(result.data.error, {position : 'bottom-left'})
+      }else if ( result.data.message){
+        toast.success(result.data.message, {position : 'bottom-left'})
+
+      }else{
+        console.log(result)
+      }
     })
     .catch(err=> console.log('error here'))
   }
@@ -80,6 +91,7 @@ function BookShow() {
           </div>
         </div>
         {/* booking component ends here  */}
+        <ToastContainer />
      </div>
      </>
   )

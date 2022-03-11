@@ -33,9 +33,10 @@ libIssue.post('/recive', async (req, res)=>{
 libIssue.post('/reject', async (req, res)=>{
     try{
         const { issueUser, issueBook} = req.body;
-        const result = await issueSchema.updateOne({issueUser}, {issueValidation : false})
-        
-        if(result.modifiedCount === 1){
+        console.log(issueUser + ' and ' + issueBook)
+        const result = await issueSchema.deleteOne({issueUser, issueBook})
+        console.log(result)
+        if(result.deletedCount === 1){
             res.json({message : 'delete request success'})
         }else{
             res.json({error : 'delete request failed!'})

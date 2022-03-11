@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,6 @@ function Login() {
 
   // context api calling
   // const [ , setIsValid ] = useContext(isLogins)
-
-
-  
-
 
   const loginHandler = (e) => {
     e.preventDefault();

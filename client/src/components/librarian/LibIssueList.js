@@ -35,26 +35,12 @@ function LibIssueList() {
   }, []);
 
   // issueUser and issueBook should be get from table. which is indeviduals.
-  const isseAcceptHandler =()=>{
-    axios.post('/api/librarian/issue/recive', {issueUser : data.issueUser, issueBook : data.issueBook}, {headers : {auth : key}})
-    .then((result)=>{
-      console.log(result.data)
-    })
-    .catch(err => console.log(err))
-  }
-
-  const isseDeleteHandler =()=>{
-    axios.post('/api/librarian/issue/reject', {issueUser : data.issueUser, issueBook : data.issueBook}, {headers : {auth : key}})
-    .then((result)=>{
-      console.log(result.data)
-    })
-    .catch(err => console.log(err))
-  }
+ 
 
   const tableHeader = ["Book", "School ID", "User name", "Issue Date"]
   const routes = "Issues"
   
 
-  return <Table endPoint={vpath} data={[data, loading, isseAcceptHandler, isseDeleteHandler]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Table endPoint={vpath} data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
 export default LibIssueList;
