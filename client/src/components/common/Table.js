@@ -1,8 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {ToastContainer, toast } from 'react-toastify'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Renders } from "../../store/Store";
 
 
 const Table = (props) => {
@@ -48,38 +49,50 @@ const Table = (props) => {
   });
 
   const key = Cookies.get("auth");
+  
+  // issue accept function 
   const issueAcceptHandler =()=>{
     axios.post('/api/librarian/issue/recive', {issueUser : issueData.issueUser, issueBook : issueData.issueBook}, {headers : {auth : key}})
     .then((result)=>{
-      console.log(result.issueData)
+      if(result.data.error){
+        toast.warn(result.data.error)
+       
+      }else{
+        toast.success(result.data.message)
+        setRerander(!rerander) 
+      }
+       
     })
     .catch(err => console.log(err))
   }
 
-  console.log(issueData.issueBook)
-  
-
-  useEffect(() => {
-    if(issueData.delete){
-     axios.post('/api/librarian/issue/reject', {issueUser : issueData.issueUser, issueBook : issueData.issueBook}, {headers : {auth : key}})
+  // issue delete function 
+  const issueDeleteHandler =()=>{
+    axios.post('/api/librarian/issue/reject', {issueUser : issueData.issueUser, issueBook : issueData.issueBook}, {headers : {auth : key}})
     .then((result)=>{
-      
       if(result.data.error){
         toast.warn(result.data.error)
+       
       }
      else if(result.data.message){
         toast.success(result.data.message)
-        setIssueData(true) 
+        setRerander(!rerander)  
       }
     }) 
     .catch(err => console.log(err))
+  }
+  
+  const [rerander, setRerander] = useContext(Renders)
+  useEffect(() => {
+    if(issueData.delete){
+      issueDeleteHandler()
     }
     if(issueData.accept){
       issueAcceptHandler()
     }
     
  
-  }, [issueData ])
+  }, [issueData])
   
 
  

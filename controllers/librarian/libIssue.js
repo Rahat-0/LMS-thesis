@@ -11,14 +11,13 @@ libIssue.get('/', (req, res)=>{
 libIssue.post('/recive', async (req, res)=>{
     try{
         const { issueUser, issueBook} = req.body;
-        console.log(issueUser)
         const result = await userSchema.updateOne({_id : issueUser}, {$push : {book : issueBook}})
         if(result.modifiedCount === 1){
             const newresult = await issueSchema.updateOne({issueUser}, {issueValidation : false})
             if(newresult.modifiedCount === 1){
                 res.json({message : 'request recive success'})
             }else{
-                res.json({message : 'already recived'})
+                res.json({error : 'already recived'})
             }
         }else{
             console.log('error occour')

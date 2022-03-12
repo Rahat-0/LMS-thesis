@@ -2,6 +2,7 @@ const book = require("express").Router();
 const Auth = require("../../middlewares/Auth");
 const bookValidation = require("../../middlewares/bookValidation");
 const bookSchema = require("../../models/bookSchema");
+const issueSchema = require("../../models/issueSchema");
 const issue = require("./issue");
 
 book.post("/", bookValidation, async (req, res) => {
@@ -46,7 +47,7 @@ book.get("/all", (req, res) => {
         console.log(err);
         res.send(err);
       }else{
-        console.log(data);
+
         res.send(data);
       }
     })
@@ -56,10 +57,11 @@ book.get("/all", (req, res) => {
 book.get("/:id", async (req, res)=>{
   try{
     const id = req.params['id']
+    
     const result = await bookSchema.findOne({bookId : id}).populate('issue.issueUser', 'name email schoolId')
-      const available = result.copy - result.issue.length;
-      const availability = result.issue.length < result.copy;
-      console.log(availability)
+    const bookCounts = await issueSchema.count({issueBook : result._id})
+      const available = result.copy - bookCounts;
+      const availability = bookCounts < result.copy;
       const hold = 0 ;
       const {title, name, bookId, about,  image, copy, _id} = result;
       res.json({available, title, name, bookId, about, availability, image, copy, hold, _id})

@@ -12,7 +12,7 @@ function Menus(props) {
         onClick={() => {
           setVisible(!visible);
         }}
-        className="w-8 h-8 fixed z-20 top-4 left-4 text-white"
+        className="w-8 h-8 fixed z-20 hidden lg:block top-4 left-4 text-white"
       />
       <div
         className={` ${

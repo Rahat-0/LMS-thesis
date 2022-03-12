@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
@@ -9,6 +9,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 // import {isLogins} from '../../store/Store'
 // import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
+import { Renders } from "../../store/Store";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -29,7 +30,7 @@ const Navber = () => {
 
   const key = Cookies.get("auth");
 
-
+  const [rerander] = useContext(Renders)
   useEffect(() => {
     axios
       .get("/api/librarian/dashboard", { headers: { auth: key } })
@@ -43,7 +44,7 @@ const Navber = () => {
       .catch((err) => {
         console.log("custom error here" + err);
       });
-  }, []);
+  }, [rerander]);
 
   useEffect(() => {
     if (key) {

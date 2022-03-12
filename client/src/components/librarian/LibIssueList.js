@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Menubar } from "../../store/Store";
+import { Menubar, Renders } from "../../store/Store";
 import { useEffect, useState, useContext } from "react";
 import Table from "../common/Table";
 import { useLocation } from "react-router-dom";
@@ -9,13 +9,14 @@ function LibIssueList() {
   const location = useLocation()
   const vpath = location.pathname.split('/')[1]
   const [visible] = useContext(Menubar);
+  const [rerander] = useContext(Renders)
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true)
 
   const key = Cookies.get("auth");
-
+  console.log(rerander)
   useEffect(() => {
     axios
       .get(`/api/book/issue/all`, { headers: { auth: key } })
@@ -32,7 +33,7 @@ function LibIssueList() {
         console.log("custom error here" + err);
         setError(err);
       });
-  }, []);
+  }, [rerander]);
 
   // issueUser and issueBook should be get from table. which is indeviduals.
  
