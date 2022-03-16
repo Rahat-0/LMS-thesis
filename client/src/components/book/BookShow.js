@@ -1,24 +1,26 @@
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
+import { Renders } from '../../store/Store';
 
 
 function BookShow() {
   const key = Cookies.get("auth");
   const {bookId} = useParams();
   const [data, setData] = useState('')
+  const [rerander, setrerander] = useContext(Renders)
   useEffect(() => {
   
     axios.get(`/api/book/${bookId}`)
     .then((result)=>{
-        console.log(result)
+        setrerander(!rerander)
         setData(result.data)
     })
     .catch(err => console.log(err))
   
-  }, [])
+  }, [rerander])
 
   const issueHandler =()=>{
     axios.post('/api/book/issue/issuerequest', {issueBook : data._id}, {headers : {auth : key}})
@@ -72,8 +74,14 @@ function BookShow() {
               </div>
           </div>
           <div className="py-3 ">
-                {data.available <= 0 ?
-                <div className="bg-red-700 m-2 rounded-lg hover:bg-red-900">
+                {
+                  data.progress ?
+                  <div className="bg-yellow-700 m-2 rounded-lg hover:bg-yellow-900">
+                  <button disabled className=" block w-full text-white p-2 text-lg  ">In progress</button>
+                </div>
+                :
+                data.available <= 0 ?
+                <div className="bg-red-700 m-2 rounded-lg hover:bg-red-900 cursor-not-allowed">
                   <button disabled className=" block w-full text-white p-2 text-lg  ">sold out</button>
                 </div>
                 :

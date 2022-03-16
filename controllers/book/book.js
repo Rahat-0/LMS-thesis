@@ -1,47 +1,38 @@
 const book = require("express").Router();
 const Auth = require("../../middlewares/Auth");
+const librarianAuth = require("../../middlewares/librarianAuth");
 const bookValidation = require("../../middlewares/bookValidation");
 const bookSchema = require("../../models/bookSchema");
 const issueSchema = require("../../models/issueSchema");
 const issue = require("./issue");
 
-book.post("/", bookValidation, async (req, res) => {
-    try{
-    // const id = req._id;
-    // console.log(id);
-    
-    const { title, author, year, image, about, category, issue } = req.valid;
-    
-    const schema = await new bookSchema({
-      title,
-      author,
-      year,
-      category,
-      issue,
-      about,
-      image,
-    });
-    await schema.save((err, result) => {
-      if (err) {
-        console.log(err);
-        res.json(err)
-      } else {
-        console.log("success");
-        res.json(result);
-      }
-    });
-  }catch(err){
-    console.log(err)
-    res.json(err)
-  }
- 
-});
+
+
+book.post("/", Auth, librarianAuth, async (req, res)=>{
+  const {bookId} = req.body;
+  
+  try{
+      await bookSchema.find({bookId})
+       .then((result)=>{
+           const {bookId, title, author, year, image, about, category} = result[0];
+          res.json({bookId, title, author, year, image, about, category})
+       })
+       .catch(err =>{
+           console.log(err)
+           res.send(err)
+       })
+
+   }catch(err){
+       res.send(err)
+       console.log(err)
+   }
+})
 
 book.get("/all", (req, res) => {
   bookSchema
     .find()
     .limit()
-    .populate('issue.issueUser', "name email gender ")
+    .populate('issueUser', "name email gender ")
     .exec(( err , data) => {
       if(err){
         console.log(err);
@@ -58,7 +49,8 @@ book.get("/:id", async (req, res)=>{
   try{
     const id = req.params['id']
     
-    const result = await bookSchema.findOne({bookId : id}).populate('issue.issueUser', 'name email schoolId')
+    const result = await bookSchema.findOne({bookId : id}).populate('issueUser', 'name email schoolId')
+    console.log(result)
     const bookCounts = await issueSchema.count({issueBook : result._id})
       const available = result.copy - bookCounts;
       const availability = bookCounts < result.copy;
@@ -72,6 +64,37 @@ book.get("/:id", async (req, res)=>{
   }
 
 })
+
+book.put("/", Auth, librarianAuth, bookValidation, async (req, res) => {
+  try{
+  // const id = req._id;
+  // console.log(id);
+  
+  const { title, author, year, image, about, category} = req.valid;
+  console.log(title, author)
+  const schema = await new bookSchema({
+    title,
+    author,
+    year,
+    category,
+    about,
+    image,
+  });
+  await schema.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.json(err)
+    } else {
+      console.log("success");
+      res.json(result);
+    }
+  });
+}catch(err){
+  console.log(err)
+  res.json(err)
+}
+
+});
 
 book.delete("/", (req, res) => {
   res.send("book delete");

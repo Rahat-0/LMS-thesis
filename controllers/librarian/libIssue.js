@@ -1,4 +1,5 @@
 const { enabled } = require('express/lib/application')
+const bookSchema = require('../../models/bookSchema')
 const issueSchema = require('../../models/issueSchema')
 const userSchema = require('../../models/userSchema')
 
@@ -11,9 +12,11 @@ libIssue.get('/', (req, res)=>{
 libIssue.post('/recive', async (req, res)=>{
     try{
         const { issueUser, issueBook} = req.body;
-        const result = await userSchema.updateOne({_id : issueUser}, {$push : {book : issueBook}})
-        if(result.modifiedCount === 1){
-            const newresult = await issueSchema.updateOne({issueUser}, {issueValidation : false})
+        const result1 = await userSchema.updateOne({_id : issueUser}, {$push : {book : issueBook}})
+        const result2 = await bookSchema.updateOne({_id : issueBook}, {$push : {issueUser}})
+        console.log(result2)
+        if(result1.modifiedCount && result2.modifiedCount === 1){
+            const newresult = await issueSchema.updateOne({issueUser, issueBook}, {issueValidation : false})
             if(newresult.modifiedCount === 1){
                 res.json({message : 'request recive success'})
             }else{

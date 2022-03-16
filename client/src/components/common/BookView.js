@@ -4,14 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar } from "../../store/Store";
-import ComPopUpConfirm from "../common/ComPopUpConfirm";
+import ComPopUpConfirm from "./ComPopUpConfirm";
 
-function StudentView() {
+function BookView() {
   const navigate = useNavigate()
   const location = useLocation()
   const vpath = location.pathname.split('/')[1]
 
-  const {schoolId} = useParams()
+  const {bookId} = useParams()
   const [visible] = useContext(Menubar);
   //state control
   const [loading, setLoading] = useState(true);
@@ -23,43 +23,43 @@ function StudentView() {
   const key = Cookies.get("auth");
 
   // user deletion controller
-  const deleteHandler = ()=>{
-    axios.delete(`/api/${vpath}/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
-   .then((result)=>{
-     navigate(`/${vpath}/dashboard`)
-   })
-   .catch(err => console.log(err))
-  }
-  // user status controller
-  const activeHandler = ()=>{
-    setDeactivate(false)
-     axios.put(`/api/${vpath}/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
-    .then((result)=>{
-      if(result.data.message){
-        setRerender(!rerender)
-        toast.success(result.data.message, {position : 'bottom-left'} )
-      }else{
-        toast.error(result.data.error, {position : 'bottom-left'} )
-      }
-   })
-   .catch(err => console.log(err))
-  }
+//   const deleteHandler = ()=>{
+//     axios.delete(`/api/${vpath}/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
+//    .then((result)=>{
+//      navigate(`/${vpath}/dashboard`)
+//    })
+//    .catch(err => console.log(err))
+//   }
+//   // user status controller
+//   const activeHandler = ()=>{
+//     setDeactivate(false)
+//      axios.put(`/api/${vpath}/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
+//     .then((result)=>{
+//       if(result.data.message){
+//         setRerender(!rerender)
+//         toast.success(result.data.message, {position : 'bottom-left'} )
+//       }else{
+//         toast.error(result.data.error, {position : 'bottom-left'} )
+//       }
+//    })
+//    .catch(err => console.log(err))
+//   }
   // data fetching once
   useEffect(() => {
     axios
       .get(
-        `/api/${vpath}/students/${schoolId}`,
+        `/api/${vpath}/books/${bookId}`,
         { headers: { auth: key } }
       )
       .then((result) => {
-        console.log(result.data)
+        console.log(result)
         setData(result.data);
         setLoading(false);
       })
       .catch((err) => console.log("student view error here" + err));
   }, [rerender]);
   // route determine
-  const routes = "Student View";
+  const routes = "Book View";
 
   return (
     <div
@@ -73,6 +73,7 @@ function StudentView() {
       </div>
       
       <div className=" w-full h-28 flex justify-between items-center bg-blue-50 rounded-t-md">
+       
         <div>
           <div className="p-2 text-3xl">{routes}</div>
           <div className="px-2 pb-2">Dashboard / {routes}</div>
@@ -81,63 +82,66 @@ function StudentView() {
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div>
-            <span className="text-2xl block py-2">About {data.name} </span>
+            <span className="text-2xl block py-2">About {data.title} </span>
             <div className="  space-x-4 flex flex-col md:flex-row md:justify-start justify-center space-y-3 ">
               <div>
                 <div className=" w-full text-center h-full md:w-52 md:h-52">
                   <img
                     className="bg-red-400  w-auto h-auto md:h-52 object-contain bg-cover "
-                    src={`../../image/${data.profileImage}`}
-                    alt="profile"
+                    src={`../../image/${data.image}`}
+                    alt="book"
                   />
                 </div>
               </div>
               <table className="text-left text-lg">
                 <tr className="">
-                  <th>Full Name :</th> <td className="m px-3">{data.name} </td>
+                  <th>Book Title :</th> <td className="m px-3">{data.title} </td>
                 </tr>
                 <tr className="">
-                  <th>School ID :</th>{" "}
-                  <td className="m px-3">{data.schoolId}</td>
+                  <th>Book ID :</th>{" "}
+                  <td className="m px-3">{data.bookId}</td>
                 </tr>
                 <tr className="">
-                  <th>Status :</th> <td className="m px-3">{data.userStatus}</td>
+                  <th>Author :</th> <td className="m px-3">{data.author}</td>
                 </tr>
                 <tr className="">
-                  <th>Email :</th> <td className="m px-3">{data.email}</td>
+                  <th>Year :</th> <td className="m px-3">{data.year}</td>
                 </tr>
                 <tr className="">
-                  <th>Phone :</th> <td className="m px-3">{data.mobile}</td>
+                  <th>Category :</th> <td className="m px-3">{data.category}</td>
                 </tr>
                 <tr className="">
-                  <th>Gender :</th> <td className="m px-3">{data.gender}</td>
+                  <th>Total Copy :</th> <td className="m px-3">{data.copy}</td>
+                </tr>
+                <tr className="">
+                  <th>Issue Date :</th> <td className="m px-3">{data.date}</td>
                 </tr>
               </table>
             </div>
             <p className="py-4">
-              {data.bio}
+              {data.about}
             </p>
 
             <div className="bg-gray-100">
               <p className="text-center font-bold text-xl uppercase pb-3">
-                Book Resurved
+                User Resurved
               </p>
               <table className="w-full">
                 <tr className="border">
-                  <th> ID </th>
-                  <th>Title </th>
-                  <th> Author </th>
+                  <th>School ID </th>
+                  <th>Name </th>
+                  <th> Email </th>
                 </tr>
-                {data.book ? (
-                  data.book.map((result) => (
-                    <tr key={result.bookId} className="text-gray-600">
-                      <td className="text-center border">{result.bookId}</td>
-                      <td className="text-center border">{result.title}</td>
-                      <td className="text-center border">{result.author}</td>
+                {data.issueUser ? (
+                  data.issueUser.map((result) => (
+                    <tr key={result.schoolId} className="text-gray-600">
+                      <td className="text-center border">{result.schoolId}</td>
+                      <td className="text-center border">{result.name}</td>
+                      <td className="text-center border">{result.email}</td>
                     </tr>
                   ))
                 ) : (
-                  <p className="text-center">nothing book yet</p>
+                  <p className="text-center">nothing user yet</p>
                 )}
               </table>
             </div>
@@ -150,26 +154,19 @@ function StudentView() {
               />
 
               <input
-                onClick={()=> navigate(`/${vpath}/studentedit/${schoolId}`)}
+                onClick={()=> navigate(`/${vpath}/bookedit/${bookId}`)}
                 type="button"
                 value="edit"
                 className="bg-green-300 p-2 rounded-md w-32 focus:border-green-400 border-4 cursor-pointer"
               />
-
-              <input
-                onClick={()=> setDeactivate(true)}
-                type="button"
-                value={`${data.userStatus === 'active' ? "deactive" : "active"}`}
-                className="bg-yellow-300 p-2 rounded-md w-32 focus:border-yellow-400 border-4 cursor-pointer"
-              />
             </div>
           </div>
 
-          <ComPopUpConfirm deleted={deleteHandler} deactived={activeHandler} states={[deletes, setDelete, deactivate, setDeactivate, data]} />
+          {/* <ComPopUpConfirm deleted={deleteHandler} deactived={activeHandler} states={[deletes, setDelete, deactivate, setDeactivate, data]} /> */}
           <ToastContainer />
         </div>
       </div>
     </div>
   );
 }
-export default StudentView;
+export default BookView;

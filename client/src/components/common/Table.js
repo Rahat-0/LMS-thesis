@@ -198,7 +198,7 @@ const Table = (props) => {
                       :
 
                       <Link 
-                      to={`/${endPoint}/studentview/${data.schoolId}`}
+                      to={ data.bookId ? `/${endPoint}/bookview/${data.bookId}` : `/${endPoint}/studentview/${data.schoolId}`}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">

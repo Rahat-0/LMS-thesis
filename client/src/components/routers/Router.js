@@ -7,7 +7,7 @@ import LibrarianList from "../admin/LibrarianList";
 import StudentAdd from "../common/StudentAdd";
 import StudentEdit from "../common/StudentEdit";
 import StudentList from "../common/studentList";
-import StudentView from "../common/StudentView";
+import UserView from "../common/UserView";
 import BookShow from "../book/BookShow";
 import ErrorPage from "../ErrorPage";
 import Home from "../home/Home";
@@ -20,6 +20,8 @@ import Librarian from '../librarian/Librarian';
 import LibDashboard from "../librarian/LibDashboard";
 import LibDeactiveUser from "../librarian/LibDeactiveUser";
 import LibIssueList from "../librarian/LibIssueList";
+import BookView from "../common/BookView";
+import BookEdit from "../common/BookEdit";
 
 function Routers() {
   return (
@@ -41,18 +43,22 @@ function Routers() {
         {/* admin route start from here */}
         <Route path="admin/" element={<Admin />}>
           <Route path="dashboard" element={<AdDashboard />} />
+          <Route path="libdashboard" element={<LibDashboard />} />
 
           {/* admin component student's route */}
           <Route path="studentlist/" element={<StudentList />} />
           <Route path="studentedit/:id" element={<StudentEdit />} />
           <Route path="studentadd/"  element={<StudentAdd />} />
-          <Route path="studentview/:schoolId" element={<StudentView />} />
+          <Route path="studentview/:schoolId" element={<UserView />} />
 
           {/* admin component librarian's route */}
           <Route path="librarianlist/" element={<LibrarianList />} />
 
           {/* admin component book's route */}
           <Route path="booklist/" element={<BookList />} />
+          <Route path="bookview/:bookId" element={<BookView />} />
+          <Route path="bookedit/:id" element={<BookEdit />} />
+
         </Route>
         {/* admin route ends here */}
 
@@ -64,7 +70,7 @@ function Routers() {
           <Route path="booklist" element={<BookList />} />
           <Route path="studentlist/" element={<StudentList />} />
           <Route path="studentadd/"  element={<StudentAdd />} />
-          <Route path="studentview/:schoolId" element={<StudentView />} />
+          <Route path="studentview/:schoolId" element={<UserView />} />
           <Route path="studentedit/:id" element={<StudentEdit />} />
           <Route path="issuerequest" element={<LibIssueList />} />
 

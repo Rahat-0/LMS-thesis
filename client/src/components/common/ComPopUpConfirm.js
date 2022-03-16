@@ -1,7 +1,5 @@
 import React from 'react'
-// import axios from 'axios';
 import {ToastContainer} from 'react-toastify'
-// import {useNavigate} from 'react-router-dom'
 
 function ComPopUpConfirm(props) {
   const {deleted, deactived} = props

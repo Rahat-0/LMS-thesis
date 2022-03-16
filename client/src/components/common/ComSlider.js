@@ -43,7 +43,7 @@ import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outl
       ]
     }
 
-    const [data, setData] = useState([])
+    const [data, setData] = useState([0])
 
     useEffect(() => {
       axios.get('/api/book/all')
