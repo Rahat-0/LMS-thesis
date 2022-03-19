@@ -14,8 +14,8 @@ book.post("/", Auth, librarianAuth, async (req, res)=>{
   try{
       await bookSchema.find({bookId})
        .then((result)=>{
-           const {bookId, title, author, year, image, about, category} = result[0];
-          res.json({bookId, title, author, year, image, about, category})
+           const {bookId, title, author, year, image, about, copy, category} = result[0];
+          res.json({bookId, title, author, year, image, about, copy, category})
        })
        .catch(err =>{
            console.log(err)
@@ -26,7 +26,7 @@ book.post("/", Auth, librarianAuth, async (req, res)=>{
        res.send(err)
        console.log(err)
    }
-})
+});
 
 book.get("/all", (req, res) => {
   bookSchema
@@ -100,6 +100,6 @@ book.delete("/", (req, res) => {
   res.send("book delete");
 });
 
-book.use('/issue',Auth, issue)
+book.use('/issue',Auth, issue);
 
 module.exports = book;

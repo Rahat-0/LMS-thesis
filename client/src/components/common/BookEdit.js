@@ -40,15 +40,18 @@ function BookEdit() {
     e.preventDefault();
     setSubmitting(true);
     const formData = new FormData();
+    formData.append("bookId", id);
     formData.append("title", data.title);
     formData.append("author", data.author);
     formData.append("category", data.category);
-    formData.append("pre", data.profileImage);
-    formData.append("image", data.image);
+    formData.append("pre", data.image);
+    formData.append("year", data.year);
+    formData.append("copy", data.copy);
+    formData.append("image", data.setImage);
     formData.append("about", data.about);
 
     await axios
-      .put(`/api/${vpath}/students`, formData, {
+      .put(`/api/${vpath}/books`, formData, {
         headers: { auth: key, enctype: "multipart/form-data" },
       })
       .then((result) => {
@@ -75,7 +78,7 @@ function BookEdit() {
 
   const imageUploadHandler =(e)=>{
     const objectURL = URL.createObjectURL(e.target.files[0])
-    setData({ ...data, image: e.target.files[0], preview : objectURL })         
+    setData({ ...data, setImage: e.target.files[0], preview : objectURL })         
   }
   const routes = "Book Edit";
   return (
@@ -203,7 +206,7 @@ function BookEdit() {
                           }
                           type="number"
                           name="copy"
-                          value={data.year}
+                          value={data.copy}
                           placeholder="Enter book quantity"
                           id="copy"
                           className="mt-1 border-b focus:ring-indigo-500  outline-none p-1  focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"

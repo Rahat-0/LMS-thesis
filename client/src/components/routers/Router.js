@@ -68,6 +68,9 @@ function Routers() {
           <Route path="deactiveuser" element={<LibDeactiveUser />} />
           
           <Route path="booklist" element={<BookList />} />
+          <Route path="bookview/:bookId" element={<BookView />} />
+          <Route path="bookedit/:id" element={<BookEdit />} />
+
           <Route path="studentlist/" element={<StudentList />} />
           <Route path="studentadd/"  element={<StudentAdd />} />
           <Route path="studentview/:schoolId" element={<UserView />} />

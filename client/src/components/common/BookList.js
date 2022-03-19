@@ -36,6 +36,6 @@ function BookList() {
   const tableHeader = ["id", "title" ,"author","year"]
   const routes  = "Books"
 
-  return <Table endPoint='admin' data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
+  return <Table endPoint={vpath} data={[data, loading]} tableHeader={[tableHeader]} routes={routes} error={error} visible={visible} />;
 }
 export default BookList;
