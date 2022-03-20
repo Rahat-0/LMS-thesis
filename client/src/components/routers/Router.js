@@ -22,6 +22,7 @@ import LibDeactiveUser from "../librarian/LibDeactiveUser";
 import LibIssueList from "../librarian/LibIssueList";
 import BookView from "../common/BookView";
 import BookEdit from "../common/BookEdit";
+import BookAdd from "../common/BookAdd";
 
 function Routers() {
   return (
@@ -58,6 +59,7 @@ function Routers() {
           <Route path="booklist/" element={<BookList />} />
           <Route path="bookview/:bookId" element={<BookView />} />
           <Route path="bookedit/:id" element={<BookEdit />} />
+          <Route path="bookadd" element={<BookAdd />} />
 
         </Route>
         {/* admin route ends here */}
@@ -70,6 +72,7 @@ function Routers() {
           <Route path="booklist" element={<BookList />} />
           <Route path="bookview/:bookId" element={<BookView />} />
           <Route path="bookedit/:id" element={<BookEdit />} />
+          <Route path="bookadd" element={<BookAdd />} />
 
           <Route path="studentlist/" element={<StudentList />} />
           <Route path="studentadd/"  element={<StudentAdd />} />

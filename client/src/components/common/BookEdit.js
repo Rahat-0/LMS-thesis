@@ -24,7 +24,7 @@ function BookEdit() {
 
   const showData = () => {
     axios
-      .post(
+      .put(
         `/api/book`,
         { bookId: id },
         { headers: { auth: key } }
@@ -51,7 +51,7 @@ function BookEdit() {
     formData.append("about", data.about);
 
     await axios
-      .put(`/api/${vpath}/books`, formData, {
+      .put(`/api/librarian/books`, formData, {
         headers: { auth: key, enctype: "multipart/form-data" },
       })
       .then((result) => {
@@ -229,6 +229,7 @@ function BookEdit() {
                           value={data.year}
                           placeholder="Enter year"
                           id="year"
+                          required
                           className="mt-1 border-b focus:ring-indigo-500  outline-none p-1  focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>

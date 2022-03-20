@@ -1,4 +1,6 @@
 const book = require("express").Router();
+const fs = require('fs')
+const upload = require('../../middlewares/fileUpload')
 const Auth = require("../../middlewares/Auth");
 const librarianAuth = require("../../middlewares/librarianAuth");
 const bookValidation = require("../../middlewares/bookValidation");
@@ -8,7 +10,7 @@ const issue = require("./issue");
 
 
 
-book.post("/", Auth, librarianAuth, async (req, res)=>{
+book.put("/", Auth, librarianAuth, async (req, res)=>{
   const {bookId} = req.body;
   
   try{
@@ -65,40 +67,10 @@ book.get("/:id", async (req, res)=>{
 
 })
 
-book.put("/", Auth, librarianAuth, bookValidation, async (req, res) => {
-  try{
-  // const id = req._id;
-  // console.log(id);
-  
-  const { title, author, year, image, about, category} = req.valid;
-  console.log(title, author)
-  const schema = await new bookSchema({
-    title,
-    author,
-    year,
-    category,
-    about,
-    image,
-  });
-  await schema.save((err, result) => {
-    if (err) {
-      console.log(err);
-      res.json(err)
-    } else {
-      console.log("success");
-      res.json(result);
-    }
-  });
-}catch(err){
-  console.log(err)
-  res.json(err)
-}
 
-});
 
-book.delete("/", (req, res) => {
-  res.send("book delete");
-});
+
+
 
 book.use('/issue',Auth, issue);
 

@@ -1,7 +1,8 @@
 const libBooks = require('express').Router()
 const fs = require('fs')
 const bookSchema = require('../../models/bookSchema')
-const upload = require('../../middlewares/fileUpload')
+const upload = require('../../middlewares/fileUpload');
+const bookValidation = require('../../middlewares/bookValidation');
 
 libBooks.get("/:bookId", async (req, res) => {
   try {
@@ -38,8 +39,37 @@ libBooks.get('/', async (req, res)=>{
       }
 }) 
 
-libBooks.put("/",upload.single("image"), async (req, res)=>{
-  const {bookId, title, author, category, about, year, copy, pre} = req.body;
+libBooks.post("/", upload.single('image'), bookValidation, async (req, res) => {
+  try{
+  const { title, author, year, about, category, copy} = req.valid;
+  const image = req.file ? req.file.filename : undefined
+  const schema = await new bookSchema({
+    title,
+    author,
+    year,
+    category,
+    about,
+    copy,
+    image,
+  });
+  await schema.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.json(err)
+    } else {
+      console.log("success");
+      res.json(result);
+    }
+  });
+}catch(err){
+  console.log(err)
+  res.json(err)
+}
+
+});
+
+libBooks.put("/", upload.single("image"), async (req, res)=>{
+  const {bookId, title, author, category, copy, about, year, pre} = req.body;
   const file = req.file;
   console.log(req.body)
   try{

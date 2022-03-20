@@ -1,6 +1,6 @@
 const bookValidation = async (req, res, next) => {
   try { 
-    const { title, author, year, image, about, category } = req.body;
+    const { title, author, year, about, category, copy } = req.body;
     if (!title) {
       return res.json({ vError: "title should be at least one word" });
     } else if (!author) {
@@ -24,7 +24,7 @@ const bookValidation = async (req, res, next) => {
     //   }
     // }
     
-    req.valid = { title, author, year, image, category, about, issue };
+    req.valid = { title, author, year, about, category, copy };
     next();
 
   } catch (error) {

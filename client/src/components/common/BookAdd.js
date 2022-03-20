@@ -3,8 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { Menubar } from "../../store/Store";
+import Cookies from "js-cookie";
 
-function StudentAdd() {
+function BookAdd() {
   const location = useLocation()
   const vpath = location.pathname.split('/')[1]
   
@@ -13,32 +14,27 @@ function StudentAdd() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [schoolId, setSchoolId] = useState("");
-  const [gender, setGender] = useState("");
-  const [pass, setPass] = useState("");
-  const [conPass, setConPass] = useState("");
+  const [data, setData] = useState("");
+  const key = Cookies.get("auth");
 
-  const handleInsert = async (e) => {
+  const handleBookInsert = async (e) => {
     e.preventDefault();
-
-    if (pass !== conPass) {
-      toast.error("password does not match!", { position: "bottom-left" });
-      setError(true);
-      return;
-    }
+    console.log(data)
     setLoading(true);
-    const formdata = {
-      schoolId,
-      name,
-      email,
-      gender,
-      password : pass
-    };
+    const formdata = new FormData();
+    formdata.append('title', data.title)
+    formdata.append('author', data.author)
+    formdata.append('year', data.year)
+    formdata.append('copy', data.copy)
+    formdata.append('category', data.category)
+    formdata.append('image', data.image)
+    formdata.append('about', data.about)
     axios
-      .post("/api/signup", formdata)
+      .post("/api/librarian/books", formdata, {
+        headers: { auth: key, enctype: "multipart/form-data" },
+      })
       .then((result) => {
+        console.log(result)
         if (result.data.vError) {
           toast.error(result.data.vError, {position  : "bottom-left"});
         } else if (result.status === 201) {
@@ -48,7 +44,7 @@ function StudentAdd() {
           console.log(result);
         }
         setLoading(false);
-        setError(false);
+        setError(false); 
       })
       .catch((err) => {
         console.log(err);
@@ -79,7 +75,7 @@ function StudentAdd() {
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="w-full h-14 pt-2 text-center  bg-green-50  shadow overflow-hidden sm:rounded-md font-bold text-3xl text-gray-500 ">
-            Insert Student Information
+            Insert Book Information
           </div>
 
           <section className="text-gray-600 body-font  m-0 p-0 relative"></section>
@@ -88,24 +84,24 @@ function StudentAdd() {
             <div className="flex flex-col text-center w-full mb-1"></div>
 
             <div className="mt-10 md:mt-0 md:col-span-2">
-              <form onSubmit={handleInsert}>
+              <form onSubmit={handleBookInsert}>
                 <div className="shadow overflow-hidden sm:rounded-md">
                   <div className="px-2 py-8 bg-white sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="name"
+                          htmlFor="title"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Full Name
+                          Title
                         </label>
                         <input
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => setData({...data, title : e.target.value})}
                           type="text"
                       
-                          placeholder="Enter your name"
-                          value={name}
-                          id="name"
+                          placeholder="Enter book title"
+                          value={data.title}
+                          id="title"
                           required
                           className="mt-1 outline-none p-1  border-b  block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -113,34 +109,34 @@ function StudentAdd() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="email"
+                          htmlFor="author"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Email
+                          Author
                         </label>
                         <input
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(e) => setData({...data, author : e.target.value})}
                           type="text"
-                          value={email}
-                          placeholder="Enter your email"
-                          id="email"
+                          value={data.author}
+                          placeholder="Enter author name"
+                          id="author"
                           required
                           className="mt-1 border-b focus:ring-indigo-500  outline-none p-1  focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="school-id"
+                          htmlFor="year"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          School ID
+                          Year
                         </label>
                         <input
-                          onChange={(e) => setSchoolId(e.target.value)}
+                          onChange={(e) => setData({...data, year : e.target.value})}
                           type="number"
-                          value={schoolId}
-                          placeholder="Enter school ID"
-                          id="school-id"
+                          value={data.year}
+                          placeholder="Enter year"
+                          id="year"
                           required
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -148,19 +144,25 @@ function StudentAdd() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="student"
+                          htmlFor="category"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          User Type
+                          Category
                         </label>
-                        <input
+                        <select
                           type="text"
-                          value="student"
-                          placeholder="Student"
-                          id="student"
-                          disabled
+                          onChange={(e)=> setData({...data, category : e.target.value})}
+                          value={data.category}
+                          placeholder="category"
+                          id="category"
+                          required
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        />
+                        >
+                            <option>history</option>
+                            <option>chemastry</option>
+                            <option>biology</option>
+                            <option>philosophy</option>
+                        </select>
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
@@ -168,11 +170,11 @@ function StudentAdd() {
                           htmlFor="image"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          profile image
+                         Book image
                         </label>
                         <input
                           type="file"
-                          
+                        onChange={(e)=> setData({...data, image : e.target.files[0]}) }
                           id="image"
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -180,18 +182,18 @@ function StudentAdd() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="gender"
+                          htmlFor="copy"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Gender
+                          Copy
                         </label>
                         <input
-                          onChange={(e) => setGender(e.target.value)}
-                          type="text"
+                          onChange={(e) => setData({...data, copy : e.target.value})}
+                          type="number"
                           
-                          value={gender}
-                          placeholder="Enter gender (male or female)"
-                          id="gender"
+                          value={data.copy}
+                          placeholder="Enter book quantity"
+                          id="copy"
                           required
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         />
@@ -199,41 +201,18 @@ function StudentAdd() {
 
                       <div className="col-span-6 sm:col-span-3">
                         <label
-                          htmlFor="password"
+                          htmlFor="about"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Password
+                          about
                         </label>
                         <input
-                          onChange={(e) => setPass(e.target.value)}
-                          type="password"
-                          name="password"
-                          value={pass}
-                          placeholder="Enter Password"
-                          id="password"
-                          required
-                          className={`${
-                            error ? "bg-red-200 " : ""
-                          } mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md`}
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3">
-                        <label
-                          htmlFor="conPassword"
-                          className={` ${
-                            error ? "text-red-900" : ""
-                          }block text-sm font-medium text-gray-700`}
-                        >
-                          Confirm Password
-                        </label>
-                        <input
-                          onChange={(e) => setConPass(e.target.value)}
-                          type="password"
-                          name="conPassword"
-                          value={conPass}
-                          placeholder="Enter Confirm Password"
-                          id="conPassword"
+                          onChange={(e) => setData({...data, about : e.target.value})}
+                          type="about"
+                          name="about"
+                          value={data.about}
+                          placeholder="Enter book about"
+                          id="about"
                           required
                           className={`${
                             error ? "bg-red-200 " : ""
@@ -273,4 +252,4 @@ function StudentAdd() {
     </div>
   );
 }
-export default StudentAdd;
+export default BookAdd;
