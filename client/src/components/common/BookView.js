@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import {useNavigate, useParams, useLocation} from 'react-router-dom'
-import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Menubar } from "../../store/Store";
@@ -16,34 +15,20 @@ function BookView() {
   //state control
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState("");
-  const [rerender, setRerender] = useState(false);
   const [deletes, setDelete] = useState(false);
   const [deactivate, setDeactivate] = useState(false);
   // auth control
   const key = Cookies.get("auth");
 
-  // user deletion controller
-//   const deleteHandler = ()=>{
-//     axios.delete(`/api/${vpath}/students`,{data : {schoolId : data.schoolId}, headers : {auth : key}}  )
-//    .then((result)=>{
-//      navigate(`/${vpath}/dashboard`)
-//    })
-//    .catch(err => console.log(err))
-//   }
-//   // user status controller
-//   const activeHandler = ()=>{
-//     setDeactivate(false)
-//      axios.put(`/api/${vpath}/students/status`,{schoolId : data.schoolId, userStatus : data.userStatus === 'active' ? "deactive" : "active" }, {headers : {auth : key} } )
-//     .then((result)=>{
-//       if(result.data.message){
-//         setRerender(!rerender)
-//         toast.success(result.data.message, {position : 'bottom-left'} )
-//       }else{
-//         toast.error(result.data.error, {position : 'bottom-left'} )
-//       }
-//    })
-//    .catch(err => console.log(err))
-//   }
+  // book deletion controller
+  const deleteHandler = ()=>{
+    axios.delete(`/api/${vpath}/books`,{data : {bookId : data.bookId}, headers : {auth : key}}  )
+   .then((result)=>{
+     navigate(`/${vpath}/dashboard`)
+   })
+   .catch(err => console.log(err))
+  }
+//
   // data fetching once
   useEffect(() => {
     axios
@@ -57,7 +42,7 @@ function BookView() {
         setLoading(false);
       })
       .catch((err) => console.log("student view error here" + err));
-  }, [rerender]);
+  }, []);
   // route determine
   const routes = "Book View";
 
@@ -162,8 +147,7 @@ function BookView() {
             </div>
           </div>
 
-          {/* <ComPopUpConfirm deleted={deleteHandler} deactived={activeHandler} states={[deletes, setDelete, deactivate, setDeactivate, data]} /> */}
-          <ToastContainer />
+          <ComPopUpConfirm deleted={deleteHandler}  states={[deletes, setDelete, deactivate, setDeactivate, data]} />
         </div>
       </div>
     </div>

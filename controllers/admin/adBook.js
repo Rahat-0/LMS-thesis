@@ -13,7 +13,8 @@ adBook.get("/:bookId", async (req, res) => {
       .populate(('issueUser'), ('schoolId name email'))
       .exec((err, result) => {
           const {title, bookId, author, year, category, copy, date, image, issueUser} = result[0];
-          res.json({title, bookId, author, year, category, copy, date, image, issueUser})
+          const dates = new Date(date).toLocaleDateString()
+          res.json({title, bookId, author, year, category, copy, date : dates, image, issueUser})
         // res.json({title, bookId, author, year, category, copy, date});
       })
      
@@ -103,8 +104,21 @@ adBook.put("/",upload.single("image"), async (req, res)=>{
   }
 })
 
-adBook.delete("/", (req, res) => {
-  res.send("admin with book list router delete");
+adBook.delete("/", async (req, res) => {
+  try{
+    const {bookId} = req.body;
+    const data = await bookSchema.deleteOne({bookId})
+    if(data.deletedCount === 1){
+        res.json({message : 'delete success'})
+    }else{
+        res.json({message : 'delete fail!'})
+    }
+    
+
+}catch(err){
+    console.log(err.message)
+    res.json(err.message)
+}
 });
 
 module.exports = adBook;

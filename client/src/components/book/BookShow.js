@@ -20,7 +20,7 @@ function BookShow() {
     })
     .catch(err => console.log(err))
   
-  }, [rerander])
+  })
 
   const issueHandler =()=>{
     axios.post('/api/book/issue/issuerequest', {issueBook : data._id}, {headers : {auth : key}})

@@ -70,7 +70,7 @@ function Slider({images}) {
             <div
               className={`${indx===index ? ' w-full wtransition delay-150 duration-700' : 'w-0'} `}
           >
-          <img style={{height : '500px'}} src={imgs.mg} alt="fs" />
+          <img style={{height : '500px'}} className=' bg-cover w-full' src={`/image/${imgs.image}`} alt="" />
             </div>
             )
           })}
@@ -82,7 +82,7 @@ function Slider({images}) {
           <div className=' flex  justify-center'>
             <div className="bottom-5 absolute text-center text-gray-800 opacity-90 rounded bg-blue-200  md:w-2/4 w-3/4 ">
               <a href="##">
-                <p className="text-xl sm:text-2xl uppercase font-bold">{images[index].story} </p>
+                <p className="text-xl sm:text-2xl uppercase font-bold">{images[index].title} </p>
               </a>
             <p>{index}</p> 
             </div>

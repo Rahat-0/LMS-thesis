@@ -1,11 +1,12 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef} from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outline";
- const ComSlider =()=> {
+ const ComSlider =(props)=> {
+   const[ data ]= props.data;
+   const title = props.title;
   const sliderRef = useRef(null)
     var settings = {
       dots: false,
@@ -43,21 +44,15 @@ import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outl
       ]
     }
 
-    const [data, setData] = useState([0])
+   
 
-    useEffect(() => {
-      axios.get('/api/book/all')
-      .then((result)=>{
-        setData(result.data)
-      })
-      .catch(err => console.log(err))
-    }, [])
+   
     
 
     return (
       <div>
         <div className="bg-green-200">
-          <h3 className="bg-gray-200 my-3 py-2 font-bold text-lg">most popular books</h3>
+          <h3 className="bg-gray-200 my-3 py-2 font-bold text-lg">{title}</h3>
         </div>
          <div className='text-center relative '>
             <div className='absolute z-10 top-2/4 flex justify-between w-full'>
@@ -68,9 +63,9 @@ import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/outl
             <Slider ref={sliderRef} {...settings}>
               {data.map((data)=>{
                       return(
-                      <div key={data} className=' w-4/12 md:w-3/12 lg:w-2/12 text-center pr-2 rounded shadow-2xl opacity-90 hover:opacity-100'>
+                      <div key={data} className=' text-center pr-2 rounded shadow-2xl opacity-90 hover:opacity-100'>
                           <Link to={`book/${data.bookId}`}>
-                            <img className='rounded'  src={`/image/${data.image}`} alt='book' />
+                            <img className='rounded  w-96 h-52'  src={`/image/${data.image}`} alt='book' />
                             <p>{data.title}</p>
                           </Link>
                       </div>

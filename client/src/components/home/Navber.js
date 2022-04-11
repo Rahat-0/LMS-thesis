@@ -212,7 +212,7 @@ const Navber = () => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src={`image/${profile}`}
+                            src={`http://localhost:5000/image/${profile}`}
                             alt=""
                           />
                         </Menu.Button>

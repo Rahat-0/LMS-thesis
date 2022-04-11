@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
-// { type : mongoose.Types.ObjectId, ref:'user'}
-
 const bookschema = mongoose.Schema({
   title: { type: String, required: true },
   author: {type : String, required: true},

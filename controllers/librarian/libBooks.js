@@ -13,7 +13,8 @@ libBooks.get("/:bookId", async (req, res) => {
       .exec((err, result) => {
         console.log(result)
           const {title, bookId, author, year, category, copy, date, image, issueUser} = result[0];
-          res.json({title, bookId, author, year, category, copy, date, image, issueUser})
+          const dates = new Date(date).toLocaleDateString()
+          res.json({title, bookId, author, year, category, copy, date : dates, image, issueUser})
       })
      
   } catch (err) {
@@ -102,6 +103,23 @@ libBooks.put("/", upload.single("image"), async (req, res)=>{
           res.json({error : " server side error"})
       }
   }
+})
+
+libBooks.delete('/', async (req, res)=>{
+  try{
+    const {bookId} = req.body;
+    const data = await bookSchema.deleteOne({bookId})
+    if(data.deletedCount === 1){
+        res.json({message : 'delete success'})
+    }else{
+        res.json({message : 'delete fail!'})
+    }
+    
+
+}catch(err){
+    console.log(err.message)
+    res.json(err.message)
+}
 })
 
 
