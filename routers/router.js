@@ -42,7 +42,7 @@ router.get("/mainhome", Auth, (req, res) => {
 router.use((error, req, res, next)=>{
   if(error){
     console.log(error)
-    res.json('custom server site error here' + {error} )
+    res.json({error : error.message})
   }
  next()
 })

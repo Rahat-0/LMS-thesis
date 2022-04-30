@@ -23,6 +23,8 @@ import LibIssueList from "../librarian/LibIssueList";
 import BookView from "../common/BookView";
 import BookEdit from "../common/BookEdit";
 import BookAdd from "../common/BookAdd";
+import LibrarianAdd from "../admin/LibrarianAdd";
+import About from "../About";
 
 function Routers() {
   return (
@@ -38,7 +40,7 @@ function Routers() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Signup />} />
         <Route path="setting/" element={<UserSetting />} />
-
+        <Route path="about" element={<About />} />
         <Route path="book/:bookId" element={<BookShow />} />
 
         {/* admin route start from here */}
@@ -54,6 +56,7 @@ function Routers() {
 
           {/* admin component librarian's route */}
           <Route path="librarianlist/" element={<LibrarianList />} />
+          <Route path='librairanadd/' element={<LibrarianAdd />} />
 
           {/* admin component book's route */}
           <Route path="booklist/" element={<BookList />} />

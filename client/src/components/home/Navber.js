@@ -6,8 +6,6 @@ import jwt from "jwt-decode";
 import Cookies from "js-cookie";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-// import {isLogins} from '../../store/Store'
-// import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/The_logo_of_Nanjing_University_of_Information_Science_and_Technology.png";
 import { Renders } from "../../store/Store";
 
@@ -22,8 +20,6 @@ const Navber = () => {
   const [profile, setprofile] = useState('');
   const [issuereq, setIssuereq] = useState(0)
 
-  // context api calling for login validation
-  // const [isValid]= useContext(isLogins)
 
   // calling for redirect route
   const navigate = useNavigate();
@@ -75,9 +71,7 @@ const Navber = () => {
 
   const navigation = [
     { name: "Home", href: "/", current: true },
-    { name: "Catalog", href: "catalog", current: false },
-    { name: "New Collections", href: "newcollections", current: false },
-    { name: "Calendar", href: "calender", current: false },
+    { name: "About", href: "about", current: false },
   ];
 
   const adminNavigation = [
@@ -195,13 +189,7 @@ const Navber = () => {
                 )}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/* <button
-                  type="button"
-                  className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button> */}
+                
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">

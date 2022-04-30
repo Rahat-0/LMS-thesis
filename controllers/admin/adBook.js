@@ -58,7 +58,7 @@ adBook.post("/",  upload.single('image'), bookValidation, async (req, res) => {
       res.json(err)
     } else {
       console.log("success");
-      res.json(result);
+      res.status(201).json(result);
     }
   });
 }catch(err){

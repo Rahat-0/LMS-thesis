@@ -75,7 +75,7 @@ function UserSetting() {
         states={[deletes, setDelete, deactivate, setDeactivate]}
       />
 
-      <div className="bg-white md:flex md:justify-around">
+      <div className="bg-white md:flex md:justify-around min-h-screen">
         <div className="hidden md:block md:w-3/12">
           <h3 className="font-bold text-4xl py-3">Settings</h3>
           <ul>

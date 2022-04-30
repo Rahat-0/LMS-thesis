@@ -258,19 +258,14 @@ function BookEdit() {
                         >
                           Category 
                         </label>
-                        <select
+                        <input
+                        type='text'
                           onChange={(e) =>
                             setData({ ...data, category : e.target.value })
                           }
                           value={data.category }
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        >
-                          <option>history</option>
-                          <option>signtific</option>
-                          <option>funny</option>
-                          <option>social activities</option>
-                          <option>commerce</option>
-                        </select>
+                        />
                       </div>
                     </div>
 

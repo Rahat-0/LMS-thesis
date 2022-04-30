@@ -9,9 +9,9 @@ const bookValidation = async (req, res, next) => {
       return res.json({ vError: "about should be at least one word" });
     }
 
-    if (about.length > 1000) {
+    if (about.length > 3000) {
       console.log(about.length);
-      return res.json({ vError: "about should not longer then 250 word" });
+      return res.json({ vError: "about should not longer then 700 word" });
     }
 
     // if(years){

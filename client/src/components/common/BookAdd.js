@@ -37,8 +37,8 @@ function BookAdd() {
         console.log(result)
         if (result.data.vError) {
           toast.error(result.data.vError, {position  : "bottom-left"});
-        } else if (result.status === 201) {
-          toast.success("student create success!", {position : "bottom-left"});
+        } else if (result.data.bookId) {
+          toast.success("book add success!", {position : "bottom-left"});
           
         } else {
           console.log(result);
@@ -53,7 +53,7 @@ function BookAdd() {
 
   };
 
-  const routes = "Student Add";
+  const routes = "Book Add";
 
   return (
     <div
@@ -149,20 +149,14 @@ function BookAdd() {
                         >
                           Category
                         </label>
-                        <select
+                        <input
                           type="text"
                           onChange={(e)=> setData({...data, category : e.target.value})}
                           value={data.category}
                           placeholder="category"
                           id="category"
-                          required
                           className="mt-1 border-b focus:ring-indigo-500 outline-none p-1 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        >
-                            <option>history</option>
-                            <option>chemastry</option>
-                            <option>biology</option>
-                            <option>philosophy</option>
-                        </select>
+                        />
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
