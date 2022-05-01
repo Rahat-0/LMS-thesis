@@ -5,7 +5,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 import "../../assets/css/common.module.css";
 import Menus from "./Menus";
 
-function Admin() {
+function ProtectedAdmin() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,4 +33,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default ProtectedAdmin;

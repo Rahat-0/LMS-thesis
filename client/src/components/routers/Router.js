@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AdDashboard from "../admin/AdDashboard";
-import Admin from "../admin/Admin";
 import BookList from "../common/BookList";
 import LibrarianList from "../admin/LibrarianList";
 import StudentAdd from "../common/StudentAdd";
@@ -16,7 +15,6 @@ import {Test} from "../home/Test";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
 import UserSetting from "../User.js/UserSetting";
-import Librarian from '../librarian/Librarian';
 import LibDashboard from "../librarian/LibDashboard";
 import LibDeactiveUser from "../librarian/LibDeactiveUser";
 import LibIssueList from "../librarian/LibIssueList";
@@ -25,6 +23,8 @@ import BookEdit from "../common/BookEdit";
 import BookAdd from "../common/BookAdd";
 import LibrarianAdd from "../admin/LibrarianAdd";
 import About from "../About";
+import ProtectedLibrarian from "../librarian/ProtectedLibrarianRoute";
+import ProtectedAdmin from "../admin/ProtectedAdmin";
 
 function Routers() {
   return (
@@ -34,7 +34,6 @@ function Routers() {
         {/* testing route for test purpose */}
         <Route path='test' element={<Test />} />
         
-
         {/* public routes */}
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
@@ -44,7 +43,7 @@ function Routers() {
         <Route path="book/:bookId" element={<BookShow />} />
 
         {/* admin route start from here */}
-        <Route path="admin/" element={<Admin />}>
+        <Route path="admin/" element={<ProtectedAdmin />}>
           <Route path="dashboard" element={<AdDashboard />} />
           <Route path="libdashboard" element={<LibDashboard />} />
 
@@ -68,7 +67,7 @@ function Routers() {
         {/* admin route ends here */}
 
         {/* librarian route start from here */}
-        <Route path='librarian/' element={<Librarian />} >
+        <Route path='librarian/' element={<ProtectedLibrarian />} >
           <Route path="dashboard" element={<LibDashboard />} />
           <Route path="deactiveuser" element={<LibDeactiveUser />} />
           

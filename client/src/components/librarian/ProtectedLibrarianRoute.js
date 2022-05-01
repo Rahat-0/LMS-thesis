@@ -1,11 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Menu from "../admin/Menu";
 import { Menubar } from "../../store/Store";
 import { MenuIcon } from "@heroicons/react/outline";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
+import jwt from 'jwt-decode'
 
-function Librarian() {
+function ProtectedLibrarian() {
   const [visible, setVisible] = useContext(Menubar);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const key = Cookies.get("auth");
+
+    if (key) {
+      if (key.length > 10) {
+        const data = jwt(key);
+        if (data.userType !== "librarian") {
+          navigate("/notfound");
+        }
+      } else {
+        navigate("/login");
+      }
+    } else {
+      navigate("/notfound");
+    }
+  }, []);
+
   return (
     <div>
       <MenuIcon
@@ -53,4 +74,4 @@ function Librarian() {
   );
 }
 
-export default Librarian;
+export default ProtectedLibrarian;
